@@ -1,0 +1,25 @@
+{
+  "wordPart":{
+    "n":"名词|segment_n",
+    "v":"动词|segment_v",
+    "a":"形容词|segment_a",
+    "d":"副词|segment_d",
+    "m":"数词|segment_m",
+    "p":"介词|segment_p",
+    "r":"代词|segment_r",
+    "t":"时间词|segment_t",
+    "u":"助词|segment_u",
+    "wd":"标点符号|segment_wd",
+    "wj":"标点符号|segment_wj",
+    "nr":"人名|segment_nr",
+    "ns":"地名|segment_ns",
+    "f":"方位词|segment_f",
+    "c":"连词|segment_c",
+    "s":"处所词|segment_s",
+    "q":"量词|segment_q",
+    "n_new":"新词|segment_n_new",
+    "other":"其他|segment_other"
+  }
+}
+
+

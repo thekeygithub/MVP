@@ -1,0 +1,10 @@
+{
+  "menu":[
+    {"name":"语音转写","href":"voice_transfer","id":"voiceTransfer"},
+    {"name":"新词学习","href":"new_word_learn","id":"newWordLearn"},
+    {"name":"文本分词","href":"word_analysis","id":"wordAnalysis"},
+    {"name":"文本摘要","href":"summary_abstract","id":"summaryAbstract"},
+    {"name":"关键词提取","href":"key_word","id":"keyWord"},
+    {"name":"相关词语","href":"word_vector","id":"wordVector"}
+  ]
+}

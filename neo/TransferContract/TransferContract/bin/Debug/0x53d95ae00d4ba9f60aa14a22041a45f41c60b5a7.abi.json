@@ -1,0 +1,1 @@
+{"hash":"0x53d95ae00d4ba9f60aa14a22041a45f41c60b5a7","entrypoint":"Main","functions":[{"name":"transfer","parameters":[{"name":"from","type":"ByteArray"},{"name":"to","type":"ByteArray"},{"name":"amount","type":"Integer"}],"returntype":"Boolean"},{"name":"Main","parameters":[{"name":"operation","type":"String"},{"name":"args","type":"Array"}],"returntype":"Any"}],"events":[]}

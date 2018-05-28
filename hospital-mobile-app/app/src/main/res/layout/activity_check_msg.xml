@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg">
+
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="150dp"
+            android:scaleType="fitCenter"
+            android:layout_centerHorizontal="true"
+           android:id="@+id/iv_msg"
+            android:src="@mipmap/msg_success"
+           />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_iss"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="280dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_large"
+            android:textStyle="bold"
+            android:text="成功"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_iss_msg"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txt_middle"
+            android:layout_below="@+id/iv_msg"
+            android:layout_centerHorizontal="true"
+            android:text="aaa"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_error_msg"
+            android:text=""
+            android:textSize="@dimen/txt_big"
+            android:textColor="@color/white"
+            android:layout_below="@+id/tv_iss_msg"
+            android:layout_marginBottom="@dimen/txt_normal"
+            android:layout_centerHorizontal="true"
+            android:drawableLeft="@mipmap/error"
+            android:drawablePadding="10dp"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="50dp"
+            android:id="@+id/ll"
+            android:layout_marginTop="50dp"
+           android:layout_below="@+id/tv_iss_msg"
+
+            android:gravity="center">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:id="@+id/btn_left"
+                android:background="@color/blue"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_normal"
+                android:gravity="center"
+                android:text="left"
+                android:layout_marginLeft="50dp"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="35dp"
+                android:id="@+id/btn_right"
+                android:layout_marginLeft="50dp"
+                android:background="@color/blue"
+                android:textColor="@color/white"
+                android:textSize="@dimen/txt_normal"
+                android:gravity="center"
+                android:text="right"
+                android:layout_marginRight="50dp"/>
+        </LinearLayout>
+</RelativeLayout>

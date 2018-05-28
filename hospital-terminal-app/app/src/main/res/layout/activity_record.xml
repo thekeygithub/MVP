@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/txt_large"
+        android:textColor="@color/dark_blue"
+        android:text="@string/server_client"
+        android:padding="10dp"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_record_list"
+        android:orientation="vertical">
+
+    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="bottom">
+                <CheckBox
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/all_select"
+                    android:id="@+id/item_cb_allselect"
+                    android:button="@drawable/rb_buttonicon"
+                    android:textColor="@color/blue"
+                    android:layout_margin="5dp"
+                    android:textSize="@dimen/txt_middle"
+
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total_pay"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/txt_normal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/txt_large"
+                    android:layout_marginRight="10dp"
+                    android:id="@+id/tv_record_total_price"
+                    android:text="0.00元"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="50dp"
+        android:id="@+id/ll"
+        android:gravity="center">
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:id="@+id/btn_left"
+            android:background="@drawable/round_blue_bg"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:text="@string/cancel"/>
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:id="@+id/btn_right"
+            android:layout_marginLeft="300dp"
+            android:background="@drawable/round_blue_bg"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:text="@string/pay"/>
+    </LinearLayout>
+</LinearLayout>

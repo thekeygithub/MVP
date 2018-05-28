@@ -1,0 +1,14 @@
+
+dapp:
+  notify-ebao-url: "http://www.baidu.com"
+  ipfs-url: "http://www.baidu.com"
+  fake-password:
+    - "1001" : "387182"
+    - "1002" : "981921"
+    - "1003" : "671928"
+  hospital-config-file: "classpath:config/hospital"
+  hospital-redis-key: "hospitalInfo"
+  ebao-public-key: "112233"
+  user-account-config-file: "classpath:config/UserAccount.json"
+  hospital-account-config-file: "classpath:config/HospitalAccount.json"
+  tky-exchange-rate: "0.2"

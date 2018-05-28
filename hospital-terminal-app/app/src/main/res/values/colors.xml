@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#ffffff</color>
+
+    <color name="transparent_white">#ddffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="shadow">#80000000</color>
+    <color name="blue">#57C5E8</color>
+    <color name="dark_blue">#2f7694</color>
+    <color name="gray">#B0B0B0</color>
+    <color name="black">#000000</color>
+    <color name="light_blue">#cdeef9</color>
+
+    <array name="circular_dialog">
+        <item>@color/blue</item>
+        <item>@color/blue</item>
+        <item>@color/blue</item>
+        <item>@color/blue</item>
+    </array>
+</resources>

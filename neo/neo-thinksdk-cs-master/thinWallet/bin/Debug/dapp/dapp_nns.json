@@ -1,0 +1,183 @@
+﻿{
+  "title": "NNS.Test",
+  "consts": {
+    "baseContract": "0xdffbdd534a41dd4c56ba5ccba9dfaaf4f84e1362",
+    "registerContract": "d6a5e965f67b0c3e5bec1f04f028edb9cb9e3f7c"
+  },
+  "funcs": [
+    {
+      "name": ".test Name",
+      "desc": "get root Domain",
+      "inputs": [
+      ],
+      "call": {
+        "type": "invokescript",
+        "scriptcall": "(uint160)%consts.baseContract%",
+        "scriptparam": [
+          "(str)rootName",
+          []
+        ]
+      },
+      "results": [
+        {
+          "type": "string",
+          "desc": "name"
+        }
+      ]
+    },
+    {
+      "name": ".test Hash",
+      "desc": "get root Domain Hash",
+      "inputs": [
+      ],
+      "call": {
+        "type": "invokescript",
+        "scriptcall": "(uint160)%consts.baseContract%",
+        "scriptparam": [
+          "(str)rootNameHash",
+          []
+        ]
+      },
+      "results": [
+        {
+          "type": "bytes",
+          "desc": "hash"
+        }
+      ]
+    },
+    {
+      "name": "info(namehash)",
+      "desc": "get domain info",
+      "inputs": [
+        {
+          "id": "domainhash",
+          "type": "bytes",
+          "desc": "input domain hash",
+          "value": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+        }
+      ],
+      "call": {
+        "type": "invokescript",
+        "scriptcall": "(uint160)%consts.baseContract%",
+        "scriptparam": [
+          "(str)getInfo",
+          [
+            "(bytes)%inputs.domainhash%"
+          ]
+        ]
+      },
+      "results": [
+        {
+          "pos": "result[0][0]",
+          "type": "address",
+          "desc": "owner"
+        },
+        {
+          "pos": "result[0][1]",
+          "type": "hex",
+          "desc": "registor"
+        },
+        {
+          "pos": "result[0][2]",
+          "type": "uint160",
+          "desc": "resolver"
+        },
+        {
+          "pos": "result[0][3]",
+          "type": "int",
+          "desc": "TTL"
+        }
+      ]
+    },
+    {
+      "name": "info(url)",
+      "desc": "get domain info",
+      "inputs": [
+        {
+          "id": "domainurl",
+          "type": "url",
+          "desc": "input domain hash",
+          "value": "lights.test"
+        }
+      ],
+      "call": {
+        "type": "invokescript",
+        "scriptcall": "(uint160)%consts.baseContract%",
+        "scriptparam": [
+          "(str)getInfo",
+          [
+            "(bytes)%inputs.domainurl.namehash%"
+          ]
+        ]
+      },
+      "results": [
+        {
+          "pos": "result[0][0]",
+          "type": "address",
+          "desc": "owner"
+        },
+        {
+          "pos": "result[0][1]",
+          "type": "bytes",
+          "desc": "registor"
+        },
+        {
+          "pos": "result[0][2]",
+          "type": "bytes",
+          "desc": "resolver"
+        },
+        {
+          "pos": "result[0][3]",
+          "type": "int",
+          "desc": "TTL"
+        }
+      ]
+    },
+    {
+      "name": "reg xxx.test",
+      "desc": "reg a domain for this key",
+      "inputs": [
+        {
+          "id": "regurl",
+          "type": "url",
+          "desc": "input a url wantto get.",
+          "value": "youwelcome.test"
+        }
+      ],
+      "call": {
+        "type": "sendrawtransaction",
+        "scriptcall": "(uint160)%consts.registerContract%",
+        "scriptparam": [
+          "(str)requestSubDomain",
+          [
+            "(bytes)%keyinfo.scripthash%",
+            "(bytes)%inputs.regurl.parenthash%",
+            "(string)%inputs.regurl.lastname%"
+          ]
+        ],
+        "scriptfee": 1.0,
+        "coins": [
+          {
+            "scripthash": "(bytes)%keyinfo.scripthash",
+            "asset": "GAS",
+            "value": 0
+          }
+        ],
+        "witnesses": [
+          {
+            "vscript": "(bytes)%keyinfo.script%",
+            "iscript": [
+              "(bytes)%keyinfo.signdata%"
+            ]
+          }
+        ]
+      },
+      "results": [
+        {
+          "type": "bytes",
+          "desc": "hash"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+C:\Users\wxj\source\repos\ValidateContract\ValidateContract\bin\Debug\ValidateContract.dll
+C:\Users\wxj\source\repos\ValidateContract\ValidateContract\bin\Debug\ValidateContract.pdb
+C:\Users\wxj\source\repos\ValidateContract\ValidateContract\bin\Debug\Neo.SmartContract.Framework.dll
+C:\Users\wxj\source\repos\ValidateContract\ValidateContract\obj\Debug\ValidateContract.csproj.CoreCompileInputs.cache
+C:\Users\wxj\source\repos\ValidateContract\ValidateContract\obj\Debug\ValidateContract.csproj.CopyComplete
+C:\Users\wxj\source\repos\ValidateContract\ValidateContract\obj\Debug\ValidateContract.dll
+C:\Users\wxj\source\repos\ValidateContract\ValidateContract\obj\Debug\ValidateContract.pdb
+C:\Users\wxj\source\repos\ValidateContract\ValidateContract\obj\Debug\ValidateContract.csprojResolveAssemblyReference.cache

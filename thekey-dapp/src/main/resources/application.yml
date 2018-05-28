@@ -1,0 +1,73 @@
+server.port: 9999
+
+spring.mvc.view.prefix: /static/views/
+spring.mvc.view.suffix: .jsp
+
+spring.datasource.driver-class-name: com.mysql.jdbc.Driver
+spring.datasource.url: jdbc:mysql://192.168.70.30:3306/chain
+spring.datasource.username: root
+spring.datasource.password: 123456
+spring.jpa.hibernate.ddl-auto: update
+
+#社保卡基本信息接口 2 RS（人社） SBKJBXX（OK）
+SBKJBXX.url: http://59.110.174.56:9002/ebaoAPI/api/prescription/siuserdetail.do
+#社保卡头像信息像接口 3 RS（人社） SBKTXXX
+SBKTXXX.url: http://59.110.174.56:9002/ebaoAPI/api/insurance/getUserImageSB.do
+#公安头像信息接口 4 GA（公安） GATXXX
+GATXXX.url: http://59.110.174.56:9002/ebaoAPI/api/insurance/getUserImageGA.do
+#人脸识别接口 5 易保 RLSB
+RLSB.url: http://auth.nationauth.cn/face-service/v1.0/service/face-compare
+#社保卡状态信息接口 6 RS（人社） SBKZTXX
+SBKZTXX.url: http://59.110.174.56:9002/ebaoAPI/api/card/cardstatus.do
+#死亡判断接口 7 GA（公安） SWPD
+SWPD.url: http://59.110.174.56:9002/ebaoAPI/api/service/getswzt.do
+#入刑判断接口 8 GA（公安） RXPD
+RXPD.url: http://59.110.174.56:9002/ebaoAPI/api/service/getrxzt.do
+#追逃判断接口 9 GA（公安） ZTPW
+ZTPW.url: http://59.110.174.56:9002/ebaoAPI/api/service/getztzt.do
+#国家机密信息-特殊诊断接口 10 易保 TSZD
+TSZD.url: http://59.110.174.56:9002/ebaoAPI/api/service/geticdgjjm.do
+#国家机密信息-特殊人员接口 11 易保 TSRY
+TSRY.url: http://59.110.174.56:9002/ebaoAPI/api/service/gettsrqgjjm.do
+#位置信息接口 12 YYS（运营商） GPS
+GPS.url: http://59.110.174.56:9002/ebaoAPI/api/service/locationQuery.do
+#CPAB事前接口 13 RS（人社） CPAB
+CPAB.url: http://www.ebaoqb.com/ebaonet-pay/miSettle/checkMiSettle.htm
+#医保预结算接口
+YBYJS.url: http://www.ebaoqb.com/ebaonet-pay/miSettle/preMiSettle.htm
+#CPAA事前接口 13 RS（人社） CPAA
+CPAA.url: http://59.110.174.56:9002/ebaoAPI/API.do
+
+#区块链接口调用地址
+#saveResult save allotTKY
+#测试连
+saveResult.url: http://192.168.70.27:9001
+allotTKY.url: http://192.168.70.27:10000
+#私链
+#saveResult.url: http://192.168.70.25:9001
+#allotTKY.url: http://192.168.70.25:10000
+
+#get  rule / getZZ / 13.229.79.223  http://52.221.235.131:10332
+#测试连
+neo.url: http://192.168.70.27:20332
+get.hash: 0x33ee36c712b37df8acfbda4a1beb165e100ed3e0
+getZZ.hash: 0x2e05dc2c1d5780b3b7698944d0a59b3dc51efde3
+#私链
+#neo.url: http://192.168.70.25:10332
+#get.hash: 0x6bd3f062a37ac2b19d6f06a819f9b1f2464bbca4
+#getZZ.hash: 0xcf5b19f1fba56d890742840b29b5203b33faedfc
+
+#医院接口调用地址
+hospital.url: http://222.128.14.106:2989/hospital-dapp/api/informDmiFinished
+hospital2.url: http://222.128.14.106:2989/hospital-dapp/api/informDmiFinished2
+
+#通过ipfsHash2获取身份证信息
+ipfs.getUserInformation.url: http://222.128.14.106:2599/IPFS/api/getUserInformation
+#将验证结果存到IPFS
+ipfs.putDmiResult.url: http://222.128.14.106:2599/IPFS/api/putDmiResult
+
+yibao.publicKey: 30819f300d06092a864886f70d010101050003818d00308189028181008cfbca2b2089c8ceb76d61c8b34c58d98e8b2a13f94c2fb41e6fdfca546a96f69937c055ee56bbf179147456b08d0db01cce9bd7aa106d230478c3625b4173f3fedbf1fa8f74a582cb9a5a5a534915eb464bd29914fdb25125cf0e6645c084db00b7856205bff2688bc0e61173dcd4b2c07ad898f39bc0d6f24df09b33645eb70203010001
+yibao.privateKey: 30820276020100300d06092a864886f70d0101010500048202603082025c020100028181008cfbca2b2089c8ceb76d61c8b34c58d98e8b2a13f94c2fb41e6fdfca546a96f69937c055ee56bbf179147456b08d0db01cce9bd7aa106d230478c3625b4173f3fedbf1fa8f74a582cb9a5a5a534915eb464bd29914fdb25125cf0e6645c084db00b7856205bff2688bc0e61173dcd4b2c07ad898f39bc0d6f24df09b33645eb7020301000102818005c5001f07b3dbcde9dfc612aa93c34713f849fe8b433ce8881e57f035c82ee96497cd7d36c5c1e73de7426391d213ef531e796e37fd7819e8c2f06c040407b4b27920006f831f493f2e280bacd6762751bdbf9c95920a3818aba3b5b7f7fd665f2ba14a6290c325f62c1884fcff155ad445b83557dd5f04c53504666d070911024100f507f134ebf2302c0488609b72858b410df00eb61083afbfbd1622547cb7ee7b170f0066d51fbf572aba336fe1f63d3fc06f954f6a2efbff040eb07ab7fc3d85024100934b7668e815f31bbe895d07e8c4c889c6dc4de09d238d266b3ab30d0b1d12ffd59d0574ffd60fae8e74976b665e40fa938f216566cda9b8cac27018b5aef20b024100b37e45eb868bbb4e036403a0db9b880ef7aeca980430f32579d624ffcefccdedcd4e67f4ec5a7d47d53ce1412c3dbd505e1f5f38f587c58161ef80c7e4cf1a2102404bba3a708911efe14dbe95a3e15a7ab7cb13acbe544bd8dfedb54a24e497d812cc226491d88e9795690c2c653d462c262803286a57c65901f6ccac9127a7802d024022a484b903061c3d8189f33f590997686c755ab83c3e134ab808a98f66911438069b9a4961164b76ef04dbc5daa8eb60025aa4e59ffbf8e7de723df2cf2da3c2
+contact.wallet.addr: AcesbhiJs1orCB4ty5c4Pi2SBRiMUspvhL
+
+spring.messages.basename: i18n/messages,i18n/messages_zh_CN,i18n/messages_en_US

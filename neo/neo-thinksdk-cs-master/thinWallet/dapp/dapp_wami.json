@@ -1,0 +1,109 @@
+﻿{
+  "title": "WHO AM I",
+  "consts": {
+    "base": "0x42832a25cf11d0ceee5629cb8b4daee9bac207ca"
+  },
+  "funcs": [
+    {
+      "name": "check",
+      "desc": "check my name on chain.",
+      "inputs": [
+        {
+          "id": "address",
+          "type": "address",
+          "desc": "input address to look his name",
+          "value": "ALjSnMZidJqd18iQaoCgFun6iqWRm2cVtj"
+        }
+      ],
+      "call": {
+        "type": "getstorage",
+        "scriptcall": "",
+        "scriptparam": [
+          "(uint160)%consts.base%",
+          "(address)%inputs.address%"
+        ]
+      },
+      "results": [
+        {
+          "type": "string",
+          "desc": "name"
+        }
+      ]
+    },
+    {
+      "name": "setname(test)",
+      "desc": "set my name to chain.",
+      "inputs": [
+        {
+          "id": "address",
+          "type": "address",
+          "desc": "input address to look his name",
+          "value": "ALjSnMZidJqd18iQaoCgFun6iqWRm2cVtj"
+        },
+        {
+          "id": "name",
+          "type": "string",
+          "desc": "what is your name",
+          "value": "rich boy."
+        }
+      ],
+      "call": {
+        "type": "invokescript",
+        "scriptcall": "(uint160)%consts.base%",
+        "scriptparam": [
+            "(bytes)%keyinfo.pubkey%",
+            "(str)%inputs.name%"
+        ]
+      },
+      "results": [
+
+      ]
+    },
+
+    {
+      "name": "setname(sendraw)",
+      "desc": "set my name to chain.",
+      "inputs": [
+        {
+          "id": "address",
+          "type": "address",
+          "desc": "input address to look his name",
+          "value": "ALjSnMZidJqd18iQaoCgFun6iqWRm2cVtj"
+        },
+        {
+          "id": "name",
+          "type": "string",
+          "desc": "what is your name",
+          "value": "rich boy."
+        }
+      ],
+      "call": {
+        "type": "sendrawtransaction",
+        "scriptcall": "(uint160)%consts.base%",
+        "scriptparam": [
+          "(bytes)%keyinfo.pubkey%",
+          "(str)%inputs.name%"
+        ],
+        "scriptfee": 1.0,
+        "coins": [
+          {
+            "scripthash": "(bytes)%keyinfo.scripthash",
+            "asset": "GAS",
+            "value": 0
+          }
+        ],
+        "witnesses": [
+          {
+            "vscript": "(bytes)%keyinfo.script%",
+            "iscript": [
+              "(bytes)%keyinfo.signdata%" 
+            ]
+          }
+        ]
+      },
+      "results": [
+
+      ]
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">医院手机端</string>
+    <string name="start_check">开始验证</string>
+    <string name="protocol">隐私政策说明</string>
+    <string name="no_agree">不同意并关闭</string>
+    <string name="agree">同意并验证</string>
+    <string name="server_client">医院自助服务终端</string>
+    <string name="all_select">全选</string>
+    <string name="retry">重试</string>
+    <string name="back">返回</string>
+    <string name="rehome">返回首页</string>
+    <string name="cancel">取消</string>
+    <string name="seefee">查看账单</string>
+    <string name="exit">退出</string>
+    <string name="seemoney">查看余额</string>
+    <string name="repay">重新支付</string>
+    <string name="confirmpay">确认支付</string>
+    <string name="pay">支付</string>
+    <string name="hospital_mode">医院模式</string>
+    <string name="hotl_mode">酒店模式</string>
+    <string name="pls_input_idnum">请输入身份证号</string>
+    <string name="select_pay_type">选择付款方式</string>
+    <string name="net_error">网络连接失败</string>
+    <string name="chinese">中文</string>
+    <string name="english">English</string>
+    <string name="use_pwd">使用密码</string>
+    <string name="face_pay">刷脸支付</string>
+    <string name="input_pwd">输入密码</string>
+    <string name="checking">验证中请稍后</string>
+    <string name="face_check_fail">人脸检测失败</string>
+    <string name="info_check_fail">身份识别失败</string>
+    <string name="pls_select_bill">请选择需要支付的账单</string>
+    <string name="payfor_page_1">商品详述：</string>
+    <string name="payfor_page_2">诊疗费用</string>
+    <string name="payfor_page_3">交易单编号：</string>
+    <string name="payfor_page_4">收款方：</string>
+    <string name="payfor_page_5">医保个人账户：</string>
+    <string name="payfor_page_6">医保统筹支付：</string>
+    <string name="payfor_page_7">个人支付：</string>
+    <string name="total_pay">总计：</string>
+    <string name="total_pay_2">总金额：</string>
+    <string name="balance">余额：</string>
+    <string name="delete">回退</string>
+    <string name="clear">清除</string>
+    <string name="pay_buy_finger">指纹支付</string>
+    <string name="link_system_error">连接服务器失败</string>
+    <string name="check_item_1">正在验证社保卡头像信息</string>
+    <string name="check_item_3">正在验证人脸识别</string>
+    <string name="check_item_4">正在验证社保卡状态信息</string>
+    <string name="check_item_5">正在进行生物体征判断</string>
+    <string name="check_item_6">正在验证公安数据源信息</string>
+    <string name="check_item_7">正在验证公安数据源信息</string>
+    <string name="check_item_8">正在验证国家机密特殊诊断信息</string>
+    <string name="check_item_9">正在验证国家机密特殊人员信息</string>
+    <string name="check_item_10">正在验证位置信息</string>
+    <string name="check_item_11">正在验证CPA信息</string>
+    <string name="basic_info">基本信息</string>
+    <string name="pres_details">医药处方明细</string>
+    <string name="age">年龄：</string>
+    <string name="deptname">科别：</string>
+    <string name="doctor">医师：</string>
+    <string name="diagnosis">初步诊断：</string>
+    <string name="treament_date">处方日期：</string>
+    <string name="drug_name">药品名称：</string>
+    <string name="specification">规格：</string>
+    <string name="price_rmb">价格：￥</string>
+    <string name="amount_rmb">总计:￥</string>
+    <string name="num">数量：</string>
+    <string name="usage">用法用量：</string>
+    <string name="name">姓名：</string>
+    <string name="male">性别：男</string>
+    <string name="female">性别：女</string>
+    <string name="paying_pls_wating">支付中请稍后...</string>
+    <string name="opencv_1">请将脸部置于扫描框内</string>
+    <string name="opencv_2">正确</string>
+    <string name="opencv_3">请靠近摄像头</string>
+    <string name="opencv_4">请向左移动面部</string>
+    <string name="opencv_5">请向右移动面部</string>
+    <string name="opencv_6">请向下移动面部</string>
+    <string name="opencv_7">请向上移动面部</string>
+    <string name="opencv_8">请保持不动</string>
+    <string name="cancel_pay">秒后自动取消支付</string>
+    <string name="user_info">待支付：</string>
+    <string name="success">成功</string>
+    <string name="fail">失败</string>
+    <string name="pay_success">支付成功</string>
+    <string name="pay_fail">支付失败</string>
+    <string name="sh_success_msg">恭喜您身份验证成功!</string>
+    <string name="sh_fail_msg">您的身份验证未通过!</string>
+    <string name="pay_success_msg">恭喜，您支付成功!</string>
+    <string name="pay_fail_mag">抱歉，您的支付失败了!</string>
+    <string name="pay_info">向医院支付</string>
+    <string name="scan_code_pay">扫码支付</string>
+    <string name="pay_1">TKY支付</string>
+    <string name="pay_2">支付宝支付</string>
+    <string name="pay_3">微信支付</string>
+    <string name="switch_acount"><u>切换账号</u></string>
+    <string name="pls_input_right_mobile">请输入正确的手机号码</string>
+    <string name="pls_input_mobile">请输入手机号码</string>
+    <string name="pls_input_vcode">请输入收到的验证码</string>
+    <string name="pls_inpug_vcode2">输入手机验证码</string>
+    <string name="get_vcode">获取验证码</string>
+    <string name="login">登录</string>
+    <string name="which_hospital">所属医院：</string>
+    <string name="ac_record_title">待结算订单</string>
+    <string name="ac_check_title">验证中</string>
+    <string name="ac_payfor_title">支付</string>
+    <string name="ac_balance_title">余额</string>
+    <string name="no_payinfo">您没有待缴费的信息^_^</string>
+    <string name="retry_getvcode">S后重新获取</string>
+    <string name="getvcode_success">获取验证码成功</string>
+    <string name="getvcode_fail">获取验证码失败</string>
+    <string name="ac_bill_title">处方详情</string>
+    <string name="pls_relogin">请重新登录</string>
+    <string name="topay">缴费</string>
+    <string name="alert_msg">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;在此特别提醒用户仔细阅读本《用户个人信息及隐私保护政策》中的各个条款（未成年人应当在其法定监护人陪同下阅读），并选择接受或者不接受本《用户个人信息及隐私保护政策》。\n  如用户不同意本政策的任意内容，请不要注册或使用服务。
+
+\n1、用户同意：个人隐私信息是指那些能够对用户进行个人辨识或涉及个人通信的信息，包括下列信息：用户的姓名，有效身份证件号码，家庭地址、电话号码，IP地址，电子邮件地址信息。而非个人隐私信息是指用户对本软件的操作状态以及使用习惯等一些明确且客观反映在服务器端的基本记录信息和其他一切个人隐私信息范围外的普通信息。
+
+\n2、一般而言，公司基于下列原因需要使用到用户的信息资源：
+
+\n（1） 执行软件验证服务。
+
+\n（2）执行软件升级服务。
+
+\n（3）网络同步服务。
+
+\n（4） 提高用户的使用安全性并提供客户支持。
+
+\n（5）因用户使用本软件特定功能或因用户要求或合作单位提供特定服务时，或合作单位则需要把用户的信息提供给与此相关联的第三方。
+
+\n（6）执行用户协议相关条款。
+
+\n（7）其他有利于用户和利益的。
+
+3、尊重个人隐私，注重对用户信息资源的保护。将使用各种有效安全技术和程序来保护用户信息不被未经授权的访问、使用和泄漏。不向第三方公开透露用户信息，但下列情形除外：
+
+\n（1）基于国家法律法规的规定而披露；
+
+\n（2）应国家司法机关及其他有法律赋予权限的政府机关基于法定程序的要求而披露；
+
+\n（3）为保护或您的合法权益而披露；
+
+\n（4）在紧急情况下，为保护其他用户及第三方人身安全而披露；
+
+\n（5）为了维护自己合法权益而向用户提起诉讼或者仲裁时；
+
+\n（6）用户本人或用户监护人授权披露；
+
+\n（7）应用户监护人合法要求而提供用户个人身份信息时。
+</string>
+</resources>

@@ -1,0 +1,4 @@
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\operateProxy\obj\Release\netcoreapp2.0\operateProxy.csprojResolveAssemblyReference.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\operateProxy\obj\Release\netcoreapp2.0\operateProxy.csproj.CoreCompileInputs.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\operateProxy\obj\Release\netcoreapp2.0\operateProxy.AssemblyInfoInputs.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\operateProxy\obj\Release\netcoreapp2.0\operateProxy.AssemblyInfo.cs

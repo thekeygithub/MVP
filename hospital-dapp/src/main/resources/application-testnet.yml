@@ -1,0 +1,13 @@
+
+dapp:
+  #提供NEO RPC服务的URL，下链、转账时会使用该地址
+  neo-cli-url: "http://222.128.14.106:3226"
+  #NEO NEP5资产ID 发布的资产名为THEKEY
+  nep5-asset-id: "132947096727c84c7f9e076c90f08fec3bc17f18"
+  #验证合约的脚本hash
+  verify-script-hash: "0x33ee36c712b37df8acfbda4a1beb165e100ed3e0"
+  #易保提供的RPC服务地址，用来进行验证、用户向医院支付时上链
+  save-to-contract-url: "http://192.168.70.27:9000"
+  #转账合约的合约地址
+  transfer-contract-addr: "AcesbhiJs1orCB4ty5c4Pi2SBRiMUspvhL"
+

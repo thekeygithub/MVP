@@ -1,0 +1,24 @@
+﻿<Window x:Class="thinWallet.Window_funcTest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:thinWallet"
+        mc:Ignorable="d"
+        Title="Window_funcTest" Height="455.556" Width="755.556">
+    <Grid>
+        <TabControl>
+            <TabItem Header="基本签名运算Cryptography">
+                <Frame Source="/thinWallet;component/functest/Page_FuncTest_Crypt.xaml"></Frame>
+            </TabItem>
+            <TabItem Header="钱包相关Wallet">
+                <Frame Source="/thinWallet;component/functest/Page_FuncTest_Wallet.xaml"></Frame>
+
+            </TabItem>
+            <TabItem Header="交易相关Transaction">
+
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>

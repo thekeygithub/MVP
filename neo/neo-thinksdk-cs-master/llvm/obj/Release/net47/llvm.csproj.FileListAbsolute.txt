@@ -1,0 +1,8 @@
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\llvm\bin\Release\net47\llvm.dll
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\llvm\bin\Release\net47\llvm.pdb
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\llvm\obj\Release\net47\llvm.csprojResolveAssemblyReference.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\llvm\obj\Release\net47\llvm.csproj.CoreCompileInputs.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\llvm\obj\Release\net47\llvm.AssemblyInfoInputs.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\llvm\obj\Release\net47\llvm.AssemblyInfo.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\llvm\obj\Release\net47\llvm.dll
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\llvm\obj\Release\net47\llvm.pdb

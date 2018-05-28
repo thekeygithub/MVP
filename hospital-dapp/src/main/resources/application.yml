@@ -1,0 +1,51 @@
+#基础公共配置文件，其中适配私链部分的配置在application-private.yml中，适配测试链的配置在application-testnet.yml中
+dapp:
+  #验证通知易保的URL（链上模式），链上是指对方得到通知后，从区块链上获取IPFS的hash
+  notify-ebao-verify-url: "http://222.128.14.106:2910/TheKey/notice/validation?ID={ID}&validKey={validKey}&transferSerial={transferSerial}&publicKey={publicKey}&hospitalId={hospitalId}&senderName={senderName}&senderAddr={senderAddr}&type={type}&fee={fee}&jzlsno={jzlsno}&transferTime={transferTime}&validTxId={validTxId}&validTxTime={validTxTime}"
+  #验证通知易保的URL（链下模式），链下是指对方直接从通知的参数中获取IPFS的hash
+  notify-ebao-verify-url2: "http://222.128.14.106:2910/TheKey/notice/validation2?ID={ID}&validKey={validKey}&transferSerial={transferSerial}&publicKey={publicKey}&hospitalId={hospitalId}&senderName={senderName}&senderAddr={senderAddr}&type={type}&fee={fee}&jzlsno={jzlsno}&ipfsHash={ipfsHash}&transferTime={transferTime}&validTxId={validTxId}&validTxTime={validTxTime}"
+  #支付通知医保的URL，用户向医院支付完成后会通知易保记录支付信息
+  notify-ebao-pay-url: "http://222.128.14.106:2910/TheKey/notice/payComplete?validKey={validKey}&ipfsHash={ipfsHash}"
+  #区块链业务URL，该URL是在任何上链、调用合约等操作后调用，旨在记录每次链的操作。截止5月21日，只有用户向医院支付完成后才调用，验证部分由易保统一记录
+  notify-ebao-saveTx-url: "http://222.128.14.106:2910/TheKey/notice/saveTx?txId={txId}&senderName={senderName}&receiverName={receiverName}&senderAddr={senderAddr}&receiverAddr={receiverAddr}&fee={fee}&time={time}&validKey={validKey}&serialNo={serialNo}&type={type}"
+  #使用IPFS时需要调用的RPC地址
+  ipfs-url: "http://222.128.14.106:2599/IPFS/"
+  #获取待缴费用户的URL
+  get-unpaid-user-url: "http://59.110.174.56:9002/ebaoAPI/api/prescription/getUserInfo.do?hospId={hospId}&dateTime={dateTime}"
+  #获取处方信息的URL
+  get-prescription-url: "http://59.110.174.56:9002//ebaoAPI/api/prescription/getOupReadyToPay.do?hospId={hospId}&jzlsno={jzlsno}"
+  #配置医院信息的文件路径
+  hospital-config-file: "classpath:config/hospital"
+  #医院信息的redis key。 该key下存放的是所有医院的list
+  hospital-redis-key: "hospitalInfo"
+  #ebao的公钥
+  ebao-public-key: "30819f300d06092a864886f70d010101050003818d00308189028181008cfbca2b2089c8ceb76d61c8b34c58d98e8b2a13f94c2fb41e6fdfca546a96f69937c055ee56bbf179147456b08d0db01cce9bd7aa106d230478c3625b4173f3fedbf1fa8f74a582cb9a5a5a534915eb464bd29914fdb25125cf0e6645c084db00b7856205bff2688bc0e61173dcd4b2c07ad898f39bc0d6f24df09b33645eb70203010001"
+  #用户账户信息文件路径
+  user-account-config-file: "classpath:config/UserAccount.json"
+  #医院账户信息文件路径
+  hospital-account-config-file: "classpath:config/HospitalAccount.json"
+  #人民币换算成TKY的汇率
+  tky-exchange-rate: "0.02"
+  #验证时候给转账合约打币的数量
+  verification-fee: "3"
+  #IPFS模式，开始该模式后，验证完成通知易保使用notify-ebao-verify-url2，易保将在参数中获取IPFS的hash而非链上
+  IPFS-mode: "false"
+  #刷脸模式，开启开模式后，刷脸支付将调用第三方接口，比对前后两张照片的相似度。关闭该模式的时候，不会调用第三方接口，比对将永远成功。
+  face-mode: "false"
+  #app的超级账号，其中key是超级账号的号码，values是患者的身份证号。
+  super-mobile-numbers:
+    "18611153184": "410205197204080024"
+    "18600000000": "410205197204080024"
+
+#rest的超时时间设置
+rest:
+  #read超时，单位毫秒
+  read-timeout: 3000
+  #connect超时，单位毫秒
+  connect-timeout: 3000
+
+#spring配置
+spring:
+  profiles:
+    #模式配置，其中private是私链适配，testnet是测试链适配
+    active: testnet

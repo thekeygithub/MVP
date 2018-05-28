@@ -1,0 +1,4 @@
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinSDK_neo\obj\Release\netcoreapp2.0\thinSDK_neo.csprojResolveAssemblyReference.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinSDK_neo\obj\Release\netcoreapp2.0\thinSDK_neo.csproj.CoreCompileInputs.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinSDK_neo\obj\Release\netcoreapp2.0\thinSDK_neo.AssemblyInfoInputs.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinSDK_neo\obj\Release\netcoreapp2.0\thinSDK_neo.AssemblyInfo.cs

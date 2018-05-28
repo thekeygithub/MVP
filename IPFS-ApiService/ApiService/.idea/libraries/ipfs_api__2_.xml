@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="ipfs-api (2)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/ipfs-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/web/WEB-INF/lib/json-20180130.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

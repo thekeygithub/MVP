@@ -1,0 +1,109 @@
+.row span,.row p{
+    margin: 0 5px 5px 0;
+    font-size:14px;
+} 
+
+body{
+    font-size: 15px;
+}   
+.list-group a:hover{
+    background: #999999;
+}  
+
+th,tr{
+    text-align: center;
+    background: ivory;
+}
+
+th{ 
+    background: #28a4c9;
+}
+
+.row .default{ 
+    font-size: 35px;     
+    text-align: center; 
+    color: #A9A9A9; 
+}
+ 
+.row .jumbotron{  
+    min-height: 260px;
+    margin-right: 0px;
+    padding-left: 15px;
+    padding-top: 5px; 
+}
+
+.segment_n{
+    background: #488FCE;
+}
+
+.segment_v{
+    background: #FFCB99;
+}
+
+.segment_a{ 
+    background: #67CCAA;
+}
+
+.segment_d{
+    background: #FFCCCB;
+}
+
+.segment_m{
+    background: #986699;
+}
+
+.segment_p{
+    background: #99CC67;
+}
+.segment_r{
+    background: #9ACCCD;
+}
+
+.segment_t{
+    background: #C7AEE7;
+}
+
+.segment_u{
+    background: #4DD9E6;
+}
+
+.segment_wd{
+    background: #CCCCCC;
+}
+.segment_wj{
+    background: #CCCCCC;
+}
+
+.segment_nr{
+    background: #50C6FB;
+}
+
+.segment_ns{
+    background: #D07F7F;
+}
+
+.segment_f{
+    background: #C9AACA;
+}
+.segment_c{
+    background: #8EA4DE;
+}
+
+.segment_s{
+    background: #CEE887;
+}
+
+.segment_q{
+    background: #FF9899;
+}
+
+.segment_n_new{
+    background: #F48363;
+}
+.segment_other{
+    background: rgba(35, 99, 170, 0.26);
+}
+.wordSpan{
+    line-height: 26px;
+    padding: 3px 10px;
+}

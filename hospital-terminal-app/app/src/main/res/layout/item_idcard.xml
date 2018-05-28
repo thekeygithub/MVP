@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_blue_bg"
+        android:paddingTop="30dp"
+        android:paddingBottom="35dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:id="@+id/rl">
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/male"
+        android:id="@+id/iv_item_sex"
+        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="Name"
+            android:textSize="@dimen/txt_big"
+            android:layout_toRightOf="@+id/iv_item_sex"
+            android:id="@+id/tv_item_name"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="000000"
+            android:textSize="@dimen/txt_small"
+            android:layout_toRightOf="@+id/iv_item_sex"
+            android:id="@+id/tv_item_idnum"
+            android:layout_marginLeft="5dp"
+            android:layout_below="@+id/tv_item_name"
+            android:layout_marginTop="15dp"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_dark_blue_bg2"
+        android:padding="10dp"
+        android:text="@string/start_check"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_middle"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        android:visibility="invisible"
+        android:id="@+id/tv_item_check"/>
+</RelativeLayout>

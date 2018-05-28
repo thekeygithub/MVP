@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link href="../assets/bootstrap/css/bootstrap.css" type=text/css rel=stylesheet>
+    <link href="../ui/css/index.css" type=text/css rel=stylesheet>
+    <!--<link href="../assets/bootstrap-toastr/toastr.min.css" rel="stylesheet" type="text/css" />-->
+    <link href="../assets/jQuery/css/jquery.mloading.css" rel="stylesheet" type="text/css" />
+    <link href="../assets/layer/theme/default/layer.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+   <!--header-->
+     <div id="header" style="padding-top: 80px;">
+        <nav class="navbar navbar-fixed-top navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <p class="navbar-brand">HOLLYCRM文本挖掘平台演示</p>
+                </div>
+            </div> 
+        </nav>
+     </div>      
+   
+  <!--文本输入-->
+   <div class="container theme-showcase" role="main"> 
+       <div class="jumbotron" style="padding:25px 25px 39px 20px;margin-bottom: 0px;">       
+           <textarea id="line" class="form-control" rows="5" style="resize:none;"></textarea>
+           <button id="play" type="button" class="btn btn-default btn-md" style="float: right;margin-top: 2px;">
+               <span class="glyphicon glyphicon-play" aria-hidden="true">播放</span>  
+           </button>
+           <button id="stop" type="button" class="btn btn-default btn-md" style="float: right;margin-top: 2px;display: none;">
+               <span class="glyphicon glyphicon-stop" aria-hidden="true">停止</span>
+           </button>  
+       </div>  
+   </div>
+
+  
+   <!--主体部分--> 
+   <div class="container" id="bottom">    
+       <div class="page-header" style="margin-top: 0px;">  
+           <h3>分析结果</h3>  
+       </div>
+       
+       <div class="row row-offcanvas row-offcanvas-right">
+           
+           <div class="col-xs-3 col-sm-3 sidebar-offcanvas">  
+               <div class="list-group" id="index_menu" style="text-align: center;">
+               </div>
+           </div>
+ 
+           <div class="col-xs-9 col-sm-9" >
+               <div  class="tab-content">
+                   <div class="tab-pane fade" id="new_word_learn">
+                       <div class="row jumbotron">  
+                           <h4>新词学习:</h4>
+                           <div class="tbl" id="newWord_content">
+                           </div> 
+                       </div>
+                   </div>
+                   
+                   <div class="tab-pane fade" id="word_analysis">
+                       <div class="row jumbotron">
+                           <h4>文本分词:</h4>
+                           <div class="row" id="analysis"> 
+                               <div class="col-xs-9 col-lg-9" id="analysis_content">
+
+                               </div> 
+                               <div class="col-xs-3 col-lg-3" style="display: none;" id="type">
+                                   <h4 style="margin-top: 0px;">词性类别图示:</h4>
+                                   <div id="analysis_type" ></div>
+                               </div>
+                           </div>
+                       </div>
+                   </div> 
+                   
+                   <div class="tab-pane fade" id="summary_abstract">
+                       <div class="row jumbotron">
+                           <h4>文本摘要:</h4>
+                           <div class="tbl" id="summary_content"></div>
+                       </div>
+                   </div>
+                   
+                   <div class="tab-pane fade" id="key_word">
+                       <div class="row jumbotron">
+                           <h4>关键词提取:</h4>
+                           <div class="tbl" id="keyWord_content">
+                           </div>
+                       </div>
+                   </div>
+
+                   <div class="tab-pane fade" id="word_vector">
+                       <div class="row jumbotron"  id="wordLink" >
+                           <form class="form-inline">
+                               <h4>相关词语:</h4>
+                               <label for="word" style="padding-bottom: 6px;padding-top: 6px">术语：</label>
+                               <input type="text" class="form-control " id="word" value=""/>
+                               <button type="button" id="anaWord" class=" btn btn-danger">分析</button>
+                           </form>
+                           <div class="panel-body" id="wordLinkDiv" style="height:400px">
+                           </div>
+                       </div>
+
+                   </div>
+
+                   <div class="tab-pane fade in active" id="voice_transfer">
+                       <div class="row jumbotron" > 
+                           <h4>语音转写:</h4> 
+                           <form id="upload_file_div">
+                               <div class="file-value file-1">  
+                                   <label for="dataFile" style="float: left;color: #222222;">上传文件：</label>
+                                   <input type="file" id="dataFile" name="file" class="file-opt" accept=".mp3" style="float:left;width: 280px">
+                               </div>   
+                           </form> 
+                           <button id="transfer" type="button" class="btn btn-primary btn-sm" style="margin-left: 13px;">转写</button>
+                           <div id="voice_text" style="margin-top: 10px;"></div>
+                       </div>
+                   </div>
+                   </div>
+               </div>
+       </div>
+        </div><!--/row-->  
+   </div><!--/.container-->
+   
+<script type="text/javascript" src="../assets/jQuery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="../assets/jQuery/jquery.mloading.js"></script>
+<script type="text/javascript" src="../assets/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="../assets/layer/layer.js"></script>
+<!--<script src="../assets/../assets/bootstrap-toastr/toastr.min.js"></script>-->
+<script type="text/javascript" src="../assets/eChart/tools.panel.js"></script>
+<script type="text/javascript"
+src="../assets/eChart/echarts-2.1.10/echarts.js"></script>
+<script type="text/javascript">
+   require.config({
+       paths: {
+           echarts: '/assets/eChart/echarts-2.1.10'
+       }
+   });
+</script>
+<script type="text/javascript" src="../assets/eChart/tools.holly.js"></script>
+<script type="text/javascript" src="../assets/eChart/tools.echart.js"></script>
+<script type="text/javascript" src="../ui/js/index.js"></script>
+</body>
+</html>

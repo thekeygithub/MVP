@@ -1,0 +1,52 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.ebao.hospitaldapp.config.ApplicationConfig",
+      "name": "dapp",
+      "type": "com.ebao.hospitaldapp.config.ApplicationConfig"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.ebao.hospitaldapp.config.ApplicationConfig",
+      "name": "dapp.ebao-public-key",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.ebao.hospitaldapp.config.ApplicationConfig",
+      "name": "dapp.fake-password",
+      "type": "java.util.Map<java.lang.String,java.lang.String>"
+    },
+    {
+      "sourceType": "com.ebao.hospitaldapp.config.ApplicationConfig",
+      "name": "dapp.hospital-account-config-file",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.ebao.hospitaldapp.config.ApplicationConfig",
+      "name": "dapp.hospital-config-file",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.ebao.hospitaldapp.config.ApplicationConfig",
+      "name": "dapp.hospital-redis-key",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.ebao.hospitaldapp.config.ApplicationConfig",
+      "name": "dapp.notify-ebao-url",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.ebao.hospitaldapp.config.ApplicationConfig",
+      "name": "dapp.tky-exchange-rate",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.ebao.hospitaldapp.config.ApplicationConfig",
+      "name": "dapp.user-account-config-file",
+      "type": "java.lang.String"
+    }
+  ]
+}

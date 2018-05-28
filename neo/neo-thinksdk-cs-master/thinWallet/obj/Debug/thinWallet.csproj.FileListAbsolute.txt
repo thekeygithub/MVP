@@ -1,0 +1,59 @@
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\dapp\dapp_nns.json
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\dapp\dapp_wami.json
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\thinWallet.exe.config
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\thinWallet.exe
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\thinWallet.pdb
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\thinSDK.dll
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\thinSDK_neo.dll
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\llvm.dll
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\System.Security.Cryptography.Algorithms.dll
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\thinSDK.pdb
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\thinSDK_neo.pdb
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\bin\Debug\llvm.pdb
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinWallet.csprojResolveAssemblyReference.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Config_Nep5.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog AddUtxo_FromSC.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Transer_Taget.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog_Script_Custom.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog_Witness_Edit.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog_Script_Publish.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog_wait.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog_Script_Make.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Import_Nep6.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Input_Nep2.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Input.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Input password.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\functest\Page_FuncTest_Wallet.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\MainWindow.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\functest\Page_FuncTest_Crypt.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\functest\Window_funcTest.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinwallet\Window_thinwallet.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\Window1.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\App.g.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinWallet_MarkupCompile.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinWallet_MarkupCompile.lref
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Config_Nep5.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog AddUtxo_FromSC.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Transer_Taget.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog_Script_Custom.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog_Witness_Edit.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog_Script_Publish.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog_wait.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog_Script_Make.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Import_Nep6.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Input_Nep2.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Input.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\dialog\Dialog Input password.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\functest\Page_FuncTest_Wallet.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\MainWindow.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\functest\Page_FuncTest_Crypt.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\functest\Window_funcTest.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinwallet\Window_thinwallet.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\Window1.baml
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinWallet.g.resources
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinWallet.Properties.Resources.resources
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinWallet.csproj.GenerateResource.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinWallet.csproj.CoreCompileInputs.cache
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinWallet.csproj.CopyComplete
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinWallet.exe
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\thinWallet.pdb

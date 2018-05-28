@@ -1,0 +1,24 @@
+{
+  "keyWord":[
+    {"name":"黄金时代","weight":"39"},
+    {"name":"李四","weight":"45"},
+    {"name":"王武","weight":"56"},
+    {"name":"李梅","weight":"23"},
+    {"name":"黄金时代","weight":"39"},
+    
+    {"name":"李四","weight":"45"},
+    {"name":"王武","weight":"56"},
+    {"name":"李梅","weight":"23"},
+    {"name":"黄金时代","weight":"39"},
+    {"name":"李四","weight":"45"},
+    
+    {"name":"王武","weight":"56"},
+    {"name":"李梅","weight":"23"}, 
+    {"name":"黄金时代","weight":"39"},
+    {"name":"李四","weight":"45"},
+    {"name":"王武","weight":"56"},
+    
+    {"name":"李梅","weight":"23"}
+  ]
+}
+ 

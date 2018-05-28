@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/txt_large"
+        android:textColor="@color/dark_blue"
+        android:text="@string/server_client"
+        android:padding="10dp"
+        android:id="@+id/tv_title"
+        />
+
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:background="@drawable/round_light_blue_bg"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:id="@+id/ll_window"
+        >
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="THEKEY"
+                android:padding="10dp"
+                android:textSize="@dimen/txt_middle"
+                />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            android:layout_below="@+id/tv_price"
+
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="余额：TKY1200.00"
+            android:gravity="center"
+            android:textSize="@dimen/txt_big"
+            android:layout_margin="50dp"
+            android:id="@+id/tv_balance"
+            />
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:id="@+id/btn_exit"
+        android:background="@drawable/round_blue_bg"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:text="@string/exit"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="20dp"/>
+
+</RelativeLayout>

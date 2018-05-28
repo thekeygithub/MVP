@@ -1,0 +1,20 @@
+﻿thinWallet
+
+
+winexe
+C#
+.cs
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\obj\Debug\
+thinWallet
+none
+false
+DEBUG;TRACE
+C:\Users\wxj\Desktop\私链\cs\neo-thinsdk-cs-master\thinWallet\App.xaml
+18258207249
+
+30612517933
+151657715539
+dialog\Dialog Config_Nep5.xaml;dialog\Dialog AddUtxo_FromSC.xaml;dialog\Dialog Transer_Taget.xaml;dialog\Dialog_Script_Custom.xaml;dialog\Dialog_Witness_Edit.xaml;dialog\Dialog_Script_Publish.xaml;dialog\Dialog_wait.xaml;dialog\Dialog_Script_Make.xaml;dialog\Dialog Import_Nep6.xaml;dialog\Dialog Input_Nep2.xaml;dialog\Dialog Input.xaml;dialog\Dialog Input password.xaml;functest\Page_FuncTest_Wallet.xaml;MainWindow.xaml;functest\Page_FuncTest_Crypt.xaml;functest\Window_funcTest.xaml;thinwallet\Window_thinwallet.xaml;Window1.xaml;
+
+True
+

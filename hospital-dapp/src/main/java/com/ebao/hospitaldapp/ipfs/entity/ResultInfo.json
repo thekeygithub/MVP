@@ -1,0 +1,54 @@
+{
+  "resultInfo": {
+    "validID": "aaaaaa",
+    "pointsBills": [
+      {
+        "presgroupid":"12345",
+        "bigpay": "0",
+        "cashpay": "102",
+        "cfstand": "0",
+        "gwybz": "0",
+        "perpay": "0",
+        "propaybig": "0",
+        "propayplan": "0",
+        "qybcpay": "0",
+        "resultCode": "0",
+        "resultDesc": "成功",
+        "superbigpay": "0",
+        "tcpay": "0",
+        "ylsum": "102",
+        "zfproject": "102",
+        "zhpay": "0"
+      },
+      {
+        "presgroupid":"12345",
+        "bigpay": "0",
+        "cashpay": "128.8",
+        "cfstand": "0",
+        "gwybz": "0",
+        "perpay": "0",
+        "propaybig": "0",
+        "propayplan": "0",
+        "qybcpay": "0",
+        "resultCode": "0",
+        "resultDesc": "成功",
+        "superbigpay": "0",
+        "tcpay": "0",
+        "ylsum": "128.8",
+        "zfproject": "128.8",
+        "zhpay": "0"
+      }
+    ],
+    "interfaceHisList": [
+      {
+        "exeTime": "2018-04-19 17:55:00",
+        "hisId": "474e4f82-029c-45af-9473-2630db0417b7",
+        "idNo": "410205197204080024",
+        "interfaceName": "SBKJBXX",
+        "interfaceRestlt": "{\"code\":\"10003\",\"message\":\"查询社保基本信息出错\"}",
+        "type": "01"
+      }
+    ],
+    "resTotal": "102333333333"
+  }
+}

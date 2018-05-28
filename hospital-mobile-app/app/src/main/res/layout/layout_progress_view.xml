@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center">
+    <org.quanqi.circularprogress.CircularProgressView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="8dp"
+        app:angleAnimationDurationMillis="1000"
+        app:borderWidth="@dimen/circular_default_border_width"
+        app:colorSequence="@array/circular_dialog"
+        app:sweepAnimationDurationMillis="400"
+        android:background="#00000000"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>

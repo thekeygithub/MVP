@@ -1,0 +1,25 @@
+
+dapp:
+  notify-ebao-verify-url: "http://222.128.14.106:2910/TheKey/notice/validation?ID={ID}&validKey={validKey}&transferSerial={transferSerial}&publicKey={publicKey}&hospitalId={hospitalId}&senderName={senderName}&senderAddr={senderAddr}&type={type}&fee={fee}&jzlsno={jzlsno}"
+  notify-ebao-verify-url2: "http://222.128.14.106:2910/TheKey/notice/validation2?ID={ID}&validKey={validKey}&transferSerial={transferSerial}&publicKey={publicKey}&hospitalId={hospitalId}&senderName={senderName}&senderAddr={senderAddr}&type={type}&fee={fee}&jzlsno={jzlsno}&ipfsHash={ipfsHash}"
+  notify-ebao-pay-url: "http://222.128.14.106:2910/TheKey/notice/payComplete?validKey={validKey}&ipfsHash={ipfsHash}"
+  ipfs-url: "http://222.128.14.106:2599/IPFS/"
+  neo-cli-url: "http://222.128.14.106:26332"
+  save-to-contract-url: "http://222.128.14.106:2590"
+  get-unpaid-user-url: "http://59.110.174.56:9002/ebaoAPI/api/prescription/getUserInfo.do?hospId={hospId}&dateTime={dateTime}"
+  get-prescription-url: "http://59.110.174.56:9002//ebaoAPI/api/prescription/getOupReadyToPay.do?hospId={hospId}&jzlsno={jzlsno}"
+  hospital-config-file: "classpath:config/hospital"
+  hospital-redis-key: "hospitalInfo"
+  ebao-public-key: "30819f300d06092a864886f70d010101050003818d00308189028181008cfbca2b2089c8ceb76d61c8b34c58d98e8b2a13f94c2fb41e6fdfca546a96f69937c055ee56bbf179147456b08d0db01cce9bd7aa106d230478c3625b4173f3fedbf1fa8f74a582cb9a5a5a534915eb464bd29914fdb25125cf0e6645c084db00b7856205bff2688bc0e61173dcd4b2c07ad898f39bc0d6f24df09b33645eb70203010001"
+  user-account-config-file: "classpath:config/UserAccount.json"
+  hospital-account-config-file: "classpath:config/HospitalAccount.json"
+  tky-exchange-rate: "0.2"
+  verification-fee: "3"
+  tky-asset-id: "132947096727c84c7f9e076c90f08fec3bc17f18"
+  nep5-asset-id: "0x342c8b1242c195929b109079da947b1e973fe2be"
+  verify-script-hash: "0x6bd3f062a37ac2b19d6f06a819f9b1f2464bbca4"
+  verify-contract-addr: "ATTnvqxQHHjbNGudJ2GqZpEpvNXsBdkLQg"
+  IPFS-model: "false"
+
+
+

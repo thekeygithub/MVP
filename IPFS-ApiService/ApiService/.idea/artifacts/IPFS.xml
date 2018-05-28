@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="IPFS">
+    <output-path>$PROJECT_DIR$/out/artifacts/IPFS</output-path>
+    <root id="archive" name="IPFS.war">
+      <element id="artifact" artifact-name="IPFS exploded" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Spring-4.3.15.RELEASE" />
+          <element id="library" level="project" name="Spring MVC-4.3.15.RELEASE" />
+          <element id="library" level="project" name="ipfs-api (2)" />
+          <element id="library" level="project" name="jackson-annotations-2.9.5" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
