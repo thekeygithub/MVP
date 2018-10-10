@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/ClaimSet
+END
+JWTClaimsSet.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/ClaimSet/JWTClaimsSet.h
+END
+JWTClaim.h
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/ClaimSet/JWTClaim.h
+END
+JWTClaimsSetVerifier.m
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/ClaimSet/JWTClaimsSetVerifier.m
+END
+JWTClaimsSet.m
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/ClaimSet/JWTClaimsSet.m
+END
+JWTClaim.m
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/ClaimSet/JWTClaim.m
+END
+JWTClaimsSetSerializer.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/ClaimSet/JWTClaimsSetSerializer.h
+END
+JWTClaimsSetVerifier.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/ClaimSet/JWTClaimsSetVerifier.h
+END
+JWTClaimsSetSerializer.m
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/ClaimSet/JWTClaimsSetSerializer.m
+END

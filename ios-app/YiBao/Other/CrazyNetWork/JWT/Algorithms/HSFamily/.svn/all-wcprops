@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/HSFamily
+END
+JWTAlgorithmHS384.m
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/HSFamily/JWTAlgorithmHS384.m
+END
+JWTAlgorithmHSFamily.m
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/HSFamily/JWTAlgorithmHSFamily.m
+END
+JWTAlgorithmHS512.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/HSFamily/JWTAlgorithmHS512.h
+END
+JWTAlgorithmHSBase.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/HSFamily/JWTAlgorithmHSBase.h
+END
+JWTAlgorithmHS256.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/HSFamily/JWTAlgorithmHS256.h
+END
+JWTAlgorithmHS512.m
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/HSFamily/JWTAlgorithmHS512.m
+END
+JWTAlgorithmHS384.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/HSFamily/JWTAlgorithmHS384.h
+END
+JWTAlgorithmHSBase.m
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/HSFamily/JWTAlgorithmHSBase.m
+END
+JWTAlgorithmHS256.m
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/HSFamily/JWTAlgorithmHS256.m
+END
+JWTAlgorithmHSFamily.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/HSFamily/JWTAlgorithmHSFamily.h
+END

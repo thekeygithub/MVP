@@ -1,0 +1,209 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage
+END
+MKAnnotationView+WebCache.h
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/MKAnnotationView+WebCache.h
+END
+SDImageCache.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDImageCache.h
+END
+SDWebImageDecoder.h
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageDecoder.h
+END
+MKAnnotationView+WebCache.m
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/MKAnnotationView+WebCache.m
+END
+SDImageCache.m
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDImageCache.m
+END
+SDWebImageDecoder.m
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageDecoder.m
+END
+SDWebImageManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageManager.h
+END
+SDWebImageHeaders.h
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageHeaders.h
+END
+UIButton+WebCache.h
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIButton+WebCache.h
+END
+SDWebImageManager.m
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageManager.m
+END
+SDWebImageDownloaderOperation.h
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageDownloaderOperation.h
+END
+UIImageView+WebCache.h
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIImageView+WebCache.h
+END
+UIImage+WebP.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIImage+WebP.h
+END
+UIButton+WebCache.m
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIButton+WebCache.m
+END
+SDWebImageDownloaderOperation.m
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageDownloaderOperation.m
+END
+UIImageView+WebCache.m
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIImageView+WebCache.m
+END
+UIImage+WebP.m
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIImage+WebP.m
+END
+NSData+ImageContentType.h
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/NSData+ImageContentType.h
+END
+UIView+WebCacheOperation.h
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIView+WebCacheOperation.h
+END
+SDWebImageDownloader.h
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageDownloader.h
+END
+NSData+ImageContentType.m
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/NSData+ImageContentType.m
+END
+UIView+WebCacheOperation.m
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIView+WebCacheOperation.m
+END
+SDWebImageDownloader.m
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageDownloader.m
+END
+UIImageView+HighlightedWebCache.h
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIImageView+HighlightedWebCache.h
+END
+SDWebImageCompat.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageCompat.h
+END
+UIImageView+HighlightedWebCache.m
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIImageView+HighlightedWebCache.m
+END
+SDWebImagePrefetcher.h
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImagePrefetcher.h
+END
+UIImage+MultiFormat.h
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIImage+MultiFormat.h
+END
+SDWebImageCompat.m
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageCompat.m
+END
+UIImage+GIF.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIImage+GIF.h
+END
+SDWebImagePrefetcher.m
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImagePrefetcher.m
+END
+UIImage+MultiFormat.m
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIImage+MultiFormat.m
+END
+UIImage+GIF.m
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/UIImage+GIF.m
+END
+SDWebImageOperation.h
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/SDWebImage/SDWebImageOperation.h
+END

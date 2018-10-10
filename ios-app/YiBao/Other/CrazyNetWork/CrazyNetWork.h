@@ -1,0 +1,75 @@
+//
+//  easyflyNetWork.h
+//  easyflyDemo
+//
+//  Created by hehe on 15/5/26.
+//  Copyright (c) 2015年 hehe. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+typedef void (^requestSuccess)(NSDictionary *dic,NSString *url,NSString *Json);
+typedef void (^requestFail)(NSError *error,NSString *url);
+//typedef void (^Progress)(NSProgress * downloadProgress);
+
+@interface CrazyNetWork : NSObject<NSURLSessionTaskDelegate>
+
+#define requstTimeOut  1000000   //接口请求超时时间
+#define uploadTimeOut  200  //上传图片的超时时间
+
+//JWT加密
+#define ISJWT          0 //是否全局加密 0否 1是
+#define JWTSECRET      @"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9" //加密key
+#define IDENTIFIER     @"iOS" //加密标识
+#define JWT_access_token   @"access_token"  //接口key
+
+//证书名称
+#define cerNAME        @"client"
+#define cerPWD         "123123"
+
+@property(nonatomic,strong)requestSuccess block_success;
+@property(nonatomic,strong)requestFail block_fail;
+//@property(nonatomic,strong)Progress block_Progress;
+
+@property(nonatomic,strong)NSURLSession * manager;
+
+//parameters 里加入 JWT:@"NO" 强制取消加密   JWT:@"YES" 强制加密
+
+//网络请求
++(CrazyNetWork *)CrazyRequest_Get:(NSString *)header HUD:(BOOL)HUD parameters:(NSDictionary *)parameters success:(requestSuccess)success fail:(requestFail)fail;
+
+//网络POST请求  大数据量
++(CrazyNetWork *)CrazyRequest_Post:(NSString *)header HUD:(BOOL)HUD parameters:(NSDictionary *)parameters success:(requestSuccess)success fail:(requestFail)fail;
+
+
+/*文件流上传
+ scale 默认0.5
+ name与后台字段对应 数组传
+ fileName没有要求  数组传（自定义)
+ mimeType 图片传  @"image/jpeg"
+*/
++(CrazyNetWork *)CrazyHttpFileUpload:(NSString *)headUrl HUD:(BOOL)HUD parameters:(NSDictionary *)parameters imageArr:(NSArray *)imageArr scale:(float)scale  nameArr:(NSArray *)nameArr fileNameArr:(NSArray *)fileNameArr mimeType:(NSString *)mimeType block:(requestSuccess)success fail:(requestFail)fail;
+
+/*base64上传   [CrazyNetWork CrazyBase64Str] 转换base64字符串 imgBase64Dic = @{@“img”:base64}
+ */
++(CrazyNetWork *)CrazyHttpBase64Upload:(NSString *)headUrl HUD:(BOOL)HUD imageDic:(NSDictionary *)imgBase64Dic parameters:(NSDictionary *)parameters block:(requestSuccess)success fail:(requestFail)fail;
+
+//返回base64字符串  scale 默认0.5
++(NSString *)CrazyBase64Str:(UIImage *)img scale:(float)scale;
+
+//网络缓存请求
++(void)CrazyRequestCache_Get:(NSString *)header parameters:(NSDictionary *)parameters success:(requestSuccess)success fail:(requestFail)fail;
+
+//网络POST缓存请求  大数据量
++(void)CrazyRequestCache_Post:(NSString *)header parameters:(NSDictionary *)parameters success:(requestSuccess)success fail:(requestFail)fail;
+
+//缓存清除 指定键值
++(void)CrazyRequestCache_removeKey:(NSString *)key;
+//缓存全部清除
++(void)CrazyRequestCache_removeAll;
++(NSString *)JWTSecret;
+//token放在头里
++(CrazyNetWork *)CrazyTokenHeadRequest_Post:(NSString *)header HUD:(BOOL)HUD parameters:(NSDictionary *)parameters success:(requestSuccess)success fail:(requestFail)fail;
+
+@end

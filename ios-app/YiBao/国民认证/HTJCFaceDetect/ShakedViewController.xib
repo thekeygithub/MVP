@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ShakedViewController">
+            <connections>
+                <outlet property="btnBlinkEyes" destination="xCF-5w-rVq" id="0ST-HQ-ybz"/>
+                <outlet property="btnIsRandom" destination="m3b-pV-EiI" id="yIx-Ej-vmw"/>
+                <outlet property="btnKeepStill" destination="r9A-EY-PCa" id="tci-L8-LTn"/>
+                <outlet property="btnNodHead" destination="9WN-ar-2Wu" id="QhN-gT-zhj"/>
+                <outlet property="btnOpenMouth" destination="BQJ-Ue-Uax" id="FpW-0L-Xab"/>
+                <outlet property="btnShakeHead" destination="e7z-1U-ekd" id="3Sf-AY-QBZ"/>
+                <outlet property="view" destination="3iH-7o-FVO" id="xJB-Kj-Blw"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="3iH-7o-FVO">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" tag="2006" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="m3b-pV-EiI">
+                    <frame key="frameInset" minX="41.87%" minY="13.04%" width="16.00%" height="4.50%"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="随机"/>
+                    <state key="selected">
+                        <color key="titleColor" red="1" green="0.38029974599999999" blue="0.073149010309999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonClick:" destination="-1" eventType="touchUpInside" id="MeH-XK-PN3"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2001" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="r9A-EY-PCa">
+                    <frame key="frameInset" minX="5.60%" minY="5.55%" width="16.00%" height="4.50%"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="凝视"/>
+                    <state key="selected">
+                        <color key="titleColor" red="1" green="0.38029974599999999" blue="0.073149010309999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonClick:" destination="-1" eventType="touchUpInside" id="WSp-t9-r7v"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2002" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="e7z-1U-ekd">
+                    <frame key="frameInset" minX="23.73%" minY="5.55%" width="16.00%" height="4.50%"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="摇头"/>
+                    <state key="selected">
+                        <color key="titleColor" red="1" green="0.38029974599999999" blue="0.073149010309999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonClick:" destination="-1" eventType="touchUpInside" id="iBJ-c3-nGn"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2003" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="9WN-ar-2Wu">
+                    <frame key="frameInset" minX="41.87%" minY="5.55%" width="16.00%" height="4.50%"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="点头"/>
+                    <state key="selected">
+                        <color key="titleColor" red="1" green="0.38029974599999999" blue="0.073149010309999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonClick:" destination="-1" eventType="touchUpInside" id="fIr-AQ-gVE"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2004" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="BQJ-Ue-Uax">
+                    <frame key="frameInset" minX="60.00%" minY="5.55%" width="16.00%" height="4.50%"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="张嘴"/>
+                    <state key="selected">
+                        <color key="titleColor" red="1" green="0.38029974599999999" blue="0.073149010309999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonClick:" destination="-1" eventType="touchUpInside" id="0ra-1e-K7S"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2005" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xCF-5w-rVq">
+                    <frame key="frameInset" minX="78.13%" minY="5.55%" width="16.00%" height="4.50%"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <state key="normal" title="眨眼"/>
+                    <state key="selected">
+                        <color key="titleColor" red="1" green="0.38029974599999999" blue="0.073149010309999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="buttonClick:" destination="-1" eventType="touchUpInside" id="Aae-94-rxB"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <point key="canvasLocation" x="463.5" y="224.5"/>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
+</document>

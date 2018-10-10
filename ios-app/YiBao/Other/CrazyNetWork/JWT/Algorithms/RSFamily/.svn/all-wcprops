@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/RSFamily
+END
+JWTAlgorithmRSBase.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/RSFamily/JWTAlgorithmRSBase.h
+END
+JWTAlgorithmRS256.h
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/RSFamily/JWTAlgorithmRS256.h
+END
+JWTAlgorithmRSBase.m
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/RSFamily/JWTAlgorithmRSBase.m
+END
+JWTRSAlgorithm.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/RSFamily/JWTRSAlgorithm.h
+END
+JWTAlgorithmRS256.m
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/RSFamily/JWTAlgorithmRS256.m
+END

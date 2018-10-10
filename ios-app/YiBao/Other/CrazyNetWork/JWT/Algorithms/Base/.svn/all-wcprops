@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/Base
+END
+JWTAlgorithm.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/Base/JWTAlgorithm.h
+END
+JWTAlgorithmNone.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/Base/JWTAlgorithmNone.h
+END
+JWTAlgorithmNone.m
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/Base/JWTAlgorithmNone.m
+END
+JWTAlgorithmFactory.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/Base/JWTAlgorithmFactory.h
+END
+JWTAlgorithmFactory.m
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/hljiOS/!svn/ver/22146/Hello/CrazyFrameWork/CrazyLib/CrazyNetWork/JWT/Algorithms/Base/JWTAlgorithmFactory.m
+END

@@ -1,0 +1,111 @@
+//
+//  PrefixHeader.pch
+//  TiaoWei
+//
+//  Created by dukai on 15/2/2.
+//  Copyright (c) 2015年 longcai. All rights reserved.
+//
+
+#ifndef Crazy_PrefixHeader_pch
+#define Crazy_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#import <Availability.h>
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CrazyAutoLayout/CrazyAutoLayout.h>
+#import "CrazyNetWork.h"
+#import "JKToast.h"
+#import "JKAlert.h"
+#import "UIImageView+WebCache.h"
+#import "SVProgressHUD.h"
+#import "MJRefresh.h"
+#import "CommonLibrary.h"
+#import "UIViewAdditions.h"
+#import "Toast.h"
+#import "easyflyFunction.h"
+#import "CrazyFunction.h"
+#import "MJExtension.h"
+#import "BaseModel.h"
+#import "Single.h"
+
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
+//获取系统版本
+#define IOS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]
+//获取当前语言
+#define CurrentLanguage ([[NSLocale preferredLanguages] objectAtIndex:0])
+
+#define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+
+
+
+#define IsiPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+
+
+// Status bar height.
+//状态栏高度
+#define  StatusBarHeight      (IsiPhoneX ? 44.f : 20.f)
+
+#define  MoreStatusBarHeight      (IsiPhoneX ? 24.f : 0.f)
+// Navigation bar height.
+
+//navigationBar高度
+#define StatusBarAndNavigationBarHeight  (IsiPhoneX ? 88.f : 64.f)
+
+
+
+#define security_open  1   //使用接口加密  0是FALSE 1是TRUE
+
+
+//url 访问头部  http://123.56.111.37
+#define defaultUrl   @"http://222.128.14.106:2989/hospital-dapp/terminal/api/"
+//图片 访问头部
+#define defaultImageUrl   @"http://app54.app.longcai.net/"
+
+
+
+
+
+#define UID [[NSUserDefaults standardUserDefaults]objectForKey:@"uid"]
+#define Token [[NSUserDefaults standardUserDefaults]objectForKey:@"token"]
+#define PhoneNum [[NSUserDefaults standardUserDefaults]objectForKey:@"phonenum"]
+
+
+#define GUIDE [[NSUserDefaults standardUserDefaults]objectForKey:@"guide"] //引导页
+
+#define sqlName @"mydatabase.sqlite"  //数据库名称
+#define background_Image @"imageBack.jpg"   //默认图片
+
+#define backImageURL [[NSUserDefaults standardUserDefaults]objectForKey:@"backImageURL"]  //背景图片名称URL
+
+
+#define SYS [[NSUserDefaults standardUserDefaults]objectForKey:@"sys"]
+
+#define GUIDE [[NSUserDefaults standardUserDefaults]objectForKey:@"guide"] //引导页
+#define Hide [[NSUserDefaults standardUserDefaults]objectForKey:@"hide"] //引导页
+
+
+#define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
+#define RGBCOLOR(r, g, b) RGBACOLOR(r,g,b,1.0)
+//十六进制方式设置rgb
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+
+
+//获取当前状态栏高度加导航高度
+#define LNew64 (Is_iPhoneX ? 88 : 64)
+//判断是否是iPhoneX
+#define Is_iPhoneX  (SCREEN_HEIGHT == 812 ? TRUE:FALSE)
+//获取下方tabbar高度  iPhone位83 否则为49
+#define LNew49 (Is_iPhoneX ? 83 : 49)
+
+#define DIST(pointA,pointB) sqrtf((pointA.x-pointB.x)*(pointA.x-pointB.x)+(pointA.y-pointB.y)*(pointA.y-pointB.y))
+#define MENURADIUS 0.5 * SCREEN_WIDTH
+#define PROPORTION 0.45          //中心圆直径与菜单变长的比例
+
+#define HEIGHT(f) f * ([UIScreen mainScreen].bounds.size.width/320.0)
+
+
+#endif

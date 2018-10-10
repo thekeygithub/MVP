@@ -1,0 +1,6 @@
+framework module CrazyAutoLayout {
+  umbrella header "CrazyAutoLayout.h"
+
+  export *
+  module * { export * }
+}

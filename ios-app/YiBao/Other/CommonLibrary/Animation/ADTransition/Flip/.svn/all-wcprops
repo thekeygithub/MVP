@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/Animation/ADTransition/Flip
+END
+ADFlipTransition.h
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/Animation/ADTransition/Flip/ADFlipTransition.h
+END
+UITableViewController+ADFlipTransition.h
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/Animation/ADTransition/Flip/UITableViewController+ADFlipTransition.h
+END
+UICollectionViewController+ADFlipTransition.h
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/Animation/ADTransition/Flip/UICollectionViewController+ADFlipTransition.h
+END
+ADFlipTransition.m
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/Animation/ADTransition/Flip/ADFlipTransition.m
+END
+UITableViewController+ADFlipTransition.m
+K 25
+svn:wc:ra_dav:version-url
+V 153
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/Animation/ADTransition/Flip/UITableViewController+ADFlipTransition.m
+END
+UIViewController+ADFlipTransition.h
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/Animation/ADTransition/Flip/UIViewController+ADFlipTransition.h
+END
+UICollectionViewController+ADFlipTransition.m
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/Animation/ADTransition/Flip/UICollectionViewController+ADFlipTransition.m
+END
+UIViewController+ADFlipTransition.m
+K 25
+svn:wc:ra_dav:version-url
+V 148
+/svn/hljiOS/!svn/ver/23391/Hello/%E7%A4%BE%E4%BA%A4/%E8%81%8A%E5%A4%A9/CommonLibrary/Animation/ADTransition/Flip/UIViewController+ADFlipTransition.m
+END
