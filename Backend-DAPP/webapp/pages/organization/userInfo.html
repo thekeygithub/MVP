@@ -1,0 +1,361 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/comm.css">
+  <link rel="stylesheet" type="text/css" href="../../css/redmond/jquery.ui.all.css">
+  <script type="text/javascript" language="javascript" src="../../js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/jquery-ui-1.8.16.custom.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/checkForm.js"></script>
+  <script type="text/javascript" language="JavaScript1.2" src="../../js/Calendar3.js"></script>
+
+  <script type="text/javascript">
+   var isSaveOK=false;
+   var optType="";
+   var userCode="";
+   var isSys="yes";
+   
+   $(document).ready(function() {
+     initData();
+   } );
+   
+   function doBeforeClose(){
+     var obj={
+    		  "isSaveOK":isSaveOK
+    		};
+     top.setTempValue(obj);
+   }
+   
+   function doCancel(){
+	   top.closeDialog();
+   }
+   function doSubmit(){
+	   var aoData=[];
+
+     if ( optType == 'insertUser' ) {
+       aoData.push( { "name": "user.password", "value": top.hex_md5("12345678") } );
+     } else if ( optType == 'register' ) {
+	     if ( isSys == 'yes' ) {
+			 if ( $("#pass1").val() == '' ) {
+				  top.showInfoWinWarn("请设置登录密码");
+				  return ;
+			 }
+			 if ( $("#pass1").val() != $("#pass2").val() ) {
+				  top.showInfoWinWarn("两次输入的密码不一致");
+				  return ;
+			 }
+			 aoData.push( { "name": "user.password", "value": top.hex_md5( $("#pass1").val() ) } );
+		 } else {
+		     aoData.push( { "name": "user.password", "value": top.hex_md5( "12345678" ) } );
+		 }
+     }
+	 var checkMsg = checkForm();
+	 if ( checkMsg != '' ) {
+	     top.showInfoWinWarn(checkMsg);
+         return ;
+	 }
+     
+     aoData.push( { "name": "user.userCode", "value":$("#userCode").val() } );
+     aoData.push( { "name": "user.userName", "value": $("#userName").val() } );
+     aoData.push( { "name": "user.deptId", "value":$("#deptId").val() } );
+     aoData.push( { "name": "user.status", "value":$("#status").val() } );
+     aoData.push( { "name": "user.email", "value":$("#email").val() } );
+	 aoData.push( { "name": "user.sex", "value":$("#sex").val() } );
+	 aoData.push( { "name": "user.title", "value": $("#title").val() } );
+	 aoData.push( { "name": "user.job_title", "value": $("#job_title").val() } );
+	 aoData.push( { "name": "user.job_level", "value": $("#job_level").val() } );
+	 aoData.push( { "name": "user.entry_date", "value": top.toTimestamp( $("#entry_date").val() ) } );
+     aoData.push( { "name": "user.mobilePhone", "value":$("#mobilePhone").val() } );
+	 aoData.push( { "name": "user.officePhone", "value":$("#officePhone").val() } );
+     aoData.push( { "name": "user.avatar_path", "value":$("#avatar_path").val() } );
+	 
+	 top.sendAjaxRequest("/actions/User.action?"+optType,aoData,optCallback);
+   }
+   
+   function checkForm(){
+     var msg = "";
+     var temp = "";
+	 temp = $("#email").val();
+	 if ( temp != '' && !IsEmail( document.getElementById("email"), "1" ) ) {
+	   msg += "电子邮箱格式不正确<br>";
+	 }
+	 if ( temp == '' && isSys == 'no' ) {
+	   msg += "请留下您的电子邮箱地址,登录密码将发到您的邮箱<br/>";
+	 }
+	 temp = $("#mobilePhone").val();
+	 if ( temp != '' && !checkPhone(temp) ) {
+	   msg += "移动电话号码格式不正确<br>";
+	 }
+	 temp = $("#officePhone").val();
+	 if ( temp != '' && !checkPhone(temp) ) {
+	   msg += "办公电话号码格式不正确<br>";
+	 }
+	 temp = $("#userCode").val();
+	 if ( temp == '' ) {
+	   msg += "请填写用户账号<br>";
+	 }
+	 temp = $("#userName").val();
+	 if ( temp == '' ) {
+	   msg += "请输入姓名<br>";
+	 }
+	 temp = $("#deptId").val();
+	 if ( temp == '' ) {
+	   msg += "请选择部门<br>";
+	 }
+	 temp = $("#status").val();
+	 if ( temp == '' ) {
+	   msg += "请选择用户状态<br>";
+	 }
+     return msg;
+   }
+   
+   function optCallback(obj){
+	   try{
+	    if ( obj.status == true ){
+	     isSaveOK = true;
+	     if ( optType == 'register' ) {
+	     	 top.showInfoWinOK("注册成功,等待管理员激活账号.");
+	     } else top.showInfoWinOK("操作成功");
+		 top.closeDialog();
+	    }else{
+	    	isSaveOK = false;
+	      top.showInfoWinError("操作失败 "+obj.msg);
+	    }
+	   }catch(e){
+		  top.showInfoWinError("处理异常:"+e.message);
+	   }
+   }
+   function initData(){
+	   try{
+		   optType=top.getUrlParam(document.URL,"opt");
+		   isSys=top.getUrlParam(document.URL,"isSys");
+		   if ( !isSys || isSys == '' ) isSys="yes";
+		   userCode=top.getUrlParam(document.URL,"userCode");
+		   var qDeptId=top.getUrlParam(document.URL,"deptId");
+	     var qDeptName=decodeURI(top.getUrlParam(document.URL,"deptName"));
+	     $("#deptId").val( qDeptId );
+	     $("#deptName").val( qDeptName );
+		  if ( isSys == 'no' ) {
+		       $("#tr_dept").hide();
+			   $("#tr_pass1").hide();
+			   $("#tr_pass2").hide();
+			   $("#deptId").val("0");
+		   }
+		   if ( optType == 'updateUser' ) {
+			 $("#userCode").val( userCode );
+			 $("#userCode").attr("disabled",true);
+			 var aoData=[];
+		     aoData.push( { "name": "user.userCode", "value":userCode } );
+		     top.sendAjaxRequest("/actions/User.action?getDetailUserInfo",aoData,userInfoCallback);
+		   }else{
+			 $( "#tdStatus" ).html( top.getCodeSelectHtml("USER_STATUS","status",false,'1') );
+			 $( "#tdTitle" ).html( top.getCodeSelectHtml("SYS_TITLE","title",true) );
+			 $( "#tdPosition" ).html( top.getCodeSelectHtml("SYS_POSITION","job_title",true) );
+			 $( "#tdLevel" ).html( top.getCodeSelectHtml("JOB_LEVEL","job_level",true) );
+			 $( "#tdsex" ).html( top.getCodeSelectHtml("SEX","sex",true) );
+		   }
+		   var rightId="sys_addUser";
+	   	 if ( optType == 'updateUser' ) rightId="sys_editUser";
+	     if ( top.g_isPermit(rightId) || optType == 'register' ) {
+	     	 $( "#submitBtn" ).show();
+	     	 $( "#closeBtn" ).show();
+	     	 if ( optType == 'register' ) {
+				$( "#tdStatus" ).html( top.getCodeSelectHtml("USER_STATUS","status",true,'0') );
+				$( "#tdTitle" ).html( top.getCodeSelectHtml("SYS_TITLE","title",true) );
+				$( "#tdPosition" ).html( top.getCodeSelectHtml("SYS_POSITION","job_title",true) );
+				$( "#tdLevel" ).html( top.getCodeSelectHtml("JOB_LEVEL","job_level",true) );
+				$( "#tdsex" ).html( top.getCodeSelectHtml("SEX","sex",true) );
+			if ( isSys == 'yes' ) {
+	     	   	$("#tr_pass1").style.display="";
+	     	   	$("#tr_pass2").style.display="";
+			   }
+	     	   	$("#tr_status").style.display="none";
+				$("#status").val( "0" );
+	     	 }
+	     } else{
+	     	 $( "#submitBtn" ).hide();
+	     	 $( "#closeBtn" ).hide();
+	   	 }
+	   }catch(e){
+		   top.showInfoWinError(e.message);
+	   }
+   }
+   function userInfoCallback(obj){
+       try{
+        if ( obj.status == true ){
+          var user=obj.body;
+          $("#userName").val(user.userName);
+          $("#deptId").val(user.deptId);
+          $("#deptName").val( user.dept_name );
+          $("#email").val( user.email );
+		  $("#rolenames").html( user.rolenames );
+          $("#mobilePhone").val( user.mobilePhone );
+		  $("#officePhone").val( user.officePhone );
+          $("#tdStatus").html( top.getCodeSelectHtml("USER_STATUS","status",false,user.status) );
+
+          $("#tdTitle").html( top.getCodeSelectHtml("SYS_TITLE","title",true,user.title) );
+          $("#tdPosition").html( top.getCodeSelectHtml("SYS_POSITION","job_title",true,user.job_title) );
+          $("#tdLevel").html( top.getCodeSelectHtml("JOB_LEVEL","job_level",true,user.job_level) );
+
+		  $("#tdsex").html( top.getCodeSelectHtml("SEX","sex",true,user.sex) );
+		  $("#entry_date").val( top.getTimeStr(user.entry_date,true) );
+		  $("#avatar_path").val( user.avatar_path );
+		  if ( user.avatar_path != '' ) {
+		    $("#pic").attr("src",top.getUrlBase()+"/download?filePath="+user.avatar_path);
+		  }
+        }else{
+          top.showInfoWinError("操作失败");
+        }
+       }catch(e){
+          top.showInfoWinError("处理异常:"+e.message);
+       }
+   }
+   
+   function selectDept(){
+         var xurl="pages/organization/selectTreeNode.html?type=dept";
+	     try{
+			      var isDeptLimit=top.getIsDeptLimit();
+				  if ( isDeptLimit ) {
+				    xurl+='&rightLimit=1';
+				  }
+		 }catch(e){
+		 }
+         top.openSelectDialog("选择部门",xurl,300,450,selectDeptCallback);
+   }
+   
+   function selectDeptCallback(){
+       try{
+         var obj = top.getTempValue();
+         if ( obj.nodeId == -1 ) return ;
+         if ( obj.nodeId == -2 ) {
+             qDeptId = "";
+             qDeptName = "";
+         } else {
+             qDeptId = obj.nodeId;
+             qDeptName = obj.nodeName;
+         }
+         $("#deptId").val( qDeptId );
+         $("#deptName").val( qDeptName );
+       }catch(e){
+       }
+   }
+   
+ function uploadPic(){
+     var xurl="../uploadFileSimple.html?preFix=USER";
+     openDialog( "上传人员照片",xurl,true,500,200,uploadPicCallback);
+ }
+ 
+ function uploadPicCallback(obj){
+     try{
+	   var obj=top.getTempValue();
+	   if ( obj.isSaveOK ) {
+		  $("#pic").attr("src",top.getUrlBase()+"/download?filePath="+obj.filePath);
+		  $("#avatar_path").val( obj.filePath );
+	   }
+	 }catch(e){}
+ }
+ 
+ function openDialog(t,xurl,isModal,w,h,callback){
+		if ( isModal == undefined ) isModal=true;
+		if ( !h ) h=150;
+		if ( !w ) w=300;
+		$( "#dialog" ).dialog({
+			title: t,
+			height: h,
+			width: w,
+			modal: isModal,
+			resizable: false,
+		    beforeClose: function(event, ui) {
+		        try{
+		            document.getElementById("self_iframe").contentWindow.doBeforeClose();
+		            if ( callback ) callback.apply();
+		        }catch(e){
+		        }
+		        return true;
+		    }
+		});
+		document.getElementById("self_iframe").src = xurl;
+    }
+  </script> 
+</head>
+<body style="overflow:hidden;">
+<input type="hidden" id="deptId" value="" />
+<br>
+<table width="100%" border="0" padding="0" spacing="0">
+ <tr class="tr_data">
+    <td width="20%" align="right">用户帐号:</td>
+    <td width="40%" align="left"><input type="text" id="userCode" value="" size="15"/></td>
+	<td width="40%">照片&nbsp;<input type="button" id="btnUploadPic" onclick="uploadPic()" value="上传"/></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right">用户姓名:</td>
+    <td align="left"><input type="text" id="userName" value="" size="15" /></td>
+	<td rowspan="8" valign="top">
+		<img src="../../img/photos.png" height="180px" id="pic"/>
+		<input type="hidden" id="avatar_path" value="" />
+	</td>
+ </tr>
+ <tr id="tr_status" class="tr_data">
+    <td align="right">帐号状态:</td>
+    <td align="left" id="tdStatus"></td>
+ </tr>
+ <tr id="tr_status" class="tr_data">
+    <td align="right">性&nbsp;&nbsp;别:</td>
+    <td align="left" id="tdsex"></td>
+ </tr>
+ <tr id="tr_title" class="tr_data">
+    <td align="right">职&nbsp;&nbsp;务:</td>
+    <td align="left" id="tdTitle"></td>
+ </tr>
+ <tr id="tr_job_title" class="tr_data">
+    <td align="right">职&nbsp;&nbsp;位:</td>
+    <td align="left" id="tdPosition"></td>
+ </tr>
+ <tr id="tr_job_level" class="tr_data">
+    <td align="right">职&nbsp;&nbsp;级:</td>
+    <td align="left" id="tdLevel"></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right">入职日期:</td>
+    <td align="left"><input type="date" id="entry_date"  value="" size="10" /></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right">办公电话:</td>
+    <td align="left" ><input type="text" id="officePhone" value="" size="15" /></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right">移动电话:</td>
+    <td align="left" ><input type="text" id="mobilePhone" value="" size="15" /></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right">电子邮箱:</td>
+    <td align="left"><input type="text" id="email" value="" size="45" /></td>
+ </tr>
+ <tr id="tr_dept" class="tr_data">
+    <td align="right">部&nbsp;&nbsp;门:</td>
+    <td align="left" colspan="2"><input type="text" id="deptName" size="45" readonly onclick="selectDept()"></input></td>
+ </tr>
+ <!-- <tr id="tr_role" class="tr_data">
+    <td align="right">角&nbsp;&nbsp;色:</td>
+    <td align="left" colspan="2" id="rolenames"></td>
+ </tr> -->
+ <tr id="tr_pass1" style="display:none" class="tr_data">
+    <td align="right">密码(<font color="red">*</font>):</td>
+    <td align="left" colspan="2"><input type="password" id="pass1" value="" size="15" /></td>
+ </tr>
+ <tr id="tr_pass2" style="display:none" class="tr_data">
+    <td align="right">密码确认:</td>
+    <td align="left" colspan="2"><input type="password" id="pass2" value="" size="15" /></td>
+ </tr>
+</table>
+<br/><br/>
+<p align="center">
+   <table><tr>
+		    <td><div id="okBtn" class="buttonDivTwo"><a href="javascript:doSubmit()">提交</a></div></td>
+		    <td><div id="cancelBtn" class="buttonDivTwo"><a href="javascript:doCancel()">关闭</a></div></td>
+   </tr></table>
+</p>
+<div id="dialog" title="" style="display:none;padding: 0 0 0 0;margin: 0 0 0 0;z-index:10000">
+    <iframe id="self_iframe" src="about:blank" width="100%" height="96%" frameborder="0"></iframe>
+ </div>
+</body>
+</html>

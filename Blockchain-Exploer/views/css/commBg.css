@@ -1,0 +1,6 @@
+bodyTest {
+	background-image: url(../img/bg_repeat_x90.png);
+	background-repeat: repeat;
+	background-position:bottom;
+	height:100%;
+}

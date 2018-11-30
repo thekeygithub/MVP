@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery-2.0.3.min.js"></script>
+		<script src="../js/public.js"></script>
+		<style>
+			.submit-btn{
+				width: 94%;
+				margin: 10px 10px 10px;
+				display: none;
+			}
+			.font12{
+				font-size: 14px;
+			}
+			.clearMT{
+				margin-top: 0 !important;
+			}
+			.red{
+				color: red;
+			}
+		</style>
+		<script type="text/javascript">
+			var jsessionid=getUrlParam(document.URL,"jsessionid");
+			var phone=getUrlParam(document.URL,"phone");
+			var productId=getUrlParam(document.URL,"productId");
+			mui.init();
+			$(function(){
+				getProductDetail();
+			});
+			function getProductDetail(){
+				var aoData=[];
+				aoData.push({"name":"id","value":productId});
+				aoData.push({"name":"token","value":jsessionid});
+				aoData.push({"name":"mobile","value":phone});
+				$.ajax({
+					url:''+getUrlBase()+'/applyController/getProductApplyById',
+					data:aoData,
+					type:'post',
+					dataType:'json',
+					success:function(res){
+						$("#product_name").html(res.body.product_name);
+						$("#product_insured_age").html(res.body.product_insured_age);
+						$("#product_money").html(res.body.product_money);
+						$("#contractNumber").html(res.body.contractNo);
+						$("#product_insurance_period").html(res.body.product_insurance_period);
+						$("#product_payment_time").html(res.body.product_payment_time);
+						$("#product_payment_method").html(res.body.product_payment_method);
+						$("#product_hesitation").html(res.body.product_hesitation);
+						$("#product_waiting_period").html(res.body.product_waiting_period);
+						$("#product_insurance_area").html(res.body.product_insurance_area);
+						$("#examineStatus").html(getExamineStatus(res.body.status));		
+						$("#payStatus").html(getPayStatus(res.body.payment_status));
+						$("#payMoney").html(res.body.amount+" TKY");
+						if(res.body.status==1 && res.body.payment_status==0){
+							$(".submit-btn").show();
+						}
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown){
+						mui.alert(""+textStatus+"","提示","确认",submitFailCallback,{type:"div"});
+					}
+				});
+			}
+			function submintData(){
+				try{
+						window.android.toCheck();
+				}catch(e){
+				}
+			}
+			function afterAndroidCheck(status){
+				if(status==2){
+					submitPay();
+				}else{
+					failCallback();
+				}
+			}
+			function getExamineStatus(str){
+				var examineStatus="";
+				if(str==0){
+					examineStatus="未审核";
+				}else if(str==1){
+					examineStatus="通过";
+				}else{
+					examineStatus="不通过";
+				}
+				return examineStatus;
+			}
+			function getPayStatus(str){
+				var payStatus="";
+				if(str==0){
+					payStatus="未支付";
+				}else{
+					payStatus="已支付";
+				}
+				return payStatus;
+			}
+			function submitPay(){
+				var aoData=[];
+				aoData.push({"name":"id","value":productId});
+				aoData.push({"name":"token","value":jsessionid});
+				aoData.push({"name":"mobile","value":phone});
+				$.ajax({
+					url:''+getUrlBase()+'/applyController/payProductFee',
+					data:aoData,
+					type:'post',
+					dataType:'json',
+					success:function(res){
+						if(res.status){
+							successCallback();
+						}
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown){
+						mui.alert(""+textStatus+"","提示","确认",submitFailCallback,{type:"div"});
+					}
+				});
+			}
+			function successCallback(){
+				mui.alert("支付成功","提示","确认",submitCallback,{type:"div"});
+			}
+			function submitCallback(){
+				window.location.href="balance.html?jsessionid="+jsessionid+"&phone="+phone+"";
+			}
+			function failCallback(){
+					mui.alert("验证失败，请重新验证","提示","确认",submitFailCallback,{type:"div"});
+			}
+			function submitFailCallback(){
+				
+			}
+			function getUrlParam(xurl,name){
+				var para="";
+				if(xurl.lastIndexOf("?")>0){
+					para=xurl.substring(xurl.lastIndexOf("?")+1,xurl.length);
+					var arr=para.split("&");
+					para="";
+					for(var i=0;i<arr.length;i++){
+						if(arr[i].split("=")[0]==name) return arr[i].split("=")[1];
+					}
+					return "";
+				}else{
+					return "";
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">详细信息</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view clearMT">
+				<li class="mui-table-view-cell">
+					保险公司：<span id="company">太平洋保险</span>
+				</li>
+				<li class="mui-table-view-cell">
+					<label>产品名称：</label><span id="product_name" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					<label>合同单号：</label><span id="contractNumber" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					被保人年龄：<span id="product_insured_age" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					报账金额：<span id="product_money" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					保险期间：<span id="product_insurance_period" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					缴费年限：<span id="product_payment_time" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					缴费方式：<span id="product_payment_method" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					犹豫期：<span id="product_hesitation" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					等待期：<span id="product_waiting_period" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					投保地区：<span id="product_insurance_area" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					审核状态：<span id="examineStatus" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					支付状态：<span id="payStatus" class="font12"></span>
+				</li>
+				<li class="mui-table-view-cell red">
+					支付金额：<span id="payMoney" class="font12"></span>
+				</li>
+			</ul>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block submit-btn" onclick="submintData()">支付</button>
+		</div>
+	</body>
+
+</html>

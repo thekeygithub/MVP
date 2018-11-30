@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/editUserInfo.css">
+		<script src="../js/mui.js"></script>
+		<script src="../js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="../js/public.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">编辑个人信息</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view editui-ul">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="#">头像</a>
+					<div class="userImg">
+						<img src="../img/head.png" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell editui-ul-li">
+					<a class="mui-navigate-right" href="#" onclick="editName('userName','姓名','请输入您的姓名')">
+						姓名
+					</a>
+					<span id="userName"></span>
+				</li>
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">性别</a>
+					<div class="mui-collapse-content">
+						<div class="mui-input-row mui-radio">
+							<label>男</label>
+							<input name="sex" type="radio" class="userSex" value="男">
+						</div>
+						<div class="mui-input-row mui-radio" class="userSex" value="女">
+							<label>女</label>
+							<input name="sex" type="radio">
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell editui-ul-li" onclick="editName('userPhone','手机号','请输入手机号')">
+					<a class="mui-navigate-right">
+						手机号
+					</a>
+					<span id="userPhone"></span>
+				</li>
+				<li class="mui-table-view-cell editui-ul-li" onclick="editName('idCard','身份证号','请输入身份证号')">
+					<a class="mui-navigate-right">
+						身份证号
+					</a>
+					<span id="idCard"></span>
+				</li>
+				<li class="mui-table-view-cell editui-ul-li" onclick="editName('socialSecurityNumber','社保卡号','请输入社保卡号')">
+					<a class="mui-navigate-right">
+						社保卡号
+					</a>
+					<span id="socialSecurityNumber"></span>
+				</li>
+			</ul>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block save-btn" onclick="submitData()">保存</button>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var jsessionid=getUrlParam(document.URL,"jsessionid");
+		var phone=getUrlParam(document.URL,"phone");
+		var editDom="";
+		$(function(){
+				getUserInfo();
+		});
+		function getUserInfo(){
+			var aoData=[];
+			aoData.push({"name":"phone","value":phone});
+			$.ajax({
+				url:''+getUrlBase()+'/applyController/getUserInfo',
+				data:aoData,
+				dataType:"json",
+				type:'post',
+				headers:{},
+				success:function(res){
+					var info = res.body;
+					$("#userName").html(info.name);
+					$("#userPhone").html(info.phone);
+					$("#idCard").html(info.id_card);
+					$("#socialSecurityNumber").html(info.social_id);
+					$(".userSex[value="+info.sex+"]").attr("checked","true");
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown){
+					mui.alert(""+textStatus+"","提示","确认",submitFailCallback,{type:"div"});
+				}
+			});
+		}
+		//修改姓名
+		function editName(domId,name,detal){
+			mui.prompt('',''+detal+'',''+name+'',['确定','取消'],editNameCallBack,'div');
+			editDom=domId;
+		}
+		function editNameCallBack(data){
+			var name=data.value.replace('/\s*/g',"");
+			$("#"+editDom+"").html(name);
+		} 
+		function submitData(){
+			var aoData=[];
+			var sex="";
+			sex=$(".userSex:checked").val();
+			aoData.push({"name":"name","value":$("#userName").html()});
+			aoData.push({"name":"sex","value":sex});
+			aoData.push({"name":"phone","value":$("#userPhone").html()});
+			aoData.push({"name":"id_card","value":$("#idCard").html()});
+			aoData.push({"name":"social_id","value":$("#socialSecurityNumber").html()});
+			$.ajax({
+				url:''+getUrlBase()+'/applyController/updateUserInfo',
+				data:aoData,
+				dataType:"json",
+				type:'post',
+				headers:{},
+				success:function(res){
+					//成功后执行
+					if(res.status){
+						successCallback()
+					}else{
+						mui.alert(""+res.message+"","提示","确认",submitFailCallback,{type:"div"});
+					}
+				}
+			});	
+		}
+		function successCallback(){
+			mui.alert("提交成功","提示","确认",submitCallback,{type:"div"});
+		}
+		function submitCallback(){
+			history.go(-1);
+		}
+		function submitFailCallback(){
+		}
+		function getUrlParam(xurl,name){
+			var para="";
+			if(xurl.lastIndexOf("?")>0){
+				para=xurl.substring(xurl.lastIndexOf("?")+1,xurl.length);
+				var arr=para.split("&");
+				para="";
+				for(var i=0;i<arr.length;i++){
+				if(arr[i].split("=")[0]==name) return arr[i].split("=")[1];
+				}
+				return "";
+		}else{
+				return "";
+		}
+		}
+	</script>
+</html>

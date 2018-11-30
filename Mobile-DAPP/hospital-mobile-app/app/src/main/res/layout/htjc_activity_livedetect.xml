@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android_custom="http://schemas.android.com/apk/res/com.hisign.facelivedetection.yisuo.four"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="top|left"
+    android:orientation="vertical"
+    tools:context="com.livedetect.LiveDetectActivity" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:background="@color/htjc_live_bg" >
+
+        <SurfaceView
+            android:id="@+id/sfv_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top" />
+
+        <ImageView
+            android:id="@+id/tv_person1"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@color/htjc_live_bg"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:text="20"
+            android:textColor="@color/htjc_orange"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal|top"
+            android:paddingTop="80dp"
+            android:text="4521574545"
+            android:textColor="@color/htjc_red"
+            android:textSize="23sp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <!-- 底部动画 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/htjc_title_bg" >
+
+            <ImageView
+                android:id="@+id/iv_return"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/htjc_title_return" 
+               />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/htjc_main_title"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="4" >
+
+                    <ImageView
+                        android:id="@+id/iv_facerect"
+                        android:layout_width="@dimen/htjc_img_range_bg_layout_width"
+                        android:layout_height="@dimen/htjc_img_range_bg_layout_height"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/htjc_line2"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/iv_guider"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/htjc_anim_livedetect_flickering"
+                        />
+					<ImageView
+                        android:id="@+id/iv_succeed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/htjc_anim_livedetect_succeed"
+                        android:visibility="gone"
+                        />
+                    <RelativeLayout
+                        android:id="@+id/rl_tip"
+                        android:layout_width="220dip"
+                        android:layout_height="36dip"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/htjc_remind_bg"
+                        android:visibility="gone" >
+
+                        <TextView
+                            android:id="@+id/tv_tip"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_centerInParent="true"
+                            android:gravity="center"
+                            android:text="@string/htjc_guide_remind_dark"
+                            android:textColor="@color/htjc_txt_black"
+                            android:textSize="19sp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/htjc_main_bg"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/txt_message"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center"
+                            android:text="@string/htjc_face_in_box"
+                            android:textColor="@color/htjc_white"
+                            android:textSize="22sp" />
+
+                        <RelativeLayout
+                            android:id="@+id/rl_progress_anim"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp" >
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center" >
+
+                                <com.livedetect.view.RoundProgressBar
+                                    android:id="@+id/roundProgressBar"
+                                    android:layout_width="154dp"
+                                    android:layout_height="154dp"
+                                    android:visibility="gone" />
+                                <!--
+                                android_custom:roundColor="#004b5e"
+                                    android_custom:roundProgressColor="#ed7d00"
+                                    android_custom:roundWidth="7dip"
+                                    android_custom:textIsDisplayable="false"
+                                -->
+                            </RelativeLayout>
+
+                            <RelativeLayout
+                                android:layout_width="140dp"
+                                android:layout_height="140dp"
+                                android:layout_centerInParent="true"
+                                android:gravity="center" >
+
+                                <LinearLayout
+                                    android:id="@+id/ll_start"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_centerInParent="true"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical" >
+
+                                    <ImageView
+                                        android:id="@+id/iv_start"
+                                        android:layout_width="140dp"
+                                        android:layout_height="140dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:background="@drawable/htjc_dark"
+                                        android:contentDescription="@string/htjc_look_at_me"
+                                        android:visibility="visible" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/ll_gaze3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:orientation="vertical"
+                                    android:visibility="gone" >
+
+                                    <ImageView
+                                        android:id="@+id/ll_gazeiv3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:background="@drawable/htjc_normal"
+                                        android:contentDescription="@string/htjc_look_at_me"
+                                        android:visibility="visible" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/ll_shake"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:orientation="vertical"
+                                    android:visibility="gone" >
+
+                                    <ImageView
+                                        android:id="@+id/img_shake"
+                                        android:layout_width="140dp"
+                                        android:layout_height="140dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:background="@drawable/htjc_miaodaianim"
+                                        android:contentDescription="@string/htjc_look_at_me"
+                                        android:visibility="visible" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/ll_nod"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:orientation="vertical"
+                                    android:visibility="gone" >
+
+                                    <ImageView
+                                        android:id="@+id/img_nod"
+                                        android:layout_width="140dp"
+                                        android:layout_height="140dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:background="@drawable/htjc_miaodaianimnod"
+                                        android:contentDescription="@string/htjc_look_at_me"
+                                        android:visibility="visible" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/ll_left"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:orientation="vertical"
+                                    android:visibility="gone" >
+
+                                    <ImageView
+                                        android:id="@+id/img_left"
+                                        android:layout_width="140dp"
+                                        android:layout_height="140dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:background="@drawable/htjc_miaodaianimleft"
+                                        android:contentDescription="@string/htjc_look_at_me"
+                                        android:visibility="visible" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/ll_right"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:orientation="vertical"
+                                    android:visibility="gone" >
+
+                                    <ImageView
+                                        android:id="@+id/img_right"
+                                        android:layout_width="140dp"
+                                        android:layout_height="140dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:background="@drawable/htjc_miaodaianimright"
+                                        android:contentDescription="@string/htjc_look_at_me"
+                                        android:visibility="visible" />
+                                     </LinearLayout>
+                                     <LinearLayout
+                                    android:id="@+id/ll_blink"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:orientation="vertical"
+                                    android:visibility="gone" >
+
+                                    <ImageView
+                                        android:id="@+id/img_blink"
+                                        android:layout_width="140dp"
+                                        android:layout_height="140dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:background="@drawable/htjc_miaodaianimblink"
+                                        android:contentDescription="@string/htjc_look_at_me"
+                                        android:visibility="visible" />
+                                     </LinearLayout>
+                                     <LinearLayout
+                                    android:id="@+id/ll_openmouth"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
+                                    android:orientation="vertical"
+                                    android:visibility="gone" >
+
+                                    <ImageView
+                                        android:id="@+id/img_openmouth"
+                                        android:layout_width="140dp"
+                                        android:layout_height="140dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:background="@drawable/htjc_miaodaianimopenmouth"
+                                        android:contentDescription="@string/htjc_look_at_me"
+                                        android:visibility="visible" />
+                                </LinearLayout>
+                            </RelativeLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_gaze"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:background="#7fff8410"
+                android:gravity="center"
+                android:text="请您尽量保持不动，采集照片中..."
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_rocket"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#7f000000"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/htjc_live_rocket" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="飞速加载中，请稍等！"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

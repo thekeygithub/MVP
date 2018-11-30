@@ -1,0 +1,210 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	<link href="css/login_css.css" rel="stylesheet" type="text/css">
+    <link href="lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />  
+    <link rel="stylesheet" type="text/css" id="mylink"/>
+	<link href="css/redmond/jquery.ui.all.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script src="lib/ligerUI/js/ligerui.min.js" type="text/javascript"></script> 
+    <script src="lib/ligerUI/js/plugins/ligerTab.js"></script>
+    <script src="lib/jquery.cookie.js"></script>
+    <script src="lib/json2.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+ 
+<script type="text/javascript">
+var tab = null;
+var accordion = null;
+var tabItems = [];
+
+	jQuery(document).ready(function() {
+	   pages_init();
+	});
+	
+	function f_heightChanged(options){  
+	  if (tab) tab.addHeight(options.diff);
+	  if (accordion && options.middleHeight - 24 > 0) accordion.setHeight(options.middleHeight - 24);
+	}
+			
+	function f_addTab(tabid, text, url) {
+	    tab.removeTabItem( tabid );
+        tab.addTabItem({
+            tabid: tabid,
+            text: text,
+            url: url,
+            callback: function () {
+                //addFrameSkinLink(tabid); 
+            }
+        });
+	}
+	function saveTabStatus() { 
+	}
+	function attachLinkToFrame(iframeId, filename) { 
+        if(!window.frames[iframeId]) return;
+        var head = window.frames[iframeId].document.getElementsByTagName('head').item(0);
+        var fileref = window.frames[iframeId].document.createElement("link");
+        if (!fileref) return;
+        fileref.setAttribute("rel", "stylesheet");
+        fileref.setAttribute("type", "text/css");
+        fileref.setAttribute("href", filename);
+        head.appendChild(fileref);
+	}
+	function getLinkPrevHref(iframeId) {
+		if (!window.frames[iframeId]) return;
+            var head = window.frames[iframeId].document.getElementsByTagName('head').item(0);
+            var links = $("link:first", head);
+            for (var i = 0; links[i]; i++){
+                var href = $(links[i]).attr("href");
+                if (href && href.toLowerCase().indexOf("ligerui") > 0) {
+                    return href.substring(0, href.toLowerCase().indexOf("lib") );
+                }
+            }
+	}
+			
+	// 自定义的函数
+	function pages_init(){
+	    $('#pageloading').hide();
+		$('#layout1').show();
+		 //布局
+					$("#layout1").ligerLayout({ topHeight:0, leftWidth: 0, height: '100%',heightDiff:-3,space:2, onHeightChanged: f_heightChanged });
+
+					var height = $(".l-layout-center").height();
+
+					//Tab
+					$("#framecenter").ligerTab({
+						height: height,
+						showSwitchInTab : true,
+						showSwitch: true,
+						onAfterAddTabItem: function (tabdata)
+						{
+							tabItems.push(tabdata);
+							saveTabStatus();
+						},
+						onAfterRemoveTabItem: function (tabid)
+						{ 
+							for (var i = 0; i < tabItems.length; i++)
+							{
+								var o = tabItems[i];
+								if (o.tabid == tabid)
+								{
+									tabItems.splice(i, 1);
+									saveTabStatus();
+									break;
+								}
+							}
+
+							afterCloseTabFun();
+
+						},
+						onReload: function (tabdata)
+						{
+							var tabid = tabdata.tabid;
+						}
+					});
+
+					$(".l-link").hover(function ()
+					{
+						$(this).addClass("l-link-over");
+					}, function ()
+					{
+						$(this).removeClass("l-link-over");
+					});
+					tab = liger.get("framecenter");
+
+					$("#pageloading").hide();
+					
+			loadMainPage();
+	}
+
+    function afterCloseTabFun(){
+		 try{
+			 if ( parent.afterCloseTabFun ) {
+				 parent.afterCloseTabFun();
+			 }
+		 }catch(e){
+
+		 }
+	}
+
+	function MenuObj(txt,ise){
+		this.text=txt;
+		this.isexpand=ise;
+		this.children=[];
+	}
+ 	function loadMainPage(){
+	    $("#home").attr("src",top.getMainPage());
+	}
+	function toSysTab(title,xurl){
+		try{
+		  f_addTab(title,title,xurl);
+		}catch(e){}
+	}
+	function colseCurPage(){
+	    if($("li.l-selected").attr("tabid")=='home') return;
+		tab.removeTabItem($("li.l-selected").attr("tabid"));
+	}
+	function returnHome(){
+		 tab.selectTabItem("home");
+    }
+</script> 
+<style type="text/css"> 
+    body,html{height:100%;}
+    body{ padding:0px; margin:0; overflow:hidden;}  
+    .l-link{ display:block; height:26px; line-height:26px; padding:2px 5px 2px 10px; text-decoration:underline; color:#333;}
+    .l-link2{text-decoration:none; margin:2px;}
+    .l-layout-top{background:#102A49; color:White;}
+    .l-layout-bottom{ background:#E5EDEF; text-align:center;}
+	#pageloading{position:absolute; left:0px; top:0px; background:white url('loading.gif') no-repeat center; width:100%; height:100%;z-index:99999;}
+    .l-link{ display:block; line-height:22px; height:22px; padding-left:16px;border:1px solid white; margin:4px;}
+    .l-link-over{ background:#FFEEAC; border:1px solid #DB9F00;} 
+    .l-winbar{ background:#2B5A76; height:30px; position:absolute; left:0px; bottom:0px; width:100%; z-index:99999;}
+    .space{ color:#E7E7E7;}
+    /* 顶部 */ 
+	.l-topmenu{margin:0px;padding:0px;vertical-align:middle;height:70px; line-height:70px; background-color:#79BAEC; background-image:url(img/bj.jpg); background-repeat: repeat-x; border:1px solid #79BAEC;  }
+    #sysTitle{margin:0px;padding:0px;display:inline;height:70px;line-height:70px;font-size:25px;color:#0000ff;letter-spacing:2px;}
+	.l-topmenu-welcome{float:right;margin-right:10px;height:70px;line-hieght:70px}
+    .l-topmenu-welcome a{text-decoration:none} 
+   .top-title{
+	width:100px;heght:25px;backgroud-color:#E7E7E7;border:#E7E7E7 solid 1px;
+   }
+   .body-gray2014 #framecenter{
+        margin-top:3px;
+    }
+      .viewsourcelink {
+         background:#B3D9F7;  display:block; position:absolute; right:10px; top:3px; padding:6px 4px; color:#333; text-decoration:underline;
+    }
+    .viewsourcelink-over {
+        background:#81C0F2;
+    }
+    .l-topmenu-welcome label {color:white;
+    }
+    #skinSelect {
+        margin-right: 6px;
+    }
+	 .themeList li div { background:url(img/themeButton.png) no-repeat;}
+	/* .themeList { position:absolute; top:80px; right:190px;}*/
+	 .themeList {margin-right:20px}
+	 .themeList li { float:left; padding:0 3px;}
+	 .themeList li div { display:block; overflow:hidden; width:13px; height:11px; text-indent:-100px; cursor:pointer;}
+	 .themeList li.aqua div { background-position:0 0;}
+	 .themeList li.aqua .selected { background-position:0 -20px;}
+	 .themeList li.silvery div { background-position:-20px 0;}
+	 .themeList li.silvery .selected { background-position:-20px -20px;}
+	 .themeList li.gray div { background-position:-40px 0;}
+	 .themeList li.gray .selected { background-position:-40px -20px;}
+	 .themeList li.gray2014 div { background-position:-60px 0;}
+	 .themeList li.gray2014 .selected { background-position:-60px -20px;}
+ </style>
+</head>
+<body style="padding:0px;background:#EAEEF5;">
+<div id="pageloading"></div>
+<div id="layout1" style="width:99.2%; margin:0 auto; margin-top:0px; display:none"> 
+        <div position="center" id="framecenter"> 
+            <div tabid="home" title="首页" style="height:300px" >
+                <iframe frameborder="0" name="home" id="home" src="about:blank"></iframe>
+            </div> 
+        </div> 
+</div>
+
+</body>
+</html>

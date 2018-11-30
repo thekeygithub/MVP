@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="Access-Control-Allow-Origin" content="*">
+		<link href="../css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/register.css">
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript" language="javascript" src="../js/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="../js/public.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			var token=getUrlParam(document.URL,"token");
+			var jsid=getUrlParam(document.URL,"jsid");
+			var deviceType=getUrlParam(document.URL,"deviceType");
+			function registered(){
+				var datas=[];
+				var dmobile = document.getElementById("mobile").value;
+				var dpwd = document.getElementById("pwd").value;
+				if(!isPoneAvailable($("#mobile").val())){
+					mui.alert("手机号不正确,请输入有效手机号","提示","确认",tipsCallback,{type:"div"});
+				}else if($("#pwd").val().replace(/\s*/g,"") ==""){
+					mui.alert("密码不能为空","提示","确认",tipsCallback,{type:"div"});
+				}else if($("#pwd").val() != $("#nextPwd").val()){
+					mui.alert("两次密码不一致，请重新输入","提示","确认",tipsCallback,{type:"div"});
+				}else if(!$("#agree").prop("checked")){
+					mui.alert("请同意注册条款","提示","确认",tipsCallback,{type:"div"});
+				}
+				else{
+					datas.push({"name":"mobile","value":dmobile});
+					datas.push({"name":"password","value":dpwd});
+
+					$.ajax({
+							url:''+getUrlBase()+'/InfoController/addCustInfo',
+							data:datas,
+							type : "post",
+							dataType : "json",
+							success : function(res) {
+							console.log(res);
+								if(res.status){
+								mui.alert("注册成功","提示","确认",submitFailCallback,{type:"div"});
+								//window.android.registered();
+								}else{
+									mui.alert(""+res.msg+"","提示","确认",submitFailCallback,{type:"div"});
+								}
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown){
+								mui.alert(""+textStatus+"","提示","确认",submitFailCallback,{type:"div"});
+							}
+					});
+				}	 
+			}
+			function tipsCallback(){
+				
+			}
+			function isPoneAvailable(str) {            
+				var myreg=/^[1][3,4,5,7,8,9][0-9]{9}$/;            
+				if (!myreg.test(str)) {                
+					return false;            
+				} else {                
+					return true;            
+				}        
+			}
+			function getUrlParam(xurl,name){
+				var para="";
+				if(xurl.lastIndexOf("?")>0){
+					para=xurl.substring(xurl.lastIndexOf("?")+1,xurl.length);
+					var arr=para.split("&");
+					para="";
+					for(var i=0;i<arr.length;i++){
+					if(arr[i].split("=")[0]==name) return arr[i].split("=")[1];
+					}
+					return "";
+				}else{
+						return "";
+				}
+			}
+			function submitFailCallback(){
+			}
+			function returnBack(){
+				window.android.goback();
+			}
+		</script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left goBack" onclick="returnBack()"></a>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row phone">
+					<label>手机号</label>
+					<input class="mui-numbox-input" id="mobile" type="number" placeholder="请输入您的手机号">
+					<!--<a href="#" onclick="getmessage()">点击获取验证码</a>-->
+				</div>
+				<!--<div class="mui-input-row">-->
+					<!--<label>输入验证码</label>-->
+					<!--<input type="text" class="mui-input-clear" placeholder="请输入短信验证码">-->
+				<!--</div>-->
+				<div class="mui-input-row">
+					<label>设置密码</label>
+					<input type="password" class="mui-input-password" id="pwd"  placeholder="请输入密码">
+				</div>
+				<div class="mui-input-row">
+					<label>确认密码</label>
+					<input type="password" class="mui-input-password" placeholder="再次输入密码" id="nextPwd">
+				</div>
+				<div class="mui-input-row mui-checkbox mui-left">
+				  <label><a href="">我已同意注册条款</a></label>
+				  <input name="checkbox1" type="checkbox" id="agree">
+				</div>
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block registered" onclick="registered()">注册</button>
+			</form>
+		</div>
+	</body>
+<script type="text/javascript">
+	function getmessage(){
+		mui.toast('发送成功',{ duration:'long', type:'div' }) 
+	}
+</script>
+</html>

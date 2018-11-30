@@ -1,0 +1,62 @@
+@charset "utf-8";
+
+	dl.tabs {
+		position:relative;
+	}
+		dl.tabs dt {
+			background:#e0e0e0;
+			padding:8px 10px;
+			border:none;
+			color:#333;
+			float:left;
+			padding:7px 9px 8px 9px;
+			font-family:Arial, Helvetica, sans-serif;
+			font-size:13px;
+			font-weight:bold;
+			margin:0 3px 0 0;	
+			text-transform:uppercase;
+		}
+			
+		dl.tabs dd {
+			border:10px solid #bdbdbd;
+			width:450px;
+			height:278px;
+			background:#6c6c6c;		
+			clear:both;
+			display:block;
+		}
+					
+		/* if JS is ACTIVATED, enable new style to dl.tabs */
+		dl.tabs.enabled {
+			height:332px;
+		}
+		dl.tabs.enabled dt {
+			background:#e0e0e0;
+			border-width:0;
+			border-color:#e8e8e8;
+			border-style:solid;
+			color:#7a7a7a;
+			cursor:pointer;
+		}
+			dl.tabs.enabled dt:hover {
+				background-color:#d2d2d2;
+				color:#fff;
+			}
+		dl.tabs.enabled dt.active {
+			background:#bdbdbd;
+			padding:8px 10px;
+			border:none;
+			color:#000;
+			cursor:default;
+		}
+			dl.tabs.enabled dd {
+				position:absolute;
+				top:34px;
+				left:0;
+				margin:0;
+				z-index:1;
+				clear:none;
+			}
+			dl.tabs.enabled dd.active {
+				z-index:3;
+			}

@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/register.css">
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row phone">
+					<label>手机号</label>
+					<input class="mui-numbox-input" type="number" placeholder="请输入您的手机号">
+					<a href="#" onclick="getmessage()">点击获取验证码</a>
+				</div>
+				<div class="mui-input-row">
+					<label>输入验证码</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入短信验证码">
+				</div>
+				<div class="mui-input-row">
+					<label>设置密码</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入密码">
+				</div>
+				<div class="mui-input-row">
+					<label>确认密码</label>
+					<input type="text" class="mui-input-clear" placeholder="再次输入密码">
+				</div>
+				<div class="mui-input-row mui-checkbox mui-left">
+				  <label><a href="">我已同意注册条款</a></label>
+				  <input name="checkbox1" type="checkbox" checked >
+				</div>	
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block">注册</button>
+			</form>
+		</div>
+	</body>
+<script type="text/javascript">
+	function getmessage(){
+		mui.toast('发送成功',{ duration:'long', type:'div' }) 
+	}
+</script>
+</html>

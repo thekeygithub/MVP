@@ -1,0 +1,222 @@
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="../css/comm.css">
+		<link rel="stylesheet" type="text/css" href="../css/fileuploader.css">
+		<script src="../js/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" language="javascript"
+			src="../js/jquery-ui-1.8.16.custom.min.js"></script>
+		<script src="../js/ui.tabs.js" type="text/javascript"></script>
+		<script type="text/javascript" src="../js/fileuploader.js"></script>
+		<script type="text/javascript">
+   var uploader = null;
+   var uploadFileNames=[];
+   var currentFileName="";
+   var belong_id="";
+   var file_path="";
+   var file_name="";
+   var file_source="";
+   var file_tags="";
+   var belong_type="";
+   var file_level="";
+   var timeStamp=0;
+   var uf=null;
+   var fileNames=[];
+   var curRow=-1;//记录添加文件行数 累加
+   var preRow=-1;//记录点击上传按钮时行数 便于多文件上传时id：0、1、2区别上一次0、1、2 此次操作的行数等于preRow+id+1
+                 //第一次操作行数为 preRow=curRow
+
+    $(document).ready(function() {
+			belong_type=top.getUrlParam(document.URL,"belong_type");
+			file_source=decodeURI(top.getUrlParam(document.URL,"file_source"));
+			belong_id0=decodeURI(top.getUrlParam(document.URL,"belong_id0"));
+			belong_id=decodeURI(top.getUrlParam(document.URL,"belong_id"));
+			belong_id2=decodeURI(top.getUrlParam(document.URL,"belong_id2"));
+			if ( belong_id2 == null ) belong_id2="";
+			if ( belong_id0 == null ) belong_id0="";
+			if ( file_source == null ) file_source="";
+			if ( belong_type == null ) belong_type="";
+			
+			var d=new Date();
+			timeStamp=d.getTime();
+			uf=new qq.FileUploader({
+                 element: document.getElementById('file-uploader-fileName'),
+                 action: top.getUrlBase()+"/uploadFile",
+				 debug: false,
+				 disableDefaultDropzone: false,
+				 disableCancelForFormUploads: true,//
+                 extraDropzones: [qq.getByClass(document, 'qq-upload-extra-drop-area')[0]],
+				 onUpload: function(id, fileName, xhr){
+				 addLoadRow(id,fileName);
+				 },
+				 onProgress: function(id, fileName, loaded, total){
+				 setUploadFilePercentById( id, loaded, total );
+				 },
+				 onComplete:function(id, fileName, responseJSON){
+				  try{
+				   if ( !responseJSON.success ) {
+				    var msg="";
+					if ( responseJSON.error == 'Exist' ) msg='文件已存在，请修改文件名后再上传。';
+					if ( msg != '' ) top.showInfoWinWarn("文件上传失败:"+msg);
+				  }
+				  }catch(e){}
+				 },
+				 onError: function(id, fileName, reason) {
+				 try{
+				  setUploadFileStatusById( "fileNameStatus",responseJSON.success);
+				 }catch(e){}
+				 }
+          });
+   });
+   function doCancel(row_num){
+	 $("tr[id='row_"+row_num+"']").remove();
+   }
+   
+   function getFileRowNum(fn){
+         for ( var i=0;i<fileNames.length;i++ ) {
+		    if ( fileNames[i] == fn ) return i;
+		 }
+		 fileNames[fileNames.length]=fn;
+		 return fileNames.length;
+   }
+   
+   function getFileName( fileName ) {
+         currentFileName = timeStamp+""+getFileRowNum(fileName)+"_"+fileName;
+		 currentFileName = currentFileName.replace(new RegExp(" ","gm"), "");
+		 return currentFileName;
+   }
+   
+   function setUploadFileStatusById(id,isOK){
+	 $("#"+id).html( isOK?"<font color='green'>上传成功</font>":"<font color='red'>上传失败</font>" );
+   }
+	function setUploadFilePercentById( id, loaded, total ){
+		var num=preRow+id+1;
+		$("#progress_"+num).html(parseInt(loaded*100/total)+'%');
+	}
+	function addLoadRow(id,fileName){
+		var num=preRow+id+1;
+		var ht='<tr class="tr_data" height="35px" id="row_'+num+'">';
+		ht+='<td id="file_level'+num+'">'+top.getCodeSelectHtml("FILE_LEVEL","file_level_"+num,false)+'</td>';//
+		ht+='<td id="file_source'+num+'">'+top.getCodeSelectHtml("FILE_SOURCE","file_source_"+num,false)+'</td>';//
+		ht+='<td id="file_type'+num+'">'+top.getCodeSelectHtml("FILE_TYPE","file_type_"+num,false)+'</td>';//
+		ht+='<td id="file_name_'+num+'">'+fileName+'</td>';//
+		ht+='<td id="file_tags'+num+'"><input id="file_tags_'+num+'" type="text" name="" value=""></td>';//
+		ht+='<td id="progress_'+num+'"></td>';//
+		ht+='<td id="del_'+num+'"><a onclick="doCancel('+id+')">删除</a></td>';//
+		ht+='</tr>';
+		$("#uploadding_files").append(ht);
+		curRow++;
+	}
+	// 保存基本信息
+    function doSubmit(){
+	    if(curRow==-1){
+		  top.showInfoWinWarn("请上传文件 ！");return;
+		}
+		var file_type='';
+		for(var i=0;i<curRow+1;i++){
+			if($("#file_name_"+i).html()==null) continue;
+			if($("#progress_"+i).html()!='100%'){
+				top.showInfoWinError("文件"+$("#file_name_"+i).html()+"正在上传中，请稍后再试！");
+				return;
+			}
+		}
+		var aoData=[];
+		aoData.push( { "name": "fileinfo.belong_id2", "value": belong_id2 } );
+		aoData.push( { "name": "fileinfo.belong_id", "value": belong_id } );
+		aoData.push( { "name": "fileinfo.belong_id0", "value": belong_id0 } );
+
+		var index=0;
+		for(var i=0;i<curRow+1;i++){
+			if($("#file_name_"+i).html()==null) continue;
+			if(index!=0){
+				file_path+=';';
+				file_name+=';';
+				file_type+=';';
+				file_level+=';';
+				file_source+=';';
+				file_tags+=';';
+			}index++;
+			try{
+			if($("#file_name_"+i).html()==null) continue;
+				file_path+=$("#file_name_"+i).html();
+				file_name+=fixFilename($("#file_name_"+i).html());
+				file_type+=$("#file_type_"+i).val();
+				file_level+= $("#file_level_"+i).val();
+				file_source+= $("#file_source_"+i).val();
+				file_tags+= $("#file_tags_"+i).val();
+			}catch(e){
+			}
+		}
+		aoData.push( { "name": "fileinfo.belong_type", "value": belong_type } );
+		aoData.push( { "name": "fileinfo.file_path", "value":file_path } );
+		aoData.push( { "name": "fileinfo.file_name", "value": file_name } );
+		aoData.push( { "name": "fileinfo.file_type", "value":file_type} );
+		aoData.push( { "name": "fileinfo.file_level", "value": file_level } );
+		aoData.push( { "name": "fileinfo.file_source", "value": file_source } );
+		aoData.push( { "name": "fileinfo.tags", "value": file_tags } );
+	 var xurl="/actions/File.action?insertFileInfos";
+     top.sendAjaxRequest(xurl,aoData,optCallback);
+   }
+   function fixFilename(fp){
+     if ( !fp ) return "";
+	 var n=fp.indexOf("_");
+	 if ( n != -1 ) {
+	   return fp.substring(n+1);
+	 }
+	 return fp;
+   }
+ 
+   // 关闭当前页面前，页面框架自动调用的函数
+    function doBeforeClose(){
+     var obj={
+              "isSaveOK":isSaveOK,
+			  "filePath":currentFileName
+            };
+     top.setTempValue(obj);
+   }
+    function optCallback(obj){
+       try{
+        if ( obj.status == true ){
+            isSaveOK = true;
+            top.showInfoWinOK("操作成功");
+			parent.closeDialog();
+        }else{
+            isSaveOK = false;
+            top.showInfoWinError("操作失败 "+obj.msg);
+        }
+       }catch(e){
+          top.showInfoWinError("处理异常:"+e.message);
+       }
+   }
+	
+	</script>
+	</head>
+	<body><br/>
+		<center>
+		<table id="uploadding_files" border="1" cellpadding="0" cellspacing="1" width="90%" align="center" style="background-color: #79BAEC;">
+			<tr class="tr_data" height="35px">
+				<td>附件级别</td>
+				<td>文件来源</td>
+				<td>文件类型</td>
+				<td>文件名称</td>
+				<td>标签</td>
+				<td>上传进度</td>
+				<td style="width:60px;">操作</td>
+			</tr>
+		</table>
+		<br/>
+		<table width="90%">
+			<tr> 
+			    <td align="right" width="50%">
+				  <div id="file-uploader-fileName"></div>
+				</td>
+				<td align="left" width="50%">
+					<div id="saveUploadFileBtn" class="buttonDivTwo">
+						<a href="javascript:void(0)" onclick="doSubmit()">保存</a>
+					</div>
+				</td>
+			</tr>
+		</table>
+	  </center>
+	</body>
+</html>

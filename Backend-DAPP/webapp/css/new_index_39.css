@@ -1,0 +1,255 @@
+html,
+body {
+  font-size: 14px;
+  height: 100%;
+  width: 100%;
+}
+body {
+  min-width: 1200px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 100%;
+}
+/*头部*/
+header.main_header {
+  height: 6.5%;
+  min-height: 40px;
+  max-height: 50px;
+  background: #3da8f8 url(../img/login_background.png) no-repeat center 10%;
+  background-size: 100% auto;
+  border-bottom: 1px solid #7DCAF6;
+}
+header.main_header .container-fluid {
+  height: 100%;
+}
+header.main_header .logo_box {
+  display: inline-block;
+  vertical-align: middle;
+  left: 0;
+  top: 0;
+  height: 100%;
+  z-index: 100;
+}
+header.main_header .logo_box a {
+  display: inline-block;
+  height: 100%;
+}
+header.main_header .logo_box a img.logo {
+  height: 90%;
+  display: inline-block;
+  z-index: 100;
+  vertical-align: middle;
+}
+header.main_header h2.title {
+  display: inline-block;
+  margin: 0;
+  color: #fff;
+  vertical-align: middle;
+  font-size: 17px;
+}
+header.main_header h2.title span {
+  background-color: #FC6E6B;
+  display: inline-block;
+  padding: 2px 5px;
+  vertical-align: middle;
+  border-radius: 5px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+header.main_header ul.control_list {
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+header.main_header ul.control_list li {
+  float: left;
+  height: 100%;
+  vertical-align: middle;
+  padding: 0 15px;
+}
+header.main_header ul.control_list a,
+header.main_header ul.control_list span {
+  font-size: 14px;
+  color: #333;
+  display: inline-block;
+}
+header.main_header ul.control_list a i.icon {
+  display: inline-block;
+  vertical-align: middle;
+  height: 20px;
+  width: 20px;
+  background: transparent url(../img/index_control_icon.png) no-repeat center top;
+  background-size: 100% auto;
+  margin-right: 3px;
+}
+header.main_header ul.control_list a:hover {
+  color: #999;
+}
+header.main_header ul.control_list a.person_center i {
+  margin-right: 5px;
+}
+header.main_header ul.control_list a.change_password i {
+  background-position-y: -24px;
+  margin-right: 5px;
+}
+header.main_header ul.control_list a.exit i {
+  background-position-y: -48px;
+  margin-right: 5px;
+}
+/*主体*/
+section.main_section {
+  border-top: 1px solid #fff;
+  padding-left: 11.5%;
+}
+section.main_section .aside_nav {
+  width: 11.5%;
+  height: 100%;
+  background-color: #E5F8FF;
+  top: 0;
+  left: 0;
+  border-right: 1px solid #99D9F4;
+}
+section.main_section .aside_nav ::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+section.main_section .aside_nav a {
+  color: #0065B5;
+}
+section.main_section .aside_nav .panel-group {
+  height: 100%;
+  overflow-y: auto;
+}
+section.main_section .aside_nav .panel-group > li {
+  border-radius: 0;
+  margin: 0;
+}
+section.main_section .aside_nav .panel-group > li:not(:last-child) .panel-collapse {
+  border-bottom: 1px solid #9CD9F8;
+}
+section.main_section .aside_nav .panel-group > li > a {
+  padding: 10px 0 10px 40px;
+  font-weight: bold;
+  display: block;
+  border-bottom: 1px solid #9CD9F8;
+  position: relative;
+  background-color: #F3FDFF;
+  background-image: linear-gradient(180deg, #ffffff 0%, #e8f9ff 100%);
+}
+section.main_section .aside_nav .panel-group > li.active > a,
+section.main_section .aside_nav .panel-group > li > a:hover {
+  background-color: #48BAF9;
+  background-image: linear-gradient(180deg, #72cafc 0%, #36b2fa 100%);
+  color: #fff;
+}
+section.main_section .aside_nav .panel-group > li.active > a:before,
+section.main_section .aside_nav .panel-group > li > a:hover:before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 6px;
+  border-right: 1px solid #B9E7F6;
+  background-color: #22A2EB;
+  background-image: linear-gradient(to bottom, #129ae6 0%, #5dc1fc 50%, #129ae6 100%);
+}
+section.main_section .aside_nav .panel-group > li.active > a:after,
+section.main_section .aside_nav .panel-group > li > a:hover:after {
+  border-color: #fff;
+}
+section.main_section .aside_nav .panel {
+  box-shadow: none;
+  border: none;
+  background-color: transparent;
+}
+section.main_section .aside_nav .panel > a:after {
+  content: "";
+  height: 8px;
+  width: 8px;
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: 16px;
+  border-left: 2px solid #009BD2;
+  border-bottom: 2px solid #009BD2;
+  -webkit-transform: rotate(-225deg);
+  -moz-transform: rotate(-225deg);
+  -ms-transform: rotate(-225deg);
+  -o-transform: rotate(-225deg);
+  transform: rotate(-225deg);
+  -webkit-transition: all 0.3s linear 0s;
+  -moz-transition: all 0.3s linear 0s;
+  -ms-transition: all 0.3s linear 0s;
+  -o-transition: all 0.3s linear 0s;
+  transition: all 0.3s linear 0s;
+}
+section.main_section .aside_nav .panel > a.collapsed:after {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+section.main_section .aside_nav .panel-collapse a {
+  padding: 6px 0 6px 40px;
+  font-size: 13px;
+  display: block;
+}
+section.main_section .aside_nav .panel-collapse a:hover,
+section.main_section .aside_nav .panel-collapse a.hover {
+  font-weight: bold;
+  background-color: #B9E7F6;
+}
+section.main_section iframe.mainFrame {
+  height: 100%;
+  width: 100%;
+  background-color: #F4FCFF;
+}
+footer.main_footer {
+  color: #fff;
+  padding: 5px 0;
+  height: auto;
+  border-top: 1px solid #9CD9F8;
+  background-color: #1A9AE3;
+}
+.flex-wrap {
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.flex-con {
+  -moz-box-flex: 1;
+  -ms-flex: 1;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+.flex-vertical {
+  -webkit-box-orient: vertical;
+  -webkit-flex-flow: column;
+  flex-flow: column;
+}
+/********************jQuery UI*********************/
+.ui-dialog {
+  padding: 0;
+}
+.ui-corner-all,
+.ui-corner-bottom,
+.ui-corner-right,
+.ui-corner-br {
+  border-radius: 0;
+}
+.ui-widget-header {
+  border: none;
+  color: #0269B8;
+  background-color: #F0FBFF;
+  background-image: linear-gradient(to bottom, #ffffff 0%, #e5f8ff 100%);
+}
+.ui-dialog .ui-dialog-titlebar-close {
+  border: none;
+  background-color: transparent;
+}

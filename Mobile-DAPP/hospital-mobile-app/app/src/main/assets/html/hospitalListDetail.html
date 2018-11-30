@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+			var jsessionid=getUrlParam(document.URL,"jsessionid");
+			var phone=getUrlParam(document.URL,"phone");
+			var hosptailId=getUrlParam(document.URL,"hosptailId");
+			$(function(){
+				getHospitalListDetail();
+			});
+			function getHospitalListDetail(){
+				var aoData=[];
+				aoData.push({"name":"id","value":hosptailId});
+				aoData.push({"name":"token","value":jsessionid});
+				aoData.push({"name":"mobile","value":phone});
+				$.ajax({
+					url:''+getUrlBase()+'/applyController/getHistoryOfMedicalRegisteration',
+					data:aoData,
+					dataType:"json",
+					type:'post',
+					headers:{},
+					success:function(res){
+						var list = res.body;
+						$("#registerName").html(list.register_user_name);
+						$("#registerSex").html(list.register_user_sex);
+						$("#registerDate").html(list.register_time);
+						$("#registerInsuranceCategory").html(list.insurance_type);
+						$("#registerPersonnelType").html(list.personnel_type);
+						$("#registerCertificatesType").html(list.certificates_type);
+						$("#registerCertificatesNum").html(list.certificates_num);
+						$("#registerPhone").html(list.register_user_phone);
+						$("#registerAddress").html(list.register_address);
+						$("#registerInsuredAddress").html(list.insurance_address);
+						$("#registerCity").html(list.medical_city);
+						$("#registerHospital").html(list.medical_hospital);
+						$("#registerCardNum").html(list.social_card);
+						$("#totalMoney").html(list.amount);
+						var payNum="";
+						if(list.self_pay_part == null){
+							payNum="";
+						}else{
+							payNum.list.self_pay_part;
+						}
+						$("#payMoeny").html(payNum);
+						$("#receivables").html(list.medical_hospital);
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown){
+						 mui.alert(""+textStatus+"","提示","确认",submitFailCallback,{type:"div"});
+					}
+				});	
+			}
+			function submitFailCallback(){
+				
+			}
+			function getUrlParam(xurl,name){
+				var para="";
+				if(xurl.lastIndexOf("?")>0){
+					para=xurl.substring(xurl.lastIndexOf("?")+1,xurl.length);
+					var arr=para.split("&");
+					para="";
+					for(var i=0;i<arr.length;i++){
+						if(arr[i].split("=")[0]==name) return arr[i].split("=")[1];
+					}
+					return "";
+				}else{
+					return "";
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">订单详情</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view" id="hospitalDetail">
+				<li class="mui-table-view-cell">
+					姓名：<span id="registerName"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					性别：<span id="registerSex"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					出生日期：<span id="registerDate"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					参保类别：<span id="registerInsuranceCategory"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					人员类别：<span id="registerPersonnelType"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					证件类别：<span id="registerCertificatesType"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					证件号：<span id="registerCertificatesNum"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					联系电话：<span id="registerPhone"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					联系地址：<span id="registerAddress"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					参保地地址：<span id="registerInsuredAddress"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					就医城市：<span id="registerCity"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					就医医院：<span id="registerHospital"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					社保卡号：<span id="registerCardNum"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					总计金额：<span id="totalMoney"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					个人支付：<span id="payMoeny"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					收款方：<span id="receivables "></span>
+				</li>
+			</ul>
+		</div>
+	</body>
+
+</html>

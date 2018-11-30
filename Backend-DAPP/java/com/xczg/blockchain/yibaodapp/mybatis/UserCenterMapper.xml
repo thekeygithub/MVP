@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xczg.blockchain.yibaodapp.mybatis.UserCenterMapper">
+
+   <!--
+  	parameterType：参数类型（参数是简单类型时，可以不用设置）
+  	resultType:返回值类型 (包名+类名)
+  		结果映射时，需要保证数据库中的字段名和类中属性名称一致
+
+  resultType:
+  	返回值是集合时，resultType写集合中存放元素的类型
+  	其他情况，就写对应的数据类型
+
+   -->
+   
+
+<!-- 对客户表增删改查的具体实现 -->
+   <insert id="insertCustInfo" parameterType="CustInfo" >
+  	insert into tbl_cust_info(id,cust_name,id_card,social_card_id,mobile,sex,pass_word,avatar_img,id_card_positive,id_card_negative,status,memo,birth_date,addr,is_deleted,chain_key,tky_balance)
+  	values (#{id},#{cust_name},#{id_card},#{social_card_id},#{mobile},#{sex},#{pass_word},#{avatar_img},#{id_card_positive},#{id_card_negative},#{status},#{memo},#{birth_date},#{addr},0,#{chain_key},#{tky_balance})
+  </insert>
+
+  <!-- 查询个人客户信息 -->
+  <select id="getCustInfoAll" resultType="CustInfo">
+  select * from tbl_cust_info where is_deleted=0
+  </select>
+
+  <!-- 分页查询客户信息 -->
+  <select id="getCustInfoPageList" parameterType="PageList" resultType="CustInfo">
+  	select * from tbl_cust_info where 1=1 and is_deleted=0
+    <if test="orderName != ''" >
+      order by
+       <if test="orderName == 'custname' " > 		cust_name </if>
+       <if test="orderName == 'idcard' " >   		id_card </if>
+       <if test="orderName == 'socialcardid' " >    social_card_id</if>
+       <if test="orderName == 'birth_date' " >      birth_date  </if>
+       <if test="orderName == 'mobile' " >          mobile  </if>
+       <if test="orderName == 'sex' " >             sex  </if>
+       <if test="orderName == 'status' " >          status  </if>
+       <if test="orderName == 'memo' " >            memo  </if>
+       <if test="orderAZ == 'desc' " > desc </if>
+       <if test="orderAZ == 'asc' " > asc </if>
+    </if>
+  		limit #{iDisplayStart},#{iDisplayLength}
+  </select>
+
+  <!-- 通过id查询一个客户的信息 -->
+  <select id="getCustInfoById" parameterType="String" resultType="CustInfo">
+  	select * from tbl_cust_info where id=#{id} and is_deleted=0
+  </select>
+  
+  <select id="getCustInfoByMobile" parameterType="String" resultType="CustInfo">
+  	select * from tbl_cust_info where mobile=#{mobile} and is_deleted=0
+  </select>
+  
+   <select id="getCustInfoByToken" parameterType="map" resultType="CustInfo">
+  	select * from tbl_cust_info where login_token=#{login_token} and is_deleted=0
+  </select>
+
+  <!-- 修改一个客户的信息 -->
+  <update id="updateCustInfo" parameterType="CustInfo">  
+  	update tbl_cust_info
+  	 	<set>
+		 <if test="custname != null and custname !=''"> cust_name = #{custname},</if>
+         <if test="idcard != null and idcard !=''"> id_card=#{idcard},</if>
+         <if test="socialcardid != null and socialcardid !=''">social_card_id=#{socialcardid},</if>
+         <if test="mobile != null and mobile !=''"> mobile = #{mobile},</if>
+         <if test="sex != null and sex !=''"> sex = #{sex},</if>
+         <if test="avatarimg != null and avatarimg !=''"> avatar_img = #{avatarimg} ,</if>
+         <if test="idcardpositive != null and idcardpositive !=''"> id_card_positive = #{idcardpositive},</if>
+         <if test="idcardnegative != null and idcardnegative !=''"> id_card_negative = #{idcardnegative},</if>
+         <if test="status != null and status !=''"> status = #{status},</if>
+         <if test="birthdate != null and birthdate !=''"> birth_date = #{birthdate},</if>
+         <if test="memo != null and memo !=''"> memo = #{memo}</if>
+    </set>
+		  	where id=#{id} and  is_deleted=0
+  	</update>
+  <!--删除一个个人客户的信息  -->
+  <update id="deleteCustInfo" parameterType="String" >
+  	update tbl_cust_info set is_deleted=1 where id=#{id}
+  </update>
+  
+  <update id="updateCustInfoLoginToken" parameterType="map" >
+  	update tbl_cust_info set login_token=#{login_token} where id=#{id}
+  </update>
+  
+    <!--更新余额 -->
+    <update id="deductCost" parameterType="map">
+        UPDATE  tbl_cust_info SET  tky_balance=#{amount} WHERE mobile=#{mobile} and is_deleted=0
+    </update>
+
+  <!-- 查询客户表记录数 -->
+  <select id="getCustInfoListCount" resultType="int">
+  	select count(*) from tbl_cust_info where is_deleted=0
+  </select>
+
+   <!-- 登录验证 -->
+  <select id="checkPwd" resultType="int"  parameterType="LoginUser">
+  select count(1) from  tbl_sys_user where account = #{account} and password=#{password} and is_deleted=0
+  </select>
+
+  <!-- 修改密码 -->
+  <update id="changePwd"  parameterType="java.util.Map">
+  update  tbl_sys_user set password = #{newPwd} where account =#{account} and is_deleted=0
+  </update>
+  
+<!-- 对企业表增删改查的具体实现 -->
+<!-- 增加一个企业信息 -->
+  <insert id="insertEnterpriseInfo" parameterType="EnterpriseInfo" >
+  	insert into tbl_enterprise_info  (id,enterprise_name,license_no,operator_name,operator_id_card,operator_mobile,
+  	 bank_account,id_card_positive,id_card_negative,license_img,enterprise_type,addr,
+  	 memo,privince,city,status,is_deleted,password,logincode)
+  	values(#{id},#{enterprisename},#{licenseno},#{operatorname},#{operatoridcard},#{operatormobile},
+  	#{bankaccount},#{idcardpositive},#{idcardnegative},#{licenseimg},#{enterprisetype},#{addr}
+  	,#{memo},#{privince},#{city},#{status},#{is_deleted},#{password},#{logincode})
+  </insert>
+
+  <!--查询全部的企业用户信息  -->
+  <select id="getEnterpriseInfoAll" resultType="EnterpriseInfo">
+    select * from tbl_enterprise_info where is_deleted=0
+  </select>
+
+   <!-- 分页查询企业信息 -->
+  <select id="getEnterpriseInfoPageList" parameterType="PageList" resultType="EnterpriseInfo">
+  	select * from tbl_enterprise_info where is_deleted=0
+  	<if test="orderName != ''" >
+      order by
+       <if test="orderName == 'id' " >                  id </if>
+       <if test="orderName == 'enterprisename' " > 		enterprise_name </if>
+       <if test="orderName == 'licenseno' " >   		license_no </if>
+       <if test="orderName == 'operatorname' " >   	    operator_name  </if>
+       <if test="orderName == 'operatoridcard' " >      operator_id_card  </if>
+       <if test="orderName == 'operatormobile' " >      operator_mobile </if>
+       <if test="orderName == 'bankaccount' " >  		bank_account  </if>
+       <if test="orderName == 'idcardpositive' " >  	idcardpositive</if>
+       <if test="orderName == 'idcardnegative' " >      idcardnegative  </if>
+       <if test="orderName == 'licenseimg' " >          licenseimg  </if>
+       <if test="orderName == 'enterprisetype' " >      enterprise_type  </if>
+       <if test="orderName == 'addr' " >          		addr  </if>
+       <if test="orderName == 'memo' " >           	 	memo  </if>
+       <if test="orderName == 'privince' " >            privince  </if>
+       <if test="orderName == 'city' " >            	city  </if>
+       <if test="orderName == 'status' " >              status  </if>
+
+       <if test="orderAZ == 'desc' " > desc </if>
+       <if test="orderAZ == 'asc' " > asc </if>
+    </if>
+
+  		limit #{iDisplayStart},#{iDisplayLength}
+  </select>
+
+   <!-- 通过id查询一个企业的信息 -->
+  <select id="getEnterpriseInfofoById" parameterType="String" resultType="EnterpriseInfo">
+  	select * from tbl_enterprise_info where id=#{id} and is_deleted=0
+  </select>
+  
+  <select id="getEnterpriseInfofoByLoginCodeAndType" parameterType="map" resultType="EnterpriseInfo">
+  	select * from tbl_enterprise_info where logincode=#{logincode} and enterprise_type=#{enterprisetype}
+  </select>
+  
+  <!-- 根据id删除一个企业信息 -->
+  <update id="deleteEnterpriseInfo" parameterType="String">
+  	update tbl_enterprise_info set is_deleted=1 where id= #{id}
+  </update>
+
+  <!-- 查询企业表记录数 -->
+  <select id="getEnterpriseInfoLsitCount" resultType="int">
+  	select count(*) from tbl_enterprise_info where is_deleted=0
+  </select>
+
+  <!-- 修改一个企业信息 -->
+  <update id="updateEnterpriseInfo" parameterType="EnterpriseInfo">
+  	update tbl_enterprise_info
+  	<set>
+		 <if test="enterprisename != null and enterprisename !=''"> enterprise_name = #{enterprisename},</if>
+         <if test="licenseno != null and licenseno !=''"> license_no = #{licenseno},</if>
+         <if test="operatorname != null and operatorname !=''"> operator_name = #{operatorname},</if>
+         <if test="operatoridcard != null and operatoridcard !=''"> operator_id_card = #{operatoridcard},</if>
+         <if test="operatormobile != null and operatormobile !=''"> operator_mobile = #{operatormobile},</if>
+         <if test="bankaccount != null and bankaccount !=''"> bank_account = #{bankaccount},</if>
+         <if test="idcardpositive != null and idcardpositive !=''"> id_card_positive = #{idcardpositive},</if>
+         <if test="idcardnegative != null and idcardnegative !=''"> id_card_negative = #{idcardnegative},</if>
+         <if test="licenseimg != null and licenseimg !=''"> license_img = #{licenseimg},</if>
+         <if test="enterprisetype != null and enterprisetype !=''"> enterprise_type = #{enterprisetype},</if>
+         <if test="addr != null and addr !=''"> addr = #{addr},</if>
+         <if test="memo != null and memo !=''"> memo = #{memo},</if>
+         <if test="privince != null and privince !=''"> privince = #{privince},</if>
+         <if test="city != null and city !=''"> city = #{city},</if>
+         <if test="status != null and status !=''"> status = #{status},</if>
+         <if test="password != null and password !=''"> password = #{password},</if>
+         <if test="logincode != null and logincode !=''"> logincode = #{logincode}</if>
+    </set>
+          where id=#{id} and is_deleted=0
+    </update>
+
+  <!-- 分页查询管理人员 -->
+  <select id="getTblSysUserPageList" parameterType="PageList" resultType="TblSysUser">
+  	select * from tbl_sys_user where 1=1 and is_deleted=0
+  	<if test="orderName != ''" >
+      order by
+       <if test="orderName == 'account' " >         account </if>
+       <if test="orderName == 'username' " > 		username </if>
+       <if test="orderName == 'password' " >   		password </if>
+       <if test="orderName == 'status' " >   	    status  </if>
+       <if test="orderName == 'lastlogin' " >       lastlogin  </if>
+       <if test="orderName == 'email' " >      		email </if>
+       <if test="orderName == 'mobile' " >  		mobile  </if>
+       <if test="orderName == 'officephone' " >  	officephone</if>
+       <if test="orderName == 'entrydate' " >      	entrydate  </if>
+       <if test="orderName == 'jobtitle' " >      	jobtitle  </if>
+       <if test="orderName == 'sex' " >          	sex  </if>
+       <if test="orderName == 'joblevel' " >        joblevel  </if>
+       <if test="orderName == 'memo' " >            memo  </if>
+       <if test="orderName == 'birthday' " >        birthday  </if>
+       <if test="orderName == 'avatarpath' " >      avatarpath  </if>
+       <if test="orderAZ == 'desc' " > desc </if>
+       <if test="orderAZ == 'asc' " > asc </if>
+    </if>
+
+  		limit #{iDisplayStart},#{iDisplayLength}
+  </select>
+
+  <!-- 增加一个管理人员 -->
+  <insert id="insertTblSysUser" parameterType="TblSysUser">
+  	insert into tbl_sys_user (account,username,password,status,lastlogin,email,mobile,officephone,entrydate,jobtitle,sex,joblevel,memo,birthday,avatarpath,is_deleted)values(#{account},#{username},#{password},#{status},#{lastlogin},#{email},#{mobile},#{officephone},#{entrydate},#{jobtitle},#{sex},#{joblevel},#{memo},#{birthday},#{avatarpath},#{is_deleted})
+  </insert>
+
+  <!-- 删除一个管理人员 -->
+  <update id="deleteTblSysUser" parameterType="String">
+  	update  tbl_sys_user set is_deleted=1 where account=#{account}
+  </update>
+
+  <!-- 获得所有管理人员信息 -->
+  <select id="getTblSysUserCount" resultType="int">
+  	select count(*) from tbl_sys_user  where is_deleted=0
+  </select>
+
+  <!-- 修改密码 -->
+  <update id="updatePassword" parameterType="TblSysUser">
+  	update tbl_sys_user set password=#{password} where account=#{account} and is_deleted=0
+  </update>
+
+  <!-- 修改管理人员信息 -->
+  <update id="updateTblSysUser" parameterType="TblSysUser">
+  	update tbl_sys_user
+	<set>
+		 <if test="username != null and username !=''"> username = #{username},</if>
+         <if test="status != null and status !=''"> status = #{status},</if>
+         <if test="lastlogin != null and lastlogin !=''"> lastlogin = #{lastlogin},</if>
+         <if test="email != null and email !=''"> email = #{email},</if>
+         <if test="mobile != null and mobile !=''"> mobile = #{mobile},</if>
+         <if test="officephone != null and officephone !=''"> officephone = #{officephone},</if>
+         <if test="entrydate != null and entrydate !=''"> entrydate = #{entrydate},</if>
+         <if test="jobtitle != null and jobtitle !=''"> jobtitle = #{jobtitle},</if>
+         <if test="sex != null and sex !=''"> sex = #{sex},</if>
+         <if test="joblevel != null and joblevel !=''"> joblevel = #{joblevel},</if>
+         <if test="memo != null and memo !=''"> memo = #{memo},</if>
+         <if test="birthday != null and birthday !=''"> birthday = #{birthday},</if>
+         <if test="avatarpath != null and avatarpath !=''"> avatarpath = #{avatarpath}</if>
+    </set>
+		  	where account=#{account} and is_deleted=0
+
+  </update>
+
+  <!-- 修改头像 -->
+  <update id="updateAvatarPath"  parameterType="TblSysUser">
+  	update tbl_sys_user set avatarpath=#{avatarpath} where account=#{account} and is_deleted=0
+  </update>
+  <!-- 方法中有多个参数时：
+  	1.根据参数的索引绑定参数,在映射文件中使用arg0，arg1.....
+    2.根据@Param注解给参数绑定名称，在映射文件中使用@Param设置的名称
+    3.把多个参数封装成对象，在映射文件中使用对象的属性名称
+    4.把多个参数封装成map集合，在映射文件中使用map中的key值
+    -->
+  <select id="select" resultType="VerifyInfo">
+  	select * from tbl_verify_info
+  </select>
+
+	<!-- 条件查询客户信息 -->
+	<select id="getCustInfoPageListOfQuery" parameterType="CustOfQueryCodition" resultType="CustInfo">
+	select * from tbl_cust_info where 1=1 and is_deleted=0
+                                  and cust_name like '%${qoperatorname}%'
+                                  and id_card like '%${qoperatoridcard}%'
+                                  and mobile like '%${qoperatormobile}%'
+                                  and social_card_id like '%${qbankaccount}%'
+                                  and birth_date like '%${qlicenseno}%'
+                                  and status like '%${qstatus}%'
+ 	<if test="orderName != ''" >
+       order by 
+       <if test="orderName == 'custname' " > 		cust_name </if>
+       <if test="orderName == 'idcard' " >   		id_card </if>
+       <if test="orderName == 'socialcardid' " >    social_card_id</if>       
+       <if test="orderName == 'birth_date' " >      birth_date  </if>
+       <if test="orderName == 'mobile' " >          mobile  </if> 
+       <if test="orderName == 'sex' " >             sex  </if> 
+       <if test="orderName == 'status' " >          status  </if> 
+       <if test="orderName == 'memo' " >            memo  </if> 
+    </if>
+		 limit #{iDisplayStart},#{iDisplayLength} 
+		</select>
+		
+<!-- 条件查询企业信息 -->
+	<select id="getEnterpriseInfoPageListOfQuery" parameterType="EnterpriseOfQueryCodition" resultType="EnterpriseInfo">
+	select * from tbl_enterprise_info where 1=1 and is_deleted=0
+		    and enterprise_name like '%${qenterprisename}%'
+		    and operator_name like '%${qoperatorname}%'
+		    and operator_id_card like '%${qoperatoridcard}%'
+		    and operator_mobile like '%${qoperatormobile}%'
+		    and license_no like '%${qlicenseno}%'
+		    and status like '%${qstatus}%'
+	  <if test="orderName != ''" >
+      order by
+       <if test="orderName == 'id' " >                  id </if>
+       <if test="orderName == 'enterprisename' " > 		enterprise_name </if>
+       <if test="orderName == 'licenseno' " >   		license_no </if>
+       <if test="orderName == 'operatorname' " >   	    operator_name  </if>
+       <if test="orderName == 'operatoridcard' " >      operator_id_card  </if>
+       <if test="orderName == 'operatormobile' " >      operator_mobile </if>
+       <if test="orderName == 'bankaccount' " >  		bank_account  </if>
+       <if test="orderName == 'idcardpositive' " >  	idcardpositive</if>
+       <if test="orderName == 'idcardnegative' " >      idcardnegative  </if>
+       <if test="orderName == 'licenseimg' " >          licenseimg  </if>
+       <if test="orderName == 'enterprisetype' " >      enterprise_type  </if>
+       <if test="orderName == 'addr' " >          		addr  </if>
+       <if test="orderName == 'memo' " >           	 	memo  </if>
+       <if test="orderName == 'privince' " >            privince  </if>
+       <if test="orderName == 'city' " >            	city  </if>
+       <if test="orderName == 'status' " >              status  </if>
+     	</if>
+  			 limit #{iDisplayStart},#{iDisplayLength} 
+		</select>
+		
+    <select id="getTblSysUserByAccount" parameterType="map" resultType="TblSysUser">
+	  select * from tbl_sys_user where is_deleted=0 and account=#{account}
+	</select>
+		
+<!-- 条件查询人员信息 -->
+	<select id="getTblSysUserPageListOfQuery" parameterType="SysUserOfCodition" resultType="TblSysUser">
+	select * from tbl_sys_user where 1=1 and is_deleted=0 
+								 and username like '%${qusername}%'
+                                 and sex like '%${qsex}%'
+                                 and email like '%${qemail}%'
+                                 and mobile like '%${qmobile}%'
+                                 and jobtitle like '%${qjobtitle}%'
+                                 and officephone like '%${qofficephone}%'
+                                 and joblevel like '%${qjoblever}%'
+                                 and status like '%${qstatus}%'
+  	<if test="orderName != ''" >
+      order by
+       <if test="orderName == 'account' " >         account </if>
+       <if test="orderName == 'username' " > 		username </if>
+       <if test="orderName == 'password' " >   		password </if>
+       <if test="orderName == 'status' " >   	    status  </if>
+       <if test="orderName == 'lastlogin' " >       lastlogin  </if>
+       <if test="orderName == 'email' " >      		email </if>
+       <if test="orderName == 'mobile' " >  		mobile  </if>
+       <if test="orderName == 'officephone' " >  	officephone</if>
+       <if test="orderName == 'entrydate' " >      	entrydate  </if>
+       <if test="orderName == 'jobtitle' " >      	jobtitle  </if>
+       <if test="orderName == 'sex' " >          	sex  </if>
+       <if test="orderName == 'joblevel' " >        joblevel  </if>
+       <if test="orderName == 'memo' " >            memo  </if>
+       <if test="orderName == 'birthday' " >        birthday  </if>
+       <if test="orderName == 'avatarpath' " >      avatarpath  </if>
+    </if>
+      			 limit #{iDisplayStart},#{iDisplayLength} 		
+	</select>
+<!-- 条件查询客户信息总数 -->
+	<select id="getCustInfoPageListOfCount" parameterType="CustOfQueryCodition" resultType="int">
+	select count(1) from tbl_cust_info where 1=1 and is_deleted=0
+                                  and cust_name like '%${qoperatorname}%'
+                                  and id_card like '%${qoperatoridcard}%'
+                                  and mobile like '%${qoperatormobile}%'
+                                  and social_card_id like '%${qbankaccount}%'
+                                  and birth_date like '%${qlicenseno}%'
+                                  and status like '%${qstatus}%'
+ 	<if test="orderName != ''" >
+       order by 
+       <if test="orderName == 'custname' " > 		cust_name </if>
+       <if test="orderName == 'idcard' " >   		id_card </if>
+       <if test="orderName == 'socialcardid' " >    social_card_id</if>       
+       <if test="orderName == 'birth_date' " >      birth_date  </if>
+       <if test="orderName == 'mobile' " >          mobile  </if> 
+       <if test="orderName == 'sex' " >             sex  </if> 
+       <if test="orderName == 'status' " >          status  </if> 
+       <if test="orderName == 'memo' " >            memo  </if> 
+    </if>
+		 limit #{iDisplayStart},#{iDisplayLength} 
+		</select>
+		
+<!-- 条件查询企业信息总数-->
+	<select id="getEnterpriseInfoPageListOfCount" parameterType="EnterpriseOfQueryCodition" resultType="int">
+	select count(1) from tbl_enterprise_info where 1=1 and is_deleted=0
+		    and enterprise_name like '%${qenterprisename}%'
+		    and operator_name like '%${qoperatorname}%'
+		    and operator_id_card like '%${qoperatoridcard}%'
+		    and operator_mobile like '%${qoperatormobile}%'
+		    and license_no like '%${qlicenseno}%'
+		    and status like '%${qstatus}%'
+	  <if test="orderName != ''" >
+      order by
+       <if test="orderName == 'id' " >                  id </if>
+       <if test="orderName == 'enterprisename' " > 		enterprise_name </if>
+       <if test="orderName == 'licenseno' " >   		license_no </if>
+       <if test="orderName == 'operatorname' " >   	    operator_name  </if>
+       <if test="orderName == 'operatoridcard' " >      operator_id_card  </if>
+       <if test="orderName == 'operatormobile' " >      operator_mobile </if>
+       <if test="orderName == 'bankaccount' " >  		bank_account  </if>
+       <if test="orderName == 'idcardpositive' " >  	idcardpositive</if>
+       <if test="orderName == 'idcardnegative' " >      idcardnegative  </if>
+       <if test="orderName == 'licenseimg' " >          licenseimg  </if>
+       <if test="orderName == 'enterprisetype' " >      enterprise_type  </if>
+       <if test="orderName == 'addr' " >          		addr  </if>
+       <if test="orderName == 'memo' " >           	 	memo  </if>
+       <if test="orderName == 'privince' " >            privince  </if>
+       <if test="orderName == 'city' " >            	city  </if>
+       <if test="orderName == 'status' " >              status  </if>
+     	</if>
+  			 limit #{iDisplayStart},#{iDisplayLength} 
+		</select>
+		
+<!-- 条件查询人员信息总数 -->
+	<select id="getTblSysUserPageListOfCount" parameterType="SysUserOfCodition" resultType="int">
+	select count(1) from tbl_sys_user where 1=1 and is_deleted=0 
+								 and username like '%${qusername}%'
+                                 and sex like '%${qsex}%'
+                                 and email like '%${qemail}%'
+                                 and mobile like '%${qmobile}%'
+                                 and jobtitle like '%${qjobtitle}%'
+                                 and officephone like '%${qofficephone}%'
+                                 and joblevel like '%${qjoblever}%'
+                                 and status like '%${qstatus}%'
+  	<if test="orderName != ''" >
+      order by
+       <if test="orderName == 'account' " >         account </if>
+       <if test="orderName == 'username' " > 		username </if>
+       <if test="orderName == 'password' " >   		password </if>
+       <if test="orderName == 'status' " >   	    status  </if>
+       <if test="orderName == 'lastlogin' " >       lastlogin  </if>
+       <if test="orderName == 'email' " >      		email </if>
+       <if test="orderName == 'mobile' " >  		mobile  </if>
+       <if test="orderName == 'officephone' " >  	officephone</if>
+       <if test="orderName == 'entrydate' " >      	entrydate  </if>
+       <if test="orderName == 'jobtitle' " >      	jobtitle  </if>
+       <if test="orderName == 'sex' " >          	sex  </if>
+       <if test="orderName == 'joblevel' " >        joblevel  </if>
+       <if test="orderName == 'memo' " >            memo  </if>
+       <if test="orderName == 'birthday' " >        birthday  </if>
+       <if test="orderName == 'avatarpath' " >      avatarpath  </if>
+    </if>
+      			 limit #{iDisplayStart},#{iDisplayLength}    			
+	</select>
+</mapper>

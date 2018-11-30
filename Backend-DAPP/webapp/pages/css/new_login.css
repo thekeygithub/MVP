@@ -1,0 +1,93 @@
+html,
+body,
+.container-fluid {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+body {
+  font-family: "microsoft yahei";
+  font-size: 14px;
+  min-width: 1000px;
+}
+.container-fluid {
+  background: #a0dbf9 url("../img/login_background.png") no-repeat center center;
+  background-size: 100% auto;
+}
+.container-fluid .content {
+  width: 42%;
+  display: inline-block;
+  vertical-align: middle;
+}
+.container-fluid .content .logo img {
+  width: 60%;
+}
+.container-fluid .content section {
+  margin: 30px 0 15px;
+  padding: 0;
+  background-color: #fff;
+  border-radius: 5px;
+  -webkit-box-shadow: 5px 5px 5px #C8ECFC;
+  -moz-box-shadow: 5px 5px 5px #C8ECFC;
+  box-shadow: 5px 5px 5px #C8ECFC;
+}
+.container-fluid .content section .left_box {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding: 30px 0;
+  background-color: #EEF9FD;
+  background-image: linear-gradient(90deg, #eef9fd 0%, #eef9fd 97%, #c8ecfc 100%);
+}
+.container-fluid .content section .left_box h3 {
+  font-size: 20px;
+  margin: 3px 0;
+}
+.container-fluid .content section .left_box h4 {
+  font-size: 16px;
+  margin: 3px 0;
+}
+.container-fluid .content section .left_box img {
+  margin-top: 20px;
+  height: 70%;
+}
+.container-fluid .content section .right_box {
+  float: right;
+}
+.container-fluid .content section .right_box ul {
+  width: 80%;
+  margin: 0 auto;
+  padding: 30px 0;
+}
+.container-fluid .content section .right_box li {
+  padding: 14px 0;
+}
+.container-fluid .content section .right_box label.left {
+  width: 5em;
+  margin: 0;
+  font-weight: normal;
+  line-height: 34px;
+}
+.container-fluid .content section .right_box div.right {
+  width: -webkit-calc(100% - 5em);
+  width: -moz-calc(100% - 5em);
+  width: -o-calc(100% - 5em);
+  width: -ms-calc(100% - 5em);
+  width: calc(100% - 5em);
+}
+.container-fluid .content section .right_box div.right input[type=checkbox] {
+  height: 14px;
+  width: 14px;
+  display: inline-block;
+  vertical-align: text-top;
+}
+.container-fluid .content section .right_box div.right input:not([type=checkbox]),.container-fluid .content section .right_box div.right select {
+  padding: 0 5px;
+  width: 100%;
+  height: 34px;
+  border: 1px solid #E3E3E3;
+  -webkit-box-shadow: 1px 1px 5px #F1EFF0 inset;
+  -moz-box-shadow: 1px 1px 5px #F1EFF0 inset;
+  box-shadow: 1px 1px 5px #F1EFF0 inset;
+}

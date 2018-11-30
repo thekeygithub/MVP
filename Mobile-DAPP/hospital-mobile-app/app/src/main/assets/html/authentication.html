@@ -1,0 +1,280 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/authentication.css">
+		<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="../js/public.js"></script>
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">实名认证</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row">
+					<label>姓名</label>
+					<input type="text" class="mui-input-clear names" placeholder="请输入您的姓名">
+				</div>
+				<div class="mui-input-row">
+					<label>性别：</label>
+					<select name=""  id="registerSex">
+						<option value="男">男</option>
+						<option value="女">女</option>
+					</select>
+				</div>
+				<div class="mui-input-row">
+					<label>手机号</label>
+					<input type="number"  class="mui-input-clear phones" placeholder="请输入您的手机号" disabled>
+				</div>
+				<div class="mui-input-row">
+					<label>身份证号</label>
+					<input type="number" class="mui-input-clear ids" placeholder="请输入您的身份证号">
+				</div>
+				<div class="mui-input-row">
+					<label>社保卡号</label>
+					<input type="number" class="mui-input-clear cardNumber" placeholder="请输入您的社保卡号">
+				</div>
+				<div class="mui-input-row">
+					<label>生日</label>
+					<input type="date" class="mui-input-clear" placeholder="请输入您的生日" id="birthday">
+				</div>
+				<div class="mui-input-row">
+					<label>参保地地址</label>
+					<!--<input type="text" class="mui-input-clear" placeholder="请输入参保地地址" id="insure_addr">-->
+					<select id="insure_addr">
+						<option value="北京市">北京市</option>
+						<option value="上海市">上海市</option>
+					</select>
+				</div>
+			</form>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block content-btn" onclick="authenticationBtn()">认证</button>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var jsessionid=getUrlParam(document.URL,"jsessionid");
+		var phone=getUrlParam(document.URL,"phone");
+		 // mui.toast(''+phone+'',{ duration:'long', type:'div' })
+		
+		var name="";
+		//var phone="";
+		var id="";
+		var cardNumber="";
+		$(function(){
+			$(".phones").val(phone);
+			getUserInfo();
+		});
+		function getUserInfo(){
+			var aoData=[];
+			aoData.push({"name":"mobile","value":phone});
+			aoData.push({"name":"token","value":jsessionid});
+			$.ajax({
+				url:''+getUrlBase()+'/applyController/getUserInfoBymobile',
+				data:aoData,
+				dataType:"json",
+				type:'post',
+				headers:{},
+				success:function(res){
+					//成功后执行
+					if(res.status){
+						$(".names").val(res.body.custname);
+						$("#registerSex").val(res.body.sex);
+						$(".ids").val(res.body.idcard);
+						$(".cardNumber").val(res.body.socialcardid);
+						$("#birthday").val(getTimeStr(res.body.birth_date,true));
+						$("#insure_addr").val(res.body.addr);
+					}else{
+						mui.alert(""+res.message+"","提示","确认",submitFailCallback,{type:"div"});
+					}
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown){
+					mui.alert(""+textStatus+"","提示","确认",submitFailCallback,{type:"div"});
+				}
+			});	
+		}
+		function authenticationBtn(){
+			name=document.getElementsByClassName("names")[0];
+			//phone=document.getElementsByClassName("phones")[0];
+			id=document.getElementsByClassName("ids")[0];
+			cardNumber=document.getElementsByClassName("cardNumber")[0];
+// 			if(name.value.replace(/\s*/g,"")=="" || phone.replace(/\s*/g,"")=="" || id.value.replace(/\s*/g,"")=="" || cardNumber.value.replace(/\s*/g,"")==""
+//            ){
+// 				mui.alert("请填写完整信息","提示","确认",callback,{type:"div"});
+// 			}
+			if(!isPoneAvailable($(".phones").val())){
+				mui.alert("请填写正确手机号","提示","确认",callback,{type:"div"});
+			}else if(!isCardNo($(".ids").val())){
+				mui.alert("请填写正确的身份证号","提示","确认",callback,{type:"div"});
+			}else if(!isNameAvailable($(".names").val())){
+				mui.alert("请输入真实姓名","提示","确认",callback,{type:"div"});
+			}else if(!isSocIdCard($(".cardNumber").val())){
+                mui.alert("请输入正确的社保卡号","提示","确认",callback,{type:"div"});
+			}else if(!isBirthday($("#birthday").val())){
+                mui.alert("请您设置出生日期！","提示","确认",callback,{type:"div"});
+			}else if(!isInsuredAddr($("#insure_addr").val())){
+                mui.alert("请您填写参保地址！","提示","确认",callback,{type:"div"});
+			}
+
+			else{
+// 				try{
+// 			   		window.android.toCheck();
+// 				}catch(e){
+// 				}
+sendAjax();
+			}
+		}
+		function callback(){
+			
+		}
+		//实名认证
+		function proving(){
+			setTimeout(function(){
+				mui.alert("认证成功","提示","确认",provings,{type:"div"});
+			},2000);
+		}
+		function provings(){
+			history.go(-1);
+		}
+		function afterAndroidCheck(status){
+			if(status==2){
+				sendAjax();
+			}else{
+				failCallback();
+			}
+		}
+		function sendAjax(){
+			var aoData=[];
+			aoData.push({"name":"name","value":$(".names").val()});
+			aoData.push({"name":"phone","value":phone});
+			aoData.push({"name":"id_card","value":$(".ids").val()});
+			aoData.push({"name":"social_id","value":$(".cardNumber").val()});
+			aoData.push({"name":"sex","value":$("#registerSex").val()});
+			aoData.push({"name":"birthday","value":toTimestamp($("#birthday").val())});
+			aoData.push({"name":"insure_addr","value":$("#insure_addr").val()});
+			aoData.push({"name":"token","value":jsessionid});
+			aoData.push({"name":"mobile","value":phone});
+			$.ajax({
+				url:''+getUrlBase()+'/applyController/addUserInfo',
+				data:aoData,
+				dataType:"json",
+				type:'post',
+				headers:{},
+				success:function(res){
+					//成功后执行
+					if(res.status){
+						successCallback()
+					}else{
+						mui.alert(""+res.message+"","提示","确认",submitFailCallback,{type:"div"});
+					}
+				}
+			});	
+		}
+		function successCallback(){
+			mui.alert("提交成功,等待审核","提示","确认",submitCallback,{type:"div"});
+		}
+		function failCallback(){
+		    mui.alert("验证失败，请重新验证","提示","确认",submitFailCallback,{type:"div"});
+		}
+		function submitCallback(){
+			history.go(-1);
+		}
+		function submitFailCallback(){
+		}
+		function isCardNo(card){ 
+		  // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X 
+		  var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+		  if(reg.test(card) === false){ 
+			return false; 
+		  }else{
+			  return true;
+		  } 
+		}
+		function isPoneAvailable(str) {            
+			var myreg=/^[1][3,4,5,7,8,9][0-9]{9}$/;            
+			if (!myreg.test(str)) {                
+				return false;            
+			} else {                
+				return true;            
+			}        
+		}
+		function isBirthday(str){
+		    if(str==null||str==""){
+		        return false;
+			}else {
+		        return true;
+			}
+		}
+		function isInsuredAddr(str) {
+            if(str==null||str==""){
+                return false;
+            }else {
+                return true;
+            }
+        }
+		function isSocIdCard(str){
+		    var regSocIdCard =/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+            if(regSocIdCard.test(str) === false){
+                return false;
+            }else{
+                return true;
+            }
+        }
+		function isNameAvailable(str){
+			var regName =/^[\u4e00-\u9fa5]{2,4}$/i;
+			var enName =  /^[a-zA-Z\/ ]{2,20}$/;
+			if(!str.match(/^[\u4e00-\u9fa5]{2,4}$/i)){
+			    return false;
+			}else if(str.match(/^[a-zA-Z\/ ]{2,20}$/)){
+			    return false;
+			}else{
+				return true;
+			}
+		}
+		function getUrlParam(xurl,name){
+			var para="";
+			if(xurl.lastIndexOf("?")>0){
+				para=xurl.substring(xurl.lastIndexOf("?")+1,xurl.length);
+				var arr=para.split("&");
+				para="";
+				for(var i=0;i<arr.length;i++){
+				if(arr[i].split("=")[0]==name) return arr[i].split("=")[1];
+				}
+				return "";
+		}else{
+				return "";
+		}
+		}
+		function getTimeStr(t,isDateStr){
+			if ( !isDateStr ) isDateStr = false;
+			if ( !t ) return "";
+			if ( t > -2 && t < 10 ) return "";
+			try{
+				var d=new Date(2013,1,1);
+				d.setTime( t );
+				var str = d.getFullYear()+"-"+getTwoNumberStr(d.getMonth()+1)+"-"+getTwoNumberStr(d.getDate());
+				if ( !isDateStr ) str +=" "+getTwoNumberStr(d.getHours())+":"+getTwoNumberStr(d.getMinutes())
+					+":"+getTwoNumberStr(d.getSeconds());
+				return str;
+			}catch(e){
+				return "";
+			}
+		}
+		function getTwoNumberStr(n){
+			if ( n == '00' ) return '00';
+			try{
+				n=Number(n);
+			}catch(e){}
+			return ( n < 10 ) ? ("0"+n):n; 
+		}
+	</script>
+</html>

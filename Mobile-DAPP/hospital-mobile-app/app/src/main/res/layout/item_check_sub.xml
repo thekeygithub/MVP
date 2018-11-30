@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:orientation="vertical"
+    android:id="@+id/ll_sub"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+    <CheckBox
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+        android:id="@+id/item_cb_sub"
+        android:button="@drawable/rb_buttonicon"
+        android:textColor="@color/white"
+        android:textSize="@dimen/txt_middle"
+        android:drawablePadding="5dp"
+        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=""
+            android:textSize="@dimen/txt_middle"
+            android:textColor="@color/white"
+            android:id="@+id/tv_item_price"
+            android:paddingRight="20dp"
+            android:gravity="right"
+            />
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:id="@+id/tv_item_doctorinfo"
+        android:textSize="@dimen/txt_normal"
+        />
+</LinearLayout>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>新增企业用户</title>
+    <script type="text/javascript" language="javascript" src="../../js/jquery-3.3.1.js"></script>
+    <script type="text/javascript">
+   
+
+function confirmReset() {
+    var bo = confirm("是否重置？");
+    if(bo){
+         document.getElementById("enterperiseInfoForm").reset();
+    }
+}
+function confirmSubmit(){
+	var co = confirm("确认提交？")
+	var msg = "提交成功！";
+	var imgType = "ok";
+	if(co){
+		$.ajax({
+			url:"/HollyBlockChain/InfoController/addEnterpriseInfo",
+			type:"get",
+			dataType:"text",
+			data: $('#enterperiseInfoForm').serialize(),
+			success:function(){
+				top.showInfoWin(msg,imgType)
+				top.closeDialog();	
+			},
+			 error : function() {
+                 alert("异常！");
+             }
+		});
+	}
+}
+
+
+</script>
+</head>
+<body>
+<span id="span"></span>
+<form action="javascript:void(0)" method="post" id="enterperiseInfoForm">
+ <table width="100%" border="0" padding="0" spacing="0">
+		<tr class="tr_data">
+			<td width="20%" align="right">企业全称:</td>
+			<td width="40%" align="left"><input type="text" id="enterprisename" name="enterprisename" size="15"/></td>
+			<td width="40%">营业执照<input type="button"  onclick="uploadPic()" value="上传"/></td>
+		</tr>
+		<tr class="tr_data">
+			<td align="right">运营者姓名:</td>
+			<td align="left"><input type="text" name="operatorname" id="operatorname"  size="15" /></td>
+			<td rowspan="8" valign="top">
+				<img src="../../img/photos.png" height="180px" id="avatar_img"/>
+				<input type="hidden" id="avatar_path" name="avatarimg" value="123456" />
+			</td>
+		</tr>
+		<tr id="tr_opreator_idcard" class="tr_data">
+			<td align="right">运营者身份证号:</td>
+			<td align="left" id="tdOpreatorIdcard"><input type="text" id="operatoridcard" name="operatoridcard"  size="15"/></td>
+		</tr>
+		<tr id="tr_opreator_mobile" class="tr_data">
+			<td align="right">运营者手机号码:</td>
+			<td align="left" id="tdOpreatorMobile"><input type="text" name="operatormobile" id="operatormobile"  size="15"/></td>
+		</tr>
+		<tr id="tr_back_account" class="tr_data">
+			<td align="right">企业对公账户:</td>
+			<td align="left" id="tdBankAccount"><input type="text" id="bankaccount" name="bankaccount"  size="15"/></td>
+		</tr>
+		<tr id="tr_licenseno" class="tr_data">
+			<td align="right">营业执照号:</td>
+			<td align="left" id="tdLicenseNo"><input type="text" id="licenseno" name="licenseno" size="15"/></td>
+		</tr>
+		<tr class="tr_enterprise_type">
+			<td align="right">企业类型:</td>
+			<td align="left" id="tdEnterpriseType">
+			<!--  <input type="text" id="enterprisetype" name="enterprisetype" size="15"/>-->
+		        <select name="enterprisetype" id="enterprisetype" >
+					<option value="1">政府机构</option>
+					<option value="2">国有企业</option>
+					<option value="3">私有企业</option>
+				</select>
+			</td>
+		</tr>
+		<tr id="tr_add" class="tr_data">
+			<td align="right">地&nbsp;&nbsp;址:</td>
+			<td align="left" id="tdAdd"><input type="text"  size="15" id="addr" name="addr"/></td>
+		</tr>
+		<tr id="tr_memo" class="tr_data">
+			<td align="right">备&nbsp;&nbsp;注:</td>
+			<td align="left" id="tdMeMo"><input type="text"  size="15" id="memo" name="memo"/></td>
+		</tr>
+		<tr class="tr_privence">
+			<td align="right">省&nbsp;&nbsp;份:</td>
+			<td align="left"><input type="text" id="privence"   size="10" id="privence" name="privence" /></td>
+		</tr>
+		<tr id="tr_city" class="tr_data">
+			<td align="right">城&nbsp;&nbsp;市:</td>
+			<td align="left" id="tdCity"><input type="text"   size="15" id="city" name="city"/></td>
+		</tr>
+		<tr id="tr_job_statues" class="tr_data">
+			<td align="right">状&nbsp;&nbsp;态:</td>
+			<td align="left" id="tdStatues"> 
+			<select name="status" id="status" >
+					<option value="0">激活</option>
+					<option value="1">冻结</option>
+				</select>
+		</tr>
+		<tr class="tr_data">
+			<td align="right" >身份证件:</td>
+			<td rowspan="8" colspan="2" valign="top" align="left">
+				<img src="../../img/photos.png" height="180px" id="id_card_positive"  value="123123"/>
+				<input type="button" id="btnUploadPic1" onclick="uploadPic()" value="证件照正面上传"/>
+				<input type="hidden" id="idcardpositive" name="idcardpositive" value="123456" />
+				<img src="../../img/photos.png" height="180px" id="id_card_negative"  value="1234561"/>
+				<input type="button" id="btnUploadPic2" onclick="uploadPic()" value="证件照反面上传"/>
+				<input type="hidden" id="idcardnegative" name="idcardnegative" value="123456" />
+			</td>
+		</tr>
+	</table>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="submit" value="提交" onclick="confirmSubmit()" >
+    <input type="button" value="重置" onclick="confirmReset()"  >
+</form>
+
+</body>
+
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<script type="text/javascript" src="../js/jquery-2.0.3.min.js"></script>
+		<script src="../js/public.js"></script>
+	</head>
+	<style>
+		.claimBill-btn{
+			width: 94%;
+			margin: 20px auto 0;
+		}
+		.total{
+			margin: 20px 0;
+			text-align: center;
+		}
+	</style>
+	<body>
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">可理赔账单</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view hospital">
+				<!-- <li class="mui-table-view-cell list1" data-num="600" data-true="false" data-hospital="人民医院" data-costType="诊疗费用">
+					<div class="mui-input-row mui-radio mui-left">
+						<label>2018-09-25 人民医院 诊疗费用
+							<p>支付金额<span>600.00 TKY</span></p>
+						</label>
+						<input class="check" name="checkbox1" value="600" type="radio" data-hospital="人民医院" data-costType="诊疗费用"  onclick="selectCheck(this)">
+					</div>
+				</li>
+				<li class="mui-table-view-cell list2" data-num="300" data-true="false" data-hospital="潞河医院" data-costType="诊疗费用">
+					<div class="mui-input-row mui-radio mui-left">
+						<label>2018-09-25 潞河医院 诊疗费用
+							<p>支付金额<span>300.00 TKY</span></p>
+						</label>
+						<input class="check" name="checkbox1" value="300" data-hospital="潞河医院" data-type="诊疗费用"   type="radio"  onclick="selectCheck(this)">
+					</div>
+				</li> -->
+			</ul>
+			<div class="mui-row total" id="total">
+				总计: <span></span> CNY
+			</div>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block claimBill-btn" onclick="changeProduct()">选择理赔产品</button>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var jsessionid=getUrlParam(document.URL,"jsessionid");
+		var phone=getUrlParam(document.URL,"phone");
+		var moneyList="";
+		var hospital="";
+		var costType="";
+		var productId="";
+		$(function(){
+			getClaimList();
+		});
+		function getClaimList(){
+			var aoData=[];
+			aoData.push({"name":"mobile","value":phone});
+			aoData.push({"name":"token","value":jsessionid});
+			$.ajax({
+				url:''+getUrlBase()+'/applyController/getClaimApply',
+				data:aoData,
+				dataType:"json",
+				type:'post',
+				headers:{},
+				success:function(res){
+					//成功后执行
+					if(res.status){
+						var list=res.body;
+						var ht="";
+						for(var i=0;i<list.length;i++){
+							ht+='<li class="mui-table-view-cell list1" data-num="'+list[i].pay_amount+'" data-true="false" data-hospital="'+list[i].hospital+'" data-costType="'+list[i].insure_type+'" data-id="'+list[i].created_time+'">';
+							ht+='<div class="mui-input-row mui-radio mui-left">';
+							ht+='<label>'+getTimeStr(list[i].created_time,true)+' '+list[i].hospital+' '+list[i].insure_type+'';
+							ht+='<p>支付金额<span>'+list[i].pay_amount+' TKY</span></p>';
+							ht+='</label>';
+							ht+='<input class="check" name="checkbox1" value="'+list[i].pay_amount+'" data-hospital="'+list[i].hospital+'" data-type="'+list[i].insure_type+'"   type="radio"  onclick="selectCheck(this)">';
+							ht+='</div>';
+							ht+='</li>';				
+						}
+						$(".hospital").html(ht);
+					}else{
+						mui.alert(""+res.message+"","提示","确认",submitFailCallback,{type:"div"});
+					}
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown){
+					mui.alert(""+textStatus+"","提示","确认",submitFailCallback,{type:"div"});
+				}
+			});	
+		}
+		function submitFailCallback(){
+
+		}
+		function selectCheck(obj){
+		}
+		function changeProduct(){
+			if($('.check:checked').val()==null){
+				mui.alert("请选择一个理赔账单","提示","确认",submitCallback,{type:"div"});
+			}else{
+				sessionStorage.setItem('hospital',hospital);
+				sessionStorage.setItem('costType',costType);
+				window.location.href="claimproduct.html?money="+$("#total span").html()+"&jsessionid="+jsessionid+"&phone="+phone+"&productId="+productId;
+			}
+		}
+		function countMoney(){
+			var num=0;
+			if(moneyList.length==0){
+				return 0;
+			}else{
+				for(var i=0;i<moneyList.length;i++){
+					num=num+parseInt(moneyList[i]);
+				}
+				return num;
+			}
+		}
+		function returnArrIndex(str){
+			for(var i=0;i<moneyList.length;i++){
+				if(moneyList[i]==str) return i;
+			}
+			return -1;
+		}
+		function removeArrEle(n){
+			if (n > -1) { 
+				moneyList.splice(n, 1); 
+			} 
+		}
+		function submitCallback(){
+			
+		}
+		mui('.hospital').on('tap','.mui-table-view-cell',function(){
+			var num = this.getAttribute("data-num");
+			hospital = this.getAttribute("data-hospital");
+			costType = this.getAttribute("data-costType");
+			productId =  this.getAttribute("data-id");
+			this.setAttribute("data-true",true);
+			moneyList=num;
+			document.getElementById("total").children[0].innerHTML=moneyList;
+		});
+        function getUrlParam(xurl,name){
+			var para="";
+			if(xurl.lastIndexOf("?")>0){
+				para=xurl.substring(xurl.lastIndexOf("?")+1,xurl.length);
+				var arr=para.split("&");
+				para="";
+				for(var i=0;i<arr.length;i++){
+				   if(arr[i].split("=")[0]==name) return arr[i].split("=")[1];
+				}
+				return "";
+		   }else{
+				return "";
+		   }
+		}
+		function getTimeStr(t,isDateStr){
+	    if ( !isDateStr ) isDateStr = false;
+		if ( !t ) return "";
+		if ( t > -2 && t < 10 ) return "";
+		try{
+			var d=new Date(2013,1,1);
+		    d.setTime( t );
+			var str = d.getFullYear()+"-"+getTwoNumberStr(d.getMonth()+1)+"-"+getTwoNumberStr(d.getDate());
+			if ( !isDateStr ) str +=" "+getTwoNumberStr(d.getHours())+":"+getTwoNumberStr(d.getMinutes())
+			       +":"+getTwoNumberStr(d.getSeconds());
+		    return str;
+		}catch(e){
+			return "";
+		}
+	}
+	function getTwoNumberStr(n){
+		if ( n == '00' ) return '00';
+		try{
+			n=Number(n);
+		}catch(e){}
+		return ( n < 10 ) ? ("0"+n):n; 
+	}
+	</script>
+</html>

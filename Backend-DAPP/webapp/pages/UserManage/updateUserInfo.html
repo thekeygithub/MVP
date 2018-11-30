@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>修改人员信息</title>
+  <link rel="stylesheet" type="text/css" href="../../css/comm.css">
+  <link rel="stylesheet" type="text/css" href="../../css/redmond/jquery.ui.all.css">
+  <script type="text/javascript" language="javascript" src="../../js/jquery-3.3.1.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/jquery-ui-1.8.16.custom.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/checkForm.js"></script>
+  <script type="text/javascript" language="JavaScript1.2" src="../../js/Calendar3.js"></script>
+<script type="text/javascript">
+			$(document).ready(function() {
+				  initData();
+			});
+			
+			function initData(){				 
+				var aaData ;
+				aaData= top.getTempValue();
+				document.getElementById("account").value = aaData.account;
+				document.getElementById("username").value = aaData.username;
+				document.getElementById("status").value = aaData.status;
+				document.getElementById("mobile").value = aaData.mobile;
+				document.getElementById("officephone").value = aaData.officephone;
+				document.getElementById("entrydate").value = aaData.entrydate;
+				document.getElementById("jobtitle").value = aaData.jobtitle;
+				document.getElementById("sex").value = aaData.sex;
+				document.getElementById("joblever").value = aaData.joblever;
+				document.getElementById("birthday").value = aaData.birthday;
+				document.getElementById("memo").value = aaData.memo;
+				document.getElementById("email").value = aaData.email;
+				document.getElementById("avatarpath").value = aaData.avatarpath;
+				$("#pic").attr("src",top.getUrlBase()+"/download?filePath="+aaData.avatarpath);
+			}
+			
+			function confirmReset() {
+			    var bo = confirm("是否重置？");
+			    if(bo){
+			         document.getElementById("userInfoForm").reset();
+			    }
+			}
+			
+			function confirmSubmit(){
+				var co = confirm("确认提交？")
+				var msg = "提交成功！";
+				var imgType = "ok";
+				if(co){
+					$.ajax({
+						url:"/HollyBlockChain/sys/updateTblSysUser",
+						type:"get",
+						dataType:"text",
+						data: $('#userInfoForm').serialize(),
+						success:function(){ 
+							top.showInfoWin(msg,imgType)
+							top.closeDialog();	
+						},
+						 error : function() {
+			                 alert("异常！");
+			             }
+					});
+				}
+			}
+			function uploadPic(){
+			    var xurl="../uploadFileSimple.html?preFix=USER";
+			    openDialog( "上传人员照片",xurl,true,500,200,uploadPicCallback);
+			}
+
+			function uploadPicCallback(obj){
+			    try{
+				   var obj=top.getTempValue();
+				   if ( obj.isSaveOK ) {
+					  $("#pic").attr("src",top.getUrlBase()+"/download?filePath="+obj.filePath);
+					  $("#avatarpath").val( obj.filePath );
+				   }
+				 }catch(e){}
+			}
+			function openDialog(t,xurl,isModal,w,h,callback){
+					if ( isModal == undefined ) isModal=true;
+					if ( !h ) h=150;
+					if ( !w ) w=300;
+					$( "#dialog" ).dialog({
+						title: t,
+						height: h,
+						width: w,
+						modal: isModal,
+						resizable: false,
+					    beforeClose: function(event, ui) {
+					        try{
+					            document.getElementById("self_iframe").contentWindow.doBeforeClose();
+					            if ( callback ) callback.apply();
+					        }catch(e){
+					        }
+					        return true;
+					    }
+					});
+					document.getElementById("self_iframe").src = xurl;
+			   }
+</script>
+<style>
+	td{background-color:#fff;}
+	td[align=right]{
+		background-color:#f2f2f2;
+		text-align:center;
+	}
+	.setUpCss{
+	    width: 100%;
+	    border-radius: 5px;
+	    border: 1px solid #ccc;
+	    height: 30px;
+	    padding-left:10px;
+	    box-sizing:border-box;
+	}
+	.btnUploadPic{
+		padding: 5px 20px;
+	    border-radius: 5px;
+	    border: 1px solid #ccc;
+	    background-color: #f2f2f2;
+	    outline:none;
+	    cursor:pointer;
+	}
+	.btnUploadPic:hover{
+		background-color:#ccc;
+	}
+	#okBtn,#cancelBtn{
+		width: 80px;
+	    height: 30px;
+	    border-radius: 5px;
+	    border: 1px solid #ccc;
+	    background-color: #568CD6;
+	    outline:none;
+	    cursor:pointer;
+	    color:#fff;
+	}
+	#cancelBtn{
+		background-color: #ccc;
+	}
+	#okBtn:hover{
+		background-color: #64a600;
+	}
+	#cancelBtn:hover{
+		background-color:#f00;
+	}
+	.userInfo-btn{
+		text-align:center;
+		margin-top:40px;
+	}
+	.ui-button-text{
+		padding:0 !importain;
+	}
+</style>
+</head>
+<body>
+<form action="javascript:void(0)" method="post" id="userInfoForm">
+<table width="100%" border="0" padding="0" spacing="0">
+		<tr class="tr_data">
+			<td width="20%" align="right">人员名称:</td>
+			<td width="30%" align="left"><input type="text" id="username" class="setUpCss" name="username" size="15"/></td>
+			<td width="20%" align="right">邮箱:</td>
+			<td width="30%" align="left" id="tdemail"><input type="text" name="email" id="email" class="setUpCss"  size="15"/></td>
+		</tr>
+		<tr class="tr_email">
+			<td align="right">个人电话:</td>
+			<td align="left"><input type="text" name="mobile" id="mobile" class="setUpCss"  size="15" /></td>
+			<td align="right">办公电话:</td>
+			<td align="left" id="tdofficephone"><input type="text" name="officephone" id="officephone" class="setUpCss"  size="15"/></td>
+		</tr>
+		<tr id="tr_entrydate" class="tr_data">
+			<td align="right">入职日期:</td>
+			<td align="left"><input type="date" name="entrydate" id="entrydate" class="setUpCss"  size="10" /></td>
+			<td align="right">职称:</td>
+			<td align="left" id="tdjobtitle"><input type="text" id="jobtitle" class="setUpCss" name="jobtitle"  size="15"/></td>
+		</tr>
+	<input type="hidden" id="account" name="account"  size="15"/>	
+		<tr id="tr_joblever" class="tr_data">
+			<td align="right">职级:</td>
+			<td align="left"><input type="text"  size="10" id="joblever" class="setUpCss" name="joblever" /></td>
+			<td align="right">性&nbsp;&nbsp;别:</td>
+			<td align="left" id="tdSex"><select name="sex" id="sex" class="setUpCss" >
+					<option value="男">男</option>
+					<option value="女">女</option>
+				</select></td>
+		</tr>
+		<tr id="tr_birthday" class="tr_data">
+			<td align="right">出生日期:</td>
+			<td align="left"><input type="date" name="birthday" id="birthday" class="setUpCss"  size="10" /></td>
+			<td align="right">状&nbsp;&nbsp;态:</td>
+			<td align="left" id="tdStatues"> 
+			<select name="status" id="status" class="setUpCss" >
+					<option value="1">激活</option>
+					<option value="0">冻结</option>
+				</select>
+			</td>
+		</tr>
+		<tr id="tr_memo" class="tr_data">
+			<td align="right">备&nbsp;&nbsp;注:</td>
+			<td align="left" id="tdMemo"><input type="text"   size="15" id="memo" class="setUpCss" name="memo"/></td>
+		</tr>
+		<tr>
+			<td align="right">头像</td>
+			<td align="left"><input type="button" class="btnUploadPic" onclick="uploadPic()" value="上传"/><input type="hidden" id="avatarpath" name="avatarpath" value="123456" /></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><img src="../../img/photos.png" height="80px" width="80px" id="pic"/></td>
+		</tr>
+	</table>
+	<div class="userInfo-btn">
+		<input type="button" id="okBtn" value="提交" onclick="confirmSubmit()" >
+	    <input type="button" id="cancelBtn" value="重置" onclick="confirmReset()"  >
+    </div>
+</form>
+<div id="dialog" title="" style="display:none;padding: 0 0 0 0;margin: 0 0 0 0;z-index:10000">
+    <iframe id="self_iframe" src="about:blank" width="100%" height="96%" frameborder="0"></iframe>
+ </div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html" charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/comm.css">
+  <link rel="stylesheet" type="text/css" href="../../css/redmond/jquery.ui.all.css">
+  <script type="text/javascript" language="javascript" src="../../js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/jquery-ui-1.8.16.custom.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/checkForm.js"></script>
+  <script type="text/javascript" language="JavaScript1.2" src="../../js/Calendar3.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		  initData();
+	});
+	 function initData(){
+		 	var aaData ;
+			aaData= top.getTempValue();
+			document.getElementById("id").value = aaData.id;
+			document.getElementById("custname").value = aaData.custname;
+			document.getElementById("idcard").value = aaData.idcard;
+			document.getElementById("socialcardid").value = aaData.socialcardid;
+			document.getElementById("mobile").value = aaData.mobile;
+			document.getElementById("sex").value = aaData.sex;
+			document.getElementById("status").value = aaData.status;
+			document.getElementById("memo").value = aaData.memo;
+			document.getElementById("birth_date").value = aaData.birth_date;	
+		  }
+	 function confirmReset() {
+		    var bo = confirm("是否重置？");
+		    if(bo){
+		         document.getElementById("updateInfoForm").reset();
+		    }
+		}
+	 function confirmSubmit(){
+			var co = confirm("确认提交？")
+			var msg = "提交成功！";
+			var imgType = "ok";
+			if(co){
+				$.ajax({
+					url:"/HollyBlockChain/InfoController/updateCustInfo",
+					type:"post",
+					dataType:"text",
+					data: $('#updateInfoForm').serialize(),
+					success:function(){ 
+						top.showInfoWin(msg,imgType)
+						top.closeDialog();	
+					},
+					 error : function() {
+		                 alert("异常！");
+		             }
+				});
+			}
+		}
+</script>
+</head>
+<body style="overflow:hidden;">
+<form action="javascript:void(0)" method="post" id="updateInfoForm">
+<table width="100%" border="0" padding="0" spacing="0">
+<input type="hidden" id="id" name="id" value=""/>
+ <tr class="tr_data">
+    <td width="20%" align="right">真实姓名:</td>
+    <td width="40%" align="left"><input type="text" id="custname"  name="custname" size="15"/></td>
+	<td width="40%">照片&nbsp;<input type="button" id="avatar_img" name="avatar_img" onclick="uploadPic()" value="上传"/></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right">身份证号:</td>
+    <td align="left"><input type="text" id="idcard" name="idcard"  size="15" /></td>
+	<td rowspan="8" valign="top">
+		<img src="../../img/photos.png" height="180px" id=""/>
+		<input type="hidden" id="avatarimg" name="avatarimg" value="123456"/>
+	</td>
+ </tr>
+ <tr id="tr_status" class="tr_data">
+    <td align="right">社保卡号:</td>
+    <td align="left" id="tdStatus"><input type="text" id="socialcardid" name="socialcardid"  size="15"/></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right">移动电话:</td>
+    <td align="left" ><input type="text" id="mobile" name="mobile"  size="15" /></td>
+ </tr>
+ <tr id="tr_status" class="tr_data">
+    <td align="right">性&nbsp;&nbsp;别:</td>
+    <td align="left" id="tdsex"><input type="text" id="sex" name="sex" value="" size="15"/></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right">出生日期:</td>
+    <td align="left"><input type="test" id="birth_date" name="birthdate" value="" size="10" /></td>
+ </tr>
+  <tr id="tr_job_title" class="tr_data">
+    <td align="right">状&nbsp;&nbsp;态:</td>
+    <td align="left" id="tdPosition"><input type="text" id="status" name="status" value="" size="15"/></td>
+ </tr>
+ <tr id="tr_job_title" class="tr_data">
+    <td align="right">备&nbsp;&nbsp;注:</td>
+    <td align="left" id="tdPosition"><input type="text" id="memo" name="memo" value="" size="15"/></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right" >身份证件:</td>
+	<td rowspan="8" colspan="2" valign="top" align="left">
+		<img src="../../img/photos.png" height="180px" id="pic"/>
+		<input type="button" id="btnUploadPic" onclick="uploadPic()" value="证件照正面上传"/>
+		<input type="hidden" id="idcardpositive" name="idcardpostive" value="123456" />
+		<img src="../../img/photos.png" height="180px" id="pic"/>
+		<input type="button" id="btnUploadPic" onclick="uploadPic()" value="证件照反面上传"/>
+		<input type="hidden" id="idcardnegative" name="idcardnegative" value="123456" />
+	</td>
+</tr>
+</table>
+<div align="center">
+   <tr>
+	<td><span id="okBtn" class="buttonDivTwo"><input type="submit" onclick="confirmSubmit()" value="提交"/></span></td>
+	<td><span id="cancelBtn" class="buttonDivTwo"><input type="button" onclick="confirmReset()" value="重置"/></span></td>
+   </tr></div>
+</p>
+</form>
+</body>
+</html>

@@ -1,0 +1,59 @@
+.apTabs .tabsWrapper {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size:11px;
+	background-repeat:repeat-x;
+	padding-top:2px;
+	height:27px;
+}
+.apTabs .tabsWrapper ul {
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+.apTabs .tabsWrapper li {
+	display:inline;
+	float:left;
+	margin:0;
+	padding:0;
+	height:24px;
+}
+.apTabs .tabsWrapper img {
+	float:left;
+}
+.apTabs .tabContentsOuter {
+	overflow:hidden;
+	float:left;
+	background-repeat:repeat-x;
+	background-position:bottom;
+	height:27px;
+	margin:0;
+	padding:0;
+}
+.apTabs .tabLabels .tabLabelLeft {
+	background-repeat:no-repeat;
+	background-position:left top;
+	color:#000;
+	text-decoration:none;
+	height:18px;
+	float:left;
+	padding:6px 0px 0px 5px;
+}
+.apTabs .tabLabels .tabLabelRight {
+	background-repeat:no-repeat;
+	padding:0;
+	margin:0;
+	width:23px;
+	height:24px;
+	float:right;
+}
+.apTabs .tabLabels li {
+	cursor: default;
+}
+.apTabs .tabsContent {
+	border:1px solid #96A0BD;
+	border-top:none;
+	clear:both;
+}
+.apTabs .tabContent {
+	overflow:auto;
+}

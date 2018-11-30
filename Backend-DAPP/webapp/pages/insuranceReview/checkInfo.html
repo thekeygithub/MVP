@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title></title>
+		<script src="../../js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			html,body,#content{
+				width: 100%;
+				height: 100%;
+			}
+			#content{
+				text-align: center;
+			}			
+			#content textarea{
+				border: 1px solid #ccc;
+				width: 400px;
+				height: 100px;
+				outline: none;
+				border-radius: 5px;
+				resize: none;
+			}
+			.submit-btn{
+				text-align: center;
+				width: 100%;
+			}
+			.red{
+				background-color: red;
+				border: 1px solid red;
+				color: #fff;
+				border-radius: 5px;
+				padding:5px 10px;
+				margin: 10px 10px;
+			}
+			.green{
+				background-color: green;
+				border: 1px solid green;
+				color: #fff;
+				border-radius: 5px;
+				padding:5px 10px;
+				margin: 10px 10px;
+			}
+		</style>
+		<script type="text/javascript">
+			var passInfo="";
+			var desc="";
+			function checkInfo(passInfo,desc){
+				var aaData;
+				aaData= top.getTempValue();
+				aaData.push({"name":"status","value":passInfo});
+				aaData.push({"name":"check_desc","value":desc});
+				top.sendAjaxRequest("applyController/checkProductApply",aaData,optCallback);
+			}
+			function optCallback(res){
+				if (res.status == true) {
+					top.showInfoWinOK("操作成功");
+				} else {
+					top.showInfoWinError("操作失败 " + res.message);
+				}
+			}
+			function checkPass(){
+				passInfo="1";
+				desc=$("#check_desc").val();
+				checkInfo(passInfo,desc);
+			}
+			function checkNoPass(){
+				passInfo="2";
+				desc=$("#check_desc").val();
+				checkInfo(passInfo,desc);
+			}
+		</script>
+	</head>
+	<body>
+		<div id="content">
+			<textarea rows="" cols="5" placeholder="请输入审核描述" id="check_desc"></textarea>
+			<div class="submit-btn">
+				<button type="button" class="green" onclick="checkPass()">通过</button>
+				<button type="button" class="red" onclick="checkNoPass()">不通过</button>
+			</div>
+		</div>
+	</body>
+</html>

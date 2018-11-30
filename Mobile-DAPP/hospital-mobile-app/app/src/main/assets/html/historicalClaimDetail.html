@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery-2.0.3.min.js"></script>
+		<script src="../js/public.js"></script>
+		<style>
+			.submit-btn{
+				width: 94%;
+				margin: 10px 10px 0;
+				display: none;
+			}
+		</style>
+		<script type="text/javascript">
+			mui.init();
+			var jsessionid=getUrlParam(document.URL,"jsessionid");
+			var phone=getUrlParam(document.URL,"phone");
+			var productId=getUrlParam(document.URL,"productId");
+			$(function(){
+				getClaimDetail();
+			});
+			function getClaimDetail(){
+				// mui.toast(''+productId+'',{ duration:'long', type:'div' }) 
+				var aoData=[];
+				aoData.push({"name":"created_time","value":productId});
+				aoData.push({"name":"token","value":jsessionid});
+				aoData.push({"name":"mobile","value":phone});
+				$.ajax({
+					url:''+getUrlBase()+'/applyController/getClaimApplyOne',
+					data:aoData,
+					type : "post",
+					dataType : "json",
+					success : function(data) {
+						if(data.status){
+							$("#insured_name").html(data.body.insured_name);
+							var sex="";
+							if(data.body.sex=="男"){
+								sex="男";
+							}else{
+								sex="女";
+							}
+							$("#sex").html(sex);
+							$("#hospital").html(data.body.hospital);
+							$("#insure_type").html(data.body.insure_type);
+							$("#pay_amount").html(data.body.pay_amount+'TKY');
+							$("#created_time").html(getTimeStr(data.body.created_time));
+							$("#finish_time").html(getTimeStr(data.body.finish_time));
+							var approval_status="";
+							if(data.body.approval_status=="0"){
+								approval_status="未审核";
+							}else if(data.body.approval_status=="1"){
+								approval_status="通过";
+							}else{
+								approval_status="不通过";
+							}
+							$("#approval_status").html(approval_status);
+							var is_withdraw="";
+							if(data.body.is_withdraw=="0"){
+								is_withdraw="未提现";
+							}else{
+								is_withdraw="已提现";
+							}
+							$("#is_withdraw").html(is_withdraw);
+							if(data.body.approval_status=="1" && data.body.is_withdraw=="0"){
+								$(".submit-btn").show();
+							}else{
+								$(".submit-btn").hide();
+							}
+						}
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown){
+						mui.alert(""+textStatus+"","提示","确认",submitFailCallback,{type:"div"});
+					}
+				});
+			}
+			function submitFailCallback(){
+
+			}
+			function getMoney(){
+				var aoData=[];
+				aoData.push({"name":"created_time","value":productId});
+				aoData.push({"name":"token","value":jsessionid});
+				aoData.push({"name":"mobile","value":phone});
+				$.ajax({
+					url:''+getUrlBase()+'/applyController/userWithdrawClaimFee',
+					data:aoData,
+					type : "post",
+					dataType : "json",
+					success : function(data) {
+						if(data.status){
+							mui.alert("提现成功","提示","确认",submitCallback,{type:"div"});
+						}
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown){
+						mui.alert(""+textStatus+"","提示","确认",submitFailCallback,{type:"div"});
+					}
+				});
+			}
+			function submitCallback(){
+				getClaimDetail();
+			}
+			function getUrlParam(xurl,name){
+			var para="";
+			if(xurl.lastIndexOf("?")>0){
+				para=xurl.substring(xurl.lastIndexOf("?")+1,xurl.length);
+				var arr=para.split("&");
+				para="";
+				for(var i=0;i<arr.length;i++){
+				   if(arr[i].split("=")[0]==name) return arr[i].split("=")[1];
+				}
+				return "";
+		   }else{
+				return "";
+		   }
+		}
+		function getTimeStr(t,isDateStr){
+	    if ( !isDateStr ) isDateStr = false;
+		if ( !t ) return "";
+		if ( t > -2 && t < 10 ) return "";
+		try{
+			var d=new Date(2013,1,1);
+		    d.setTime( t );
+			var str = d.getFullYear()+"-"+getTwoNumberStr(d.getMonth()+1)+"-"+getTwoNumberStr(d.getDate());
+			if ( !isDateStr ) str +=" "+getTwoNumberStr(d.getHours())+":"+getTwoNumberStr(d.getMinutes())
+			       +":"+getTwoNumberStr(d.getSeconds());
+		    return str;
+		}catch(e){
+			return "";
+		}
+	}
+	function getTwoNumberStr(n){
+		if ( n == '00' ) return '00';
+		try{
+			n=Number(n);
+		}catch(e){}
+		return ( n < 10 ) ? ("0"+n):n; 
+	}
+		</script>
+	</head>
+
+	<body>
+		
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">理赔详情</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					姓名：<span id="insured_name"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					性别：<span id="sex"></span>
+				</li>
+				<!-- <li class="mui-table-view-cell">
+					出生日期：<span id="">1988-08-08</span>
+				</li> -->
+				<li class="mui-table-view-cell">
+					医院名称：<span id="hospital"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					理赔项：<span id="insure_type"></span>
+				</li>
+				<!-- <li class="mui-table-view-cell">
+					保险产品：<span id="">健康人寿</span>
+				</li> -->
+				<li class="mui-table-view-cell">
+					报销金额：<span id="pay_amount"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					申请时间：<span id="created_time"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					报销时间：<span id="finish_time"></span>
+				</li>
+				<!-- <li class="mui-table-view-cell">
+					就医城市：<span id="">北京市</span>
+				</li> -->
+				<li class="mui-table-view-cell">
+					审核状态：<span id="approval_status"></span>
+				</li>
+				<li class="mui-table-view-cell">
+					提现状态：<span id="is_withdraw"></span>
+				</li>
+			</ul>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block submit-btn" onclick="getMoney()">提现</button>
+	</body>
+
+</html>

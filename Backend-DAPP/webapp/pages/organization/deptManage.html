@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/drag-drop-folder-tree.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/context-menu.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/comm.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/commBg.css">
+	<link rel="stylesheet" type="text/css" href="../../css/table_blue.css">
+	<style>
+		body{
+			font-family: "Microsoft Yahei", "sans-serif", "tahoma", "arial";
+		}
+	</style>
+    <script type="text/javascript" language="javascript" src="../../js/jquery-1.6.2.min.js" ></script>
+	<script type="text/javascript" language="javascript" src="../../js/myDtree.js" ></script>
+	<script type="text/javascript" language="javascript" src="../../js/context-menu.js"></script>
+	<script type="text/javascript" language="javascript" src="../../js/drag-drop-folder-tree.js" ></script>
+	
+	<script type="text/javascript" >
+       var d=null;
+       var treeObj=null;
+       var currentDeptId=0;
+	   var currentDeleteId=0;
+       var isNeedReloadUsers=false;
+	   var deptData=[];
+
+       $(document).ready(function(){
+    	   loadDeptTree();
+    	   document.getElementById("addDeptImg").style.display = (top.g_isPermit("sys_addDept")?"":"none");
+    	   document.getElementById("delDeptImg").style.display = (top.g_isPermit("sys_delDept")?"":"none");
+    	   document.getElementById("editDeptImg").style.display = (top.g_isPermit("sys_editDept")?"":"none");
+    	   document.getElementById("sortDeptImg").style.display = (top.g_isPermit("sys_editDept")?"":"none");
+		   
+		   $("#treeDetail").height( $(window).height() - 30 );
+		   $("#deptDetailFrame").height( $(window).height() - 100 );
+		   
+		   $( "#dept_belong_area_td" ).html( top.getCodeSelectHtml("BELONG_AREA","dept_area",true,null,null,null,"80px") );
+		   $( "#dept_type_td" ).html( top.getCodeSelectHtml("DEPT_TYPE","dept_type",true,null,null,null,"80px") );
+       });
+       // 加载部门数据
+       function loadDeptTree(){
+    	   top.sendAjaxRequest("/actions/Dept.action?getDeptList",[],initDeptTree);
+       }
+       // 初始化部门树
+       function initDeptTree(obj){
+    	   d=new dTree('d');
+           d.config.useSelection = true;
+           d.config.folderLinks = true;
+           d.config.useStatusText = false;
+           d.config.useLines = false;
+           
+           top.setDeptData( obj.aaData );
+           deptData=obj.aaData;
+		   
+           currentDeptId=0;
+
+           if( obj.aaData ){
+        	   for(var i=0;i<obj.aaData.length;i++){
+        		   d.add( obj.aaData[i].deptId, obj.aaData[i].parentId, obj.aaData[i].name );
+        	   }
+           }
+
+           $("#deptTree").html( d.toString() );
+           treeObj = new JSDragDropTree();
+           treeObj.setTreeId('dhtmlgoodies_tree2');
+           treeObj.setMaximumDepth(20);
+           treeObj.setMessageMaximumDepthReached('已到达最大的层次'); 
+           treeObj.setRenameAllowed(true);
+           treeObj.setDeleteAllowed(true);
+           treeObj.initTree();
+           treeObj.expandAll();
+		   
+		   var deptObj=getDeptInfo(currentDeptId);
+		   if ( deptObj ){
+		     $("#dept_area").val( deptObj.dept_area );
+		     $("#dept_type").val( deptObj.dept_type );
+		     $("#dept_tel").val( deptObj.phone );
+		   }
+       }
+       // 选中部门节点后触发函数
+       function onSelectedNode(nid){
+    	   if ( currentDeptId == nid ) return ;
+    	   var name="";
+    	   currentDeptId = nid;
+    	   if ( nid == 0 ) {
+    		   nid="";
+    		   name="组织机构";
+    	   }else name=d.getNodePath(nid);
+    	   document.getElementById("deptDetailFrame").contentWindow.queryBySelectedDept(nid,name);
+		   $("#selectDeptName").html( name );
+		   if ( top.getConfig_use_positon_model() ) {
+		     getPositionByDeptList();
+		   }
+		   var deptObj=getDeptInfo(currentDeptId);
+		   if ( deptObj ){
+		     $("#dept_area").val( deptObj.dept_area );
+		     $("#dept_type").val( deptObj.dept_type );
+		     $("#dept_tel").val( deptObj.phone );
+		     $("#dept_code").val( deptObj.dept_code );
+		   }
+       }
+	   
+	   function getDeptInfo(did){
+	       for ( var i=0;i<deptData.length;i++ ) {
+		      if ( deptData[i].deptId == did ) return deptData[i];
+		   }
+		   return null;
+	   }
+	   
+	   function getPositionByDeptList(){
+	       var aoData=[];
+           aoData.push( { "name": "dept.deptId", "value": currentDeptId } );
+	       top.sendAjaxRequest("/actions/Dept.action?getPositionByDeptList",aoData,getPositionByDeptListCallback);
+	   }
+	   
+	   function getPositionByDeptListCallback(obj){
+	       var ht="";
+           if( obj.aaData ){
+        	   for(var i=0;i<obj.aaData.length;i++){
+        		   ht+='&nbsp;&nbsp;['+top.getCodeName( "SYS_POSITION", obj.aaData[i].position_code)+']'+obj.aaData[i].user_code;
+				   ht+='&nbsp;<img src="../../img/delete.gif" onclick="deletePosition(\''+obj.aaData[i].id+'\')"></img>';
+        	   }
+           }
+		   ht+='&nbsp;&nbsp;<span id="add_position_span" style="display:none">'+top.getCodeSelectHtml("SYS_POSITION","add_position_code",true)+'&nbsp;<input type="text" id="add_user_code" value="" size="7"></input>';
+		   ht+='<input type="button" value="保存" onclick="addPosition()"/></span><input id="addPositionBtn" type="button" value="添加岗位" onclick="showAddPosition()">';
+		   $("#selectDeptPosition").html( ht );
+       }
+	   
+	   function showAddPosition(){
+	       $("#addPositionBtn").hide();
+		   $("#add_position_span").show();
+	   }
+	   
+	   function deletePosition(id){
+	       top.showConfirm("您确定要删除该岗位吗？", doDeletePosition);
+	       currentDeleteId=id;
+	   }
+	   
+	   function doDeletePosition(){
+	       var aoData=[];
+           aoData.push( { "name": "position.id", "value": currentDeleteId } );
+           top.sendAjaxRequest("/actions/Dept.action?deletePosition",aoData,optPositionCallback);
+	   }
+	   
+	   function addPosition(){
+	       var msg="";
+		   if ( $("#add_position_code").val() == '' ) {
+		      msg+="请输入岗位<br/>";
+		   }
+		   if ( $("#add_user_code").val() == '' ) {
+		      msg+="请输入用户账号";
+		   }
+		   if ( msg != '' ) {
+		     top.showInfoWinWarn( msg );
+		     return ;
+		   }
+	       var aoData=[];
+           aoData.push( { "name": "position.dept_id", "value": currentDeptId } );
+           aoData.push( { "name": "position.position_code", "value": $("#add_position_code").val() } );
+           aoData.push( { "name": "position.user_code", "value": $("#add_user_code").val() } );
+           top.sendAjaxRequest("/actions/Dept.action?insertPosition",aoData,optPositionCallback);
+	   }
+	   
+	   function optPositionCallback(obj){
+           try{
+            if ( obj.status == true ){
+			  $("#addPositionBtn").show();
+		      $("#add_position_span").hide();
+			  getPositionByDeptList();
+            }else{
+              top.showInfoWinError("操作失败");
+            }
+           }catch(e){
+              top.showInfoWinError("处理异常:"+e.message);
+           }
+       }
+	   
+       function createDept(){
+    	   top.showInputDialog("创建下级部门", "请输入部门名称", doCreateDept);
+       }
+       // 执行新建部门操作
+       function doCreateDept(name){
+    	   var aoData=[];
+           aoData.push( { "name": "dept.name", "value":name } );
+           aoData.push( { "name": "dept.parentId", "value":currentDeptId } );
+           aoData.push( { "name": "dept.sortOrder", "value": (d.getSubNodesNum(currentDeptId)+1) } );
+           isNeedReloadUsers=false;
+           top.sendAjaxRequest("/actions/Dept.action?insertDept",aoData,optCallback);
+       }
+       // 弹出删除操作确认框
+       function deleteDept(){
+    	   if ( currentDeptId == 0 ) {
+    		   top.showInfoWinWarn("不允许删除根节点");
+           return ;
+    	   }
+    	   if ( d.getSubNodesNum( currentDeptId ) > 0 ) {
+    		   top.showInfoWinWarn("不允许删除还有下级节点的部门");
+           return ;
+    	   }
+    	   var num=document.getElementById("deptDetailFrame").contentWindow.getUsersNum();
+    	   if ( num == -1 ) return ;
+    	   if ( num > 0 ) {
+    		   top.showInfoWinWarn("不允许删除还有用户的部门");
+    		   return ;
+    	   }
+    	   top.showConfirm("您确定要删除选中的部门吗？", doDeleteDept);
+       }
+       // 执行删除操作
+       function doDeleteDept(){
+           var aoData=[];
+           aoData.push( { "name": "dept.deptId", "value":currentDeptId } );
+           isNeedReloadUsers=true;
+           top.sendAjaxRequest("/actions/Dept.action?deleteDept",aoData,optCallback);
+       }
+       // 弹出修改部门名称对话框
+       function editDept(){
+    	   var node = top.getDeptById( currentDeptId );
+    	   if ( !node ) return ;
+    	   top.showInputDialog("修改部门名称", "请输入新部门名称", doEditDept, node.name );
+       }
+       // 执行修改操作
+       function doEditDept(name){
+    	   if ( name == '' ) {
+    		   top.showInfoWinWarn("请输入部门名称");
+               return ;
+    	   }
+    	   var node = top.getDeptById( currentDeptId );
+           var aoData=[];
+           aoData.push( { "name": "dept.deptId", "value":currentDeptId } );
+           aoData.push( { "name": "dept.name", "value":name } );
+           aoData.push( { "name": "dept.parentId", "value":node.parentId } );
+           aoData.push( { "name": "dept.sortOrder", "value": node.sortOrder } );
+           isNeedReloadUsers=false;
+           top.sendAjaxRequest("/actions/Dept.action?updateDeptName",aoData,optCallback);
+       }
+       // 新建、删除或修改操作回调函数
+       function optCallback(obj){
+           try{
+            if ( obj.status == true ){
+              loadDeptTree();
+              if ( isNeedReloadUsers ) onSelectedNode(0);
+              isNeedReloadUsers=false;
+              top.showInfoWinOK("操作成功");
+            }else{
+              top.showInfoWinError("操作失败");
+            }
+           }catch(e){
+              top.showInfoWinError("处理异常:"+e.message);
+           }
+       }
+       // 保存排序
+       function saveTreeOrder(){
+           var aoData=[];
+           aoData.push( { "name": "dept.deptId", "value": treeObj.getNodeOrders() } );
+           isNeedReloadUsers=false;
+           top.sendAjaxRequest("/actions/Dept.action?saveOrders",aoData,optCallback);
+       }
+	   
+	   function saveDeptInfo(){
+	       var aoData=[];
+           aoData.push( { "name": "dept.deptId", "value": currentDeptId } );
+		   aoData.push( { "name": "dept.dept_area", "value": $("#dept_area").val() } );
+		   aoData.push( { "name": "dept.dept_type", "value": $("#dept_type").val() } );
+		   aoData.push( { "name": "dept.phone", "value": $("#dept_tel").val() } );
+		   aoData.push( { "name": "dept.dept_code", "value": $("#dept_code").val() } );
+           top.sendAjaxRequest("/actions/Dept.action?updateDetailDept",aoData,optCallback);
+	   }
+    </script>
+</head>
+<body>
+<center>
+<table style="width:95%;height:100%;padding:0;spacing:0;">
+  <tr style="width:100%;height:100%;text-align:left">
+   <td style="width:30%;border:1px;border-style: dotted;border-color: #A0CFEC;" valign="top">
+		<div style="padding:3px;float:top;">
+	        <img src="../../img/folderopen.gif" style="cursor:pointer" title="全部展开" onclick="treeObj.expandAll()" />
+	        <img src="../../img/folder.gif" style="cursor:pointer" title="全部收缩" onclick="treeObj.collapseAll()" />
+	        <img src="../../img/add.gif" id="addDeptImg" style="cursor:pointer" title="创建下级部门" onclick="createDept()" />
+          <img src="../../img/delete.gif" id="delDeptImg" style="cursor:pointer" title="删除选择的部门" onclick="deleteDept()" />
+          <img src="../../img/edit.gif" id="editDeptImg" style="cursor:pointer" title="修改选择的部门" onclick="editDept()" />
+          <img src="../../img/save.bmp" id="sortDeptImg" style="cursor:pointer" title="保存部门节点排序" onclick="saveTreeOrder()" />
+	    </div>
+		<div class="dtree" id="deptTree" style="padding:3px;">
+		</div>
+   </td>
+   <td id="treeDetail" style="width:70%;border:1px;border-style: dotted dotted dotted none;border-color: #A0CFEC;" valign="top">
+      <table width="100%" height="40px">
+	    <tr>
+		  <td id="selectDeptName" colspan="4">总经办</td>
+		  <td id="selectDeptPosition" colspan="4"></td>
+		</tr>
+		<tr class="tr_data">
+		  <td align="right" width="10%">所属区域:</td><td width="10%" id="dept_belong_area_td"></td>
+		  <td align="right" width="10%">部门类型:</td><td width="10%" id="dept_type_td"></td>
+		  <td align="right" width="10%">代码:</td><td align="left" width="10%"><input id="dept_code" size="7"/></td>
+		  <td align="right" width="10%">电话:</td><td width="10%" ><input type="text" id="dept_tel" size="7"/></td>
+		  <td><div id="saveBtn" class="buttonDivTwo"><a href="javascript:saveDeptInfo()">保存</a></div></td>
+		</tr>
+	  </table>
+	  <iframe id="deptDetailFrame" src="userManage.html?optType=fromDept" width="100%" frameborder="0"></iframe>
+   </td>
+  </tr>	
+</table>
+</center>
+</body>
+</html>

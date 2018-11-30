@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg"
+    >
+    <include layout="@layout/layout_title_text"/>
+    <ImageView
+        android:layout_width="600px"
+        android:layout_height="800px"
+        android:id="@+id/iv_check"
+        android:layout_margin="20dp"
+        android:scaleType="fitXY"
+        android:layout_centerInParent="true"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/pb_pbar"
+        android:padding="10dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tv_msg"
+        android:textSize="@dimen/txt_big"
+        android:textColor="@color/white"/>
+    <ProgressBar
+        android:id="@+id/pb_pbar"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:indeterminate="false"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/progress_bar_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"/>
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:textSize="@dimen/txt_middle"
+        android:textColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/checking"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/strock"/>
+
+</RelativeLayout>

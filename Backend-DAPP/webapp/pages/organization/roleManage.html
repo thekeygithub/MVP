@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/dtree.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/context-menu.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/comm.css"/>
+	<link rel="stylesheet" type="text/css" href="../../css/commBg.css">
+    <link rel="stylesheet" type="text/css" href="../../css/table_jui.css">
+    <link rel="stylesheet" type="text/css" href="../../css/redmond/jquery-ui-1.8.16.custom.css">
+    <link rel="stylesheet" type="text/css" href="../../css/table_blue.css">
+    <script type="text/javascript" language="javascript" src="../../js/jquery-1.6.2.min.js" ></script>
+    <script type="text/javascript" language="javascript" src="../../js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" src="../../js/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" language="javascript" src="../../js/context-menu.js"></script>
+    <script type="text/javascript" src="../../js/tree.js"></script>
+    
+    <script type="text/javascript" >
+       var oTable=null;
+       var d=null;
+       var currentRoleId=-1;
+       var currentOptRoleId="";
+       var isNeedReloadUsers=false;
+       var currentRightIds="";
+       var allRightIds=[];
+
+       $(document).ready(function(){
+    	   var iaoColumns= [
+                            { "sTitle": "角色名称", "mDataProp": "roleName", "sWidth": "65%",
+                                   "fnRender": function ( oObj ) {
+                                        return '<a href="javascript:void(0)" onclick="onSelectedRole(\''+oObj.aData.roleId+'\',\''+oObj.aData.roleName+'\')">'+oObj.aData.roleName+'</a>';
+                                   },
+                                   "bUseRendered": false
+                            },
+                            { "sTitle": "操作", "mDataProp": "roleId", "sWidth": "35%","bSortable":false,
+                                "fnRender": function ( oObj ) {
+                                  var ht= '';
+                                  if ( top.g_isPermit("sys_editRole") ) ht+= '&nbsp;<img src="../../img/edit.gif" style="cursor:pointer" onclick=editRole(\''+oObj.aData.roleId+'\',\''+oObj.aData.roleName+'\') />';
+                                  if ( top.g_isPermit("sys_delRole") ) ht+='&nbsp;<img src="../../img/delete.gif" style="cursor:pointer" onclick=deleteRole(\''+oObj.aData.roleId+'\',\''+oObj.aData.roleName+'\') />';
+                                  return ht;
+                                },
+                                "bUseRendered": false
+                            }
+            ];
+
+            oTable = $('#roleTable').dataTable( {
+                 "bProcessing": false,
+                 "bServerSide": true,
+                 "bJQueryUI": true,
+                 "bFilter": false,
+                 "bDestroy": true,
+                 "bLengthChange": false,
+                 "sAjaxSource": top.getUrlBase()+"/actions/Role.action?getRoleList",
+                 "oLanguage": {
+                     "sUrl": top.getUrlBase()+"/lang_zh.txt"
+                 },
+                 "fnServerData": function ( sUrl, aoData, fnCallback ) {
+                     $.ajax( {
+                         "url":  sUrl,
+                         "data": aoData,
+                         "success": function (json) {
+                             fnCallback( json );
+                         },
+                         "dataType": "json",
+                         "cache": false,
+                         "type": "POST",
+                         "error": function (xhr, error, thrown) {
+                             top.showInfoWinError("发生异常:"+error);
+                         }
+                     } );
+                 },
+                 "sDom": "frt",
+                 "sPaginationType": "full_numbers",
+                 "aoColumns": iaoColumns
+             } );
+            
+    	   top.sendAjaxRequest("/actions/Role.action?getRightList",[],initRightTree);
+    	   if ( top.g_isPermit("sys_addRole") ) {
+    	     $( "#createBtn" ).show();
+    	   } else $( "#createBtn" ).hide();
+    	   $("#treeDetail").height( $(window).height() - 46 );
+    	   document.getElementById("saveRoleUserImg").style.display = (top.g_isPermit("sys_editRole")?"":"none");
+       });
+
+       // 初始化权限树
+       function initRightTree(obj){
+           d=new Tree("d");
+           d.setImagePath("../../img");
+           d.useIcon(false);
+           d.useLine(true);
+           d.useControl(true);
+           d.setCheckParent(true);
+           d.setCheckBox(true,"right_id");
+           d.setRoot("0","功能权限");
+
+           currentRoleId=-1;
+           allRightIds=[];
+           if( obj.aaData ){
+               for(var i=0;i<obj.aaData.length;i++){
+            	   d.add(obj.aaData[i].rightId, obj.aaData[i].parentId, obj.aaData[i].rightName,'','',true, obj.aaData[i].rightId);
+            	   allRightIds[i]=obj.aaData[i].rightId;
+               }
+           }
+           $("#rightTree").html( d.toString() );
+           d.closeAll();
+       }
+       // 选中角色后触发函数
+       function onSelectedRole(nid,name){
+           if ( currentRoleId == nid ) return ;
+		   try{
+			   document.getElementById("roleUsersFrame").contentWindow.queryBySelectedRole(nid,name);
+			   currentRoleId = nid;
+			   var aoData=[];
+			   aoData.push( { "name": "role.roleId", "value":currentRoleId } );
+			   document.getElementById("user_roleName").innerHTML="【"+name+"】";
+			   document.getElementById("right_roleName").innerHTML="【"+name+"】";
+			   top.sendAjaxRequest("/actions/Role.action?getRoleDetail",aoData,roleRightCallback);
+		   }catch(e){
+		   }
+       }
+       
+       function roleRightCallback(obj){
+    	      try{
+               if ( obj.status == true ){
+                 loadRight(obj.body);
+               }else{
+                 top.showInfoWinError("获取角色下的权限列表失败");
+               }
+              }catch(e){
+                 top.showInfoWinError("处理异常:"+e.message);
+              }
+       }
+       
+       function loadRight(ids){
+       	   currentRightIds=ids+",";
+    	     top.initCheckedValue(document.getElementsByName("right_id"),ids);
+       }
+       
+       function createRole(){
+           top.showInputDialog("添加角色", "请输入角色名称", doCreateRole);
+       }
+       // 执行新建角色操作
+       function doCreateRole(name){
+	       if ( name == '' ) {
+		     top.showInputDialog("请输入角色名称");
+		     return ;
+		   }
+           var aoData=[];
+           aoData.push( { "name": "role.roleName", "value":name } );
+           isNeedReloadUsers=false;
+		   top.showLoadingInfo(true);
+           top.sendAjaxRequest("/actions/Role.action?insertRole",aoData,optCallback);
+       }
+       // 弹出删除操作确认框
+       function deleteRole(id,name){
+    	   currentOptRoleId = id;
+           top.showConfirm("您确定要删除角色["+name+"]吗？", doDeleteRole);
+       }
+       // 执行删除操作
+       function doDeleteRole(){
+           var aoData=[];
+           aoData.push( { "name": "role.roleId", "value":currentOptRoleId } );
+           isNeedReloadUsers=true;
+           currentOptRoleId = "";
+		   top.showLoadingInfo(true);
+           top.sendAjaxRequest("/actions/Role.action?deleteRole",aoData,optCallback);
+       }
+       // 弹出修改角色名称对话框
+       function editRole(id,name){
+    	   currentOptRoleId = id;
+           top.showInputDialog("修改角色名称", "请输入新角色名称", doEditRole, name );
+       }
+       // 执行修改操作
+       function doEditRole(name){
+           if ( name == '' ) {
+               top.showInfoWinWarn("请输入角色名称");
+               return ;
+           }
+           var aoData=[];
+           aoData.push( { "name": "role.roleId", "value":currentOptRoleId } );
+           aoData.push( { "name": "role.roleName", "value":name } );
+           isNeedReloadUsers=false;
+           currentOptRoleId = "";
+		   top.showLoadingInfo(true);
+           top.sendAjaxRequest("/actions/Role.action?updateRole",aoData,optCallback);
+       }
+       // 新建、删除或修改操作回调函数
+       function optCallback(obj){
+	       top.showLoadingInfo(false);
+           try{
+            if ( obj.status == true ){
+              if ( isNeedReloadUsers ) onSelectedRole(-1,"");
+              isNeedReloadUsers=false;
+              top.showInfoWinOK("操作成功");
+              oTable.fnDraw();
+              currentRightIds=top.getAllCheckedValue( document.getElementsByName("right_id") )+",";
+            }else{
+              top.showInfoWinOK("操作失败");
+            }
+           }catch(e){
+              top.showInfoWinError("处理异常:"+e.message);
+           }
+       }
+       // 保存角色与权限的关联关系
+       function saveRoleRight(){
+       	   if( currentRoleId == -1 ){
+       	   	  top.showInfoWinWarn("请先选择要操作的角色");
+       	      return ;
+       	   }
+       	   var ids=top.getAllCheckedValue( document.getElementsByName("right_id") )+",";
+       	   var insertIds="";
+       	   var deleteIds="";
+       	   for ( var i=0;i<allRightIds.length;i++ ) {
+       	   	  if ( allRightIds[i] == null || allRightIds[i] == '' ) continue; 
+       	      if ( currentRightIds.indexOf(allRightIds[i]+",") == -1 && ids.indexOf(allRightIds[i]+",") != -1 ) {
+       	      	 insertIds+=(allRightIds[i]+",");
+       	      } else if ( currentRightIds.indexOf(allRightIds[i]+",") != -1 && ids.indexOf(allRightIds[i]+",") == -1 ) {
+       	         deleteIds+=(allRightIds[i]+",");
+       	      }
+       	   }
+       	   var aoData=[];
+           aoData.push( { "name": "role.roleId", "value": currentRoleId } );
+           aoData.push( { "name": "insertIds", "value": insertIds } );
+           aoData.push( { "name": "deleteIds", "value": deleteIds } );
+		   top.showLoadingInfo(true);
+       	   top.sendAjaxRequest("/actions/Role.action?updateRoleRight",aoData,optCallback);
+       }
+    </script>
+</head>
+<body>
+<center>
+<table style="width:95%;height:100%;padding:0;spacing:0;">
+  <tr class="tr_data" style="width:100%;height:100%;text-align:left">
+   <td style="width:20%;height:100%;border:1px;border-style: dotted;border-color: #A0CFEC;" valign="top">
+	  角色列表<br>
+       <div class="btns_ellipse">
+           <table align="left" cellpadding="1px" cellspacing="0" border="0">
+               <tr>
+                   <td>
+                       <div id="createBtn" class="buttonDivTwo"><a href="javascript:createRole()">创建</a></div>
+                   </td>
+               </tr>
+           </table>
+       </div>
+      <table cellpadding="0" width="100%" cellspacing="0" border="0" class="display" id="roleTable"></table>
+   </td>
+   <td style="width:25%;height:100%;border:1px;border-style: dotted;border-color: #A0CFEC;" valign="top">
+        <span id="right_roleName"></span>关联的权限<br>
+        <div style="padding:3px;float:top;">
+            <img src="../../img/folderopen.gif" style="cursor:pointer" title="全部展开" onclick="d.openAll()" />
+            <img src="../../img/folder.gif" style="cursor:pointer" title="全部收缩" onclick="d.closeAll()" />
+            <img src="../../img/save.bmp" id="saveRoleUserImg" style="cursor:pointer" title="保存角色与权限的关联关系" onclick="saveRoleRight()" />
+        </div>
+        <div class="dtree" id="rightTree" style="padding:3px;">
+        </div>
+   </td>
+   <td id="treeDetail" style="width:55%;height:100%;border:1px;border-style: dotted dotted dotted none;border-color: #A0CFEC;" valign="top">
+      &nbsp;<span id="user_roleName"></span>关联的用户<br>
+      <iframe id="roleUsersFrame" src="userManage.html?optType=fromRole" width="100%" height="100%" frameborder="0"></iframe>
+   </td>
+  </tr> 
+</table>
+</center>
+</body>
+</html>

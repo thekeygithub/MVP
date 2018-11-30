@@ -1,0 +1,351 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/public.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.mui-input-row label{
+				width: 46%;
+			}
+			.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea{
+				width: 54%;
+			}
+			.auHeight{
+				height: auto !important;
+				text-align: center;
+			}
+			.auHeight textarea{
+				float: none !important;
+				width: 99% !important;
+				border: 1px solid #CCCCCC !important;
+				margin: 5px auto;
+				height: 100px;
+			}
+			.submit-btn{
+				width: 94%;
+				margin: 10px auto 0;
+			}
+			.paddingB5{
+				padding-bottom: 5px;
+			}
+			#modal{
+				width: 100%;
+				height: 100%;
+				background-color: #000000;
+				position: fixed;
+				top: 0;
+				left: 0;
+				opacity: 0.8;
+				overflow: hidden;
+				display: none;
+			}
+			#modalDetail{
+				width: 100%;
+				height: 100px;
+				background-color: #fff;
+				margin-top: 300px;
+				overflow: hidden;
+			}
+			#modalDetail p{
+				font-size: 20px;
+				height: 30px;
+				line-height: 30px;
+				margin-top: 35px;
+				text-align: center;
+				color: #000;
+				opacity: 1;
+			}
+		</style>
+		<script type="text/javascript">
+			mui.init()
+			var jsessionid=getUrlParam(document.URL,"jsessionid");
+			var phone=getUrlParam(document.URL,"phone");
+			var num=0;
+			var info=["验证中...","正在验证社保卡基本信息...","正在验证社保卡头像信息...","正在验证人脸识别...","正在验证社保卡状态信息...","正在进行生物体征判断...","正在验证公安数据源信息...","正在验证国家机密特殊诊断信息...","正在验证国家机密特殊人员信息...","正在验证位置信息...","验证成功"];
+			function submintData(){
+				//sendAjax();
+				if($("#contractNumber").val()==""){
+					mui.alert("合同单号不能为空","提示","确认",submitFailCallback,{type:"div"});
+				}else if($("#company").val()==""){
+					mui.alert("投保单位名称不能为空","提示","确认",submitFailCallback,{type:"div"});
+				}else if($("#userName").val()==""){
+					mui.alert("被保险人不能为空","提示","确认",submitFailCallback,{type:"div"});
+				}else if($("#userPhone").val()==""){
+					mui.alert("联系电话不能为空","提示","确认",submitFailCallback,{type:"div"});
+				}else if($("#userAge").val()==""){
+					mui.alert("出生日期不能为空","提示","确认",submitFailCallback,{type:"div"});
+				}else if($("#certificateNum").val()==""){
+					mui.alert("证件号码不能为空","提示","确认",submitFailCallback,{type:"div"});
+				}else{
+					try{
+							window.android.toCheck();
+					}catch(e){
+					}
+				}
+			}
+			function afterAndroidCheck(status){
+				if(status==2){
+					checkInfo();
+				}else{
+					failCallback();
+				}
+			}
+			function checkInfo(){
+				$("#modal").css("display","block");
+					var time1 = setInterval(function(){
+						if(num<=10){
+							$("#modalInfo").html(info[num]);
+						}else{
+							window.clearInterval(time1);
+							$("#modal").hide();
+							afterAndroidCallbacks();
+						}
+						num++;
+					},500)
+				
+			}
+			function afterAndroidCallbacks(){
+				mui.alert("审核通过，正在提交数据","提示","确认",sendAjax,{type:"div"});
+			}
+			function submitCallback(){
+				window.location.href="claimList.html?jsessionid="+jsessionid+"&phone="+phone+"";
+			}
+			function failCallback(){
+					mui.alert("验证失败，请重新验证","提示","确认",submitFailCallback,{type:"div"});
+			}
+			function submitFailCallback(){
+				
+			}
+			function sendAjax(){
+				var aoData=[];
+				aoData.push({"name":"unit_name","value":$("#company").val()});
+				aoData.push({"name":"contract_number","value":$("#contractNumber").val()});
+				aoData.push({"name":"insured_number","value":$("#userName").val()});
+				aoData.push({"name":"sex","value":$("#userSex").val()});
+				aoData.push({"name":"birthday","value":toTimestamp($("#userAge").val())});
+				aoData.push({"name":"type_card","value":$("#certificateType").val()});
+				aoData.push({"name":"id_number","value":$("#certificateNum").val()});
+				aoData.push({"name":"address","value":$("#userAdress").val()});
+				aoData.push({"name":"phone","value":$("#userPhone").val()});
+				aoData.push({"name":"insured_status","value":$("#userStatus").val()});
+				aoData.push({"name":"off_site_claim","value":$("#compensateAdress").val()});
+				aoData.push({"name":"claim_type","value":$("#compensateType").val()});
+				aoData.push({"name":"detailed","value":$("#accidentDetal").val()});
+				aoData.push({"name":"hospital","value":$("#hospital").val()});
+				aoData.push({"name":"token","value":jsessionid});
+				aoData.push({"name":"mobile","value":phone});
+				$.ajax({
+					url:''+getUrlBase()+'/applyController/addClaimApply',
+					data:aoData,
+					dataType:"json",
+					type:'post',
+					headers:{},
+					success:function(res){
+						//成功后执行
+						if(res.status){
+							successCallback()
+						}else{
+							mui.alert(""+res.message+"","提示","确认",submitFailCallback,{type:"div"});
+						}
+					}
+				});	
+			}
+			function successCallback(){
+				mui.alert("提交成功","提示","确认",submitCallback,{type:"div"});
+			}
+			function getUrlParam(xurl,name){
+				var para="";
+				if(xurl.lastIndexOf("?")>0){
+					para=xurl.substring(xurl.lastIndexOf("?")+1,xurl.length);
+					var arr=para.split("&");
+					para="";
+					for(var i=0;i<arr.length;i++){
+					if(arr[i].split("=")[0]==name) return arr[i].split("=")[1];
+					}
+					return "";
+			}else{
+					return "";
+			}
+			}
+			$(function(){
+				document.getElementById("contractNumber").addEventListener("keypress",function(event) {    
+					if(event.keyCode == "13") {       
+						document.activeElement.blur();   
+						// toSearch();//TODO 完成搜索事件          getSurveyInfoList
+						// mui.toast('操作成功',{ duration:'long', type:'div' })
+						getClaimInfo($("#contractNumber").val());
+						event.preventDefault(); // 阻止默认事件---阻止页面刷新    
+					}
+				});
+			});
+			function getClaimInfo(ContractNo){
+				var aoData=[];
+				aoData.push({"name":"ContractNo","value":ContractNo});
+				aoData.push({"name":"token","value":jsessionid});
+				$.ajax({
+					url:''+getUrlBase()+'/applyController/getInfoByContractNo',
+					data:aoData,
+					dataType:"json",
+					type:'post',
+					headers:{},
+					success:function(res){
+						//成功后执行
+						if(res.status){
+							claimInfoCallback(res.body)
+						}else{
+							mui.alert(""+res.message+"","提示","确认",submitFailCallback,{type:"div"});
+						}
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown){
+						mui.alert(""+textStatus+"","提示","确认",submitFailCallback,{type:"div"});
+					}
+				});	
+			}
+			function claimInfoCallback(obj){
+				$("#userName").val(obj.apply_user_name);
+				$("#userPhone").val(obj.apply_phone);
+				$("#certificateNum").val(obj.apply_id_card);
+				$("#userAge").val(getTimeStr(obj.birth_date,true));
+				$("#userSex").val(obj.sex);
+				$("#company").val(obj.insured_name)
+			}
+			function getTimeStr(t,isDateStr){
+				if ( !isDateStr ) isDateStr = false;
+				if ( !t ) return "";
+				if ( t > -2 && t < 10 ) return "";
+				try{
+					var d=new Date(2013,1,1);
+					d.setTime( t );
+					var str = d.getFullYear()+"-"+getTwoNumberStr(d.getMonth()+1)+"-"+getTwoNumberStr(d.getDate());
+					if ( !isDateStr ) str +=" "+getTwoNumberStr(d.getHours())+":"+getTwoNumberStr(d.getMinutes())
+						+":"+getTwoNumberStr(d.getSeconds());
+					return str;
+				}catch(e){
+					return "";
+				}
+			}
+			function getTwoNumberStr(n){
+				if ( n == '00' ) return '00';
+				try{
+					n=Number(n);
+				}catch(e){}
+				return ( n < 10 ) ? ("0"+n):n; 
+			}
+		</script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">理赔申请单</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group paddingB5">
+				<div class="mui-input-row">
+					<label>合同单号：</label>
+					<input type="search" class="mui-input-clear" placeholder="请输入合同单号搜索" id="contractNumber">
+				</div>
+				<div class="mui-input-row">
+					<label>投保单位名称：</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入投保单位名称" id="company">
+				</div>
+				<div class="mui-input-row">
+					<label>被保险人姓名：</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入被保险人姓名" id="userName">
+				</div>
+				<div class="mui-input-row">
+					<label>联系电话：</label>
+					<input type="number" class="mui-input-clear" placeholder="请输入联系电话" id="userPhone">
+				</div>
+				<div class="mui-input-row">
+					<label>性别：</label>
+					<select name=""  id="userSex">
+						<option value="男">男</option>
+						<option value="女">女</option>
+					</select>
+				</div>
+				<div class="mui-input-row">
+					<label>出生日期：</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入您的年龄" id="userAge" disabled>
+				</div>
+				<div class="mui-input-row">
+					<label>证件类型：</label>
+					<select name=""  id="certificateType">
+						<option value="身份证">身份证</option>
+						<option value="护照">护照</option>
+						<option value="护照">军官证，士兵证</option>
+						<option value="护照">港澳台回乡证或台胞证</option>
+						<option value="护照">出生证</option>
+						<option value="护照">户口本</option>
+					</select>
+				</div>
+				<div class="mui-input-row">
+					<label>证件号码：</label>
+					<input type="text" class="mui-input-clear" placeholder="请输入证件号码" id="certificateNum">
+				</div>
+				<div class="mui-input-row">
+					<label>联系地址：</label>
+					<select name="" id="userAdress">
+						<option value="北京市">北京市</option>
+						<option value="上海市">上海市</option>
+					</select>
+				</div>
+				<div class="mui-input-row">
+					<label>就医医院：</label>
+					<!-- <input type="text" class="mui-input-clear" placeholder="请输入医院名称" id="hospital"> -->
+					<select name=""  id="hospital">
+						<option value="长虹医院">长虹医院</option>
+						<option value="人民医院">人民医院</option>
+					</select>
+				</div>
+				<div class="mui-input-row">
+					<label>被保险人现状：</label>
+					<select name=""  id="userStatus">
+						<option value="已痊愈">已痊愈</option>
+						<option value="治疗中">治疗中</option>
+						<option value="身故">身故</option>
+						<option value="残疾">残疾</option>
+						<option value="其他">其他</option>
+					</select>
+				</div>
+				<div class="mui-input-row">
+					<label>是否异地理赔：</label>
+					<select name=""  id="compensateAdress">
+						<option value="1">是</option>
+						<option value="0">否</option>
+					</select>
+				</div>
+				<div class="mui-input-row">
+					<label>索赔类型：</label>
+					<select name=""  id="compensateType">
+						<option value="意外身故">意外身故</option>
+						<option value="疾病身故">疾病身故</option>
+						<option value="意外残疾">意外残疾</option>
+						<option value="疾病残疾">疾病残疾</option>
+						<option value="重大疾病">重大疾病</option>
+						<option value="意外医疗">意外医疗</option>
+						<option value="住院医疗">住院医疗</option>
+						<option value="住院津贴">住院津贴</option>
+						<option value="其他">其他</option>
+					</select>
+				</div>
+				<div class="mui-input-row auHeight">
+					<label>事故详细经过：</label>
+					<textarea rows="" cols="" id="accidentDetal"></textarea>
+				</div>
+				<button type="button" class="mui-btn mui-btn-blue mui-btn-block submit-btn" onclick="submintData()">提交</button>
+			</form>
+		</div>
+		<div id="modal">
+				<div id="modalDetail">
+					<p id="modalInfo">验证中...</p>
+				</div>
+		</div>
+	</body>
+
+</html>

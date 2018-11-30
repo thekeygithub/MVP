@@ -1,0 +1,96 @@
+ul{
+	margin:0;
+	padding:0;
+}
+
+ul.container{
+	/* The topmost UL */
+	width:300px;
+	margin:0 auto;
+	padding:50px;
+}
+
+li{
+	list-style:none;
+	text-align:left;
+}
+
+li.menu{
+	/* The main list elements */
+	padding:5px 0;
+	width:100%;
+}
+
+li.button a{
+	/* The section titles */
+	display:block;
+	font-family:BPreplay,Arial,Helvetica,sans-serif;
+	font-size:21px;
+	height:34px;
+	overflow:hidden;
+	padding:10px 20px 0;
+	position:relative;
+	width:300px;
+}
+
+li.button a:hover{
+	/* Removing the inherited underline from the titles */
+	text-decoration:none;
+}
+
+li.button a span{
+	/* This span acts as the right part of the section's background */
+	height:44px;
+	position:absolute;
+	right:0;
+	top:0;
+	width:4px;
+	display:block;
+}
+
+.dropdown{
+	/* The expandable lists */
+	display:none;
+	padding-top:5px;
+	width:100%;
+}
+
+.dropdown li{
+	/* Each element in the expandable list */
+	background-color:#373128;
+	border:1px solid #40392C;
+	color:#CCCCCC;
+	margin:5px 0;
+	padding:4px 18px;
+}
+
+
+/* The styles below are only necessary for the demo page */
+
+h1{
+	font-family:"Myriad Pro",Arial,Helvetica,sans-serif;
+	font-size:36px;
+	font-weight:normal;
+	margin-bottom:15px;
+}
+
+.clear{
+	clear:both;
+}
+
+
+a, a:visited {
+	color:#0196e3;
+	text-decoration:none;
+	outline:none;
+}
+
+a:hover{
+	text-decoration:underline;
+}
+
+p{
+	/* The tut info on the bottom of the page */
+	padding:10px;
+	text-align:center;
+}

@@ -1,0 +1,357 @@
+<html>
+<head>
+<base href="">
+  <meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="css/table_jui.css">
+		<link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-1.8.16.custom.css">
+		<link rel="stylesheet" type="text/css" href="css/comm.css">
+		<link rel="stylesheet" type="text/css" href="css/commBg.css">
+		<link rel="stylesheet" type="text/css" href="css/table_blue.css">
+		<script type="text/javascript" language="javascript" src="js/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" language="javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+ <script type="text/javascript">
+ var oTable=null;
+ var currentOptCode="";
+ var userArr=[];
+ //var surl=top.getUrlBase()+"/InfoController/getCustInfoPageList";
+ var surl=getUrl()+"applyController/getProductClaimList";
+ $(document).ready(function() {
+	 getCustList(surl);
+ });
+ 
+//  function UserObj(id,custname,idcard,socialcardid,mobile,sex,birth_date,status,memo,avatar_img,id_card_positive,id_card_negative){
+// 			  this.id= id;
+// 			  this.custname=custname;
+// 	          this.idcard= idcard;
+// 	          this.socialcardid= socialcardid;
+// 	          this.mobile= mobile;
+// 	          this.sex= sex;
+// 	          this.birth_date= birth_date;
+// 	          this.status= status;
+// 	          this.memo= memo;
+// 	          this.avatar_img=avatar_img;
+// 	          this.id_card_positive=id_card_positive;
+// 	          this.id_card_negative=id_card_negative;
+// 		  }
+ function getCustList(surl){
+	 var iaoColumns= [
+         { "sTitle": "申请人", "mDataProp": "apply_user_name", "sWidth": "10%","sClass": "center",
+				 "fnRender": function ( oObj ) {
+				 	//userArr[userArr.length] = new UserObj(oObj.aData.id,oObj.aData.custname,oObj.aData.idcard,oObj.aData.socialcardid,oObj.aData.mobile,oObj.aData.sex,oObj.aData.birth_date,oObj.aData.status,oObj.aData.memo,oObj.aData.avatar_img,oObj.aData.id_card_positive,oObj.aData.id_card_negative);
+				 	return '<input type=\'checkbox\' name=\'checkId\' value=\''+oObj.aData.id+'\' />&nbsp;'+oObj.aData.apply_user_name;
+				 },
+				 "bUseRendered": false},
+        { "sTitle": "身份证号", "mDataProp": "apply_id_card", "sWidth": "9%","sClass": "center", "bUseRendered": false},
+        { "sTitle": "移动电话", "mDataProp": "apply_phone", "sWidth": "9%","sClass": "center", "bUseRendered": false},
+				{ "sTitle": "申请时间", "mDataProp": "apply_time", "sWidth": "9%","sClass": "center",
+        	 "fnRender": function ( oObj ) {
+        		 var timer = getTimeStr(oObj.aData.apply_time);
+                 return timer;
+            },
+        	"bUseRendered": false},
+				{ "sTitle": "就医医院", "mDataProp": "hospital", "sWidth": "9%","sClass": "center", "bUseRendered": false},
+				{ "sTitle": "费用类型", "mDataProp": "cost_type", "sWidth": "9%","sClass": "center", "bUseRendered": false},
+				{ "sTitle": "理赔产品", "mDataProp": "product_name", "sWidth": "9%","sClass": "center", "bUseRendered": false},
+				{ "sTitle": "理赔金额", "mDataProp": "claim_money", "sWidth": "9%","sClass": "center", "bUseRendered": false},
+				{ "sTitle": "审核状态", "mDataProp": "status", "sWidth": "9%","sClass": "center", 
+					"fnRender": function ( oObj ) {
+						 var str="";
+		        		 var status = oObj.aData.status;
+		        		 if(status==0){
+		        			 str="未审核"; 
+		        		 }else if(status==1){
+		        			 str="通过";  
+		        		 }else{
+		        			 str="不通过";
+		        		 }
+		                 return str;
+		            },
+					"bUseRendered": false},
+         { "sTitle": "操作", "mDataProp": null,"sClass": "center", "sWidth": "10%" ,
+        	 "fnRender": function ( oObj ) {
+                 return '<a href=\'javascript:void(0)\' onclick="updateUser(\''+oObj.aData.id+'\',\''+oObj.aData.apply_user_name+'\',\''+oObj.aData.apply_phone+'\',\''+oObj.aData.apply_id_card+'\',\''+oObj.aData.apply_time+'\',\''+oObj.aData.product_name+'\',\''+oObj.aData.claim_money+'\',\''+oObj.aData.check_user_name+'\',\''+oObj.aData.check_user_code+'\',\''+oObj.aData.check_time+'\',\''+oObj.aData.status+'\',\''+oObj.aData.organize_id+'\',\''+oObj.aData.check_desc+'\',\''+oObj.aData.hospital+'\',\''+oObj.aData.cost_type+'\')" >查看</a>'
+				 + '&nbsp;&nbsp;<a href=\'javascript:void(0)\' onclick="deleteUser(\''+oObj.aData.id+'\')" >删除</a>';
+            },
+            "bUseRendered": false 	 
+         }
+	];
+
+	 oTable = $('#dataTable').dataTable( {
+			"bProcessing": false,
+			"bServerSide": true,
+			"bJQueryUI": true,
+			"bFilter": false,
+			"bDestroy": true,
+			"aaSorting": [[3, "desc"]],
+			"bLengthChange": true,
+			"iDisplayLength":10,
+			"sAjaxSource": surl,
+			"oLanguage": {
+			  //"sUrl": top.getUrlBase()+"/lang_zh.txt" 
+				"sUrl": getUrl()+"/lang_zh.txt"
+		  },
+		  "fnServerData": function ( sUrl, aoData, fnCallback ) {
+				$.ajax( {
+					"url":  sUrl,
+					"data": aoData,
+					"contentType" : "application/x-www-form-urlencoded; charset=utf-8",
+					"success": function (json) {
+						fnCallback( json );
+					},
+					"dataType": "json",
+					"cache": false,
+					"type": "POST",
+					"error": function (xhr, error, thrown) {
+						top.showInfoWinError("发生异常:"+error);
+					}
+				} );
+			},
+         "fnServerParams": function ( aoData ) {
+			    aoData.push({"name": "apply_user_name", "value": document.getElementById("apply_user_name").value});
+                aoData.push({"name": "apply_id_card","value": document.getElementById("apply_id_card").value});
+                aoData.push({"name": "apply_phone","value": document.getElementById("apply_phone").value});
+              <!--  aoData.push({"name": "check_user_name", "value": document.getElementById("check_user_name").value});-->
+                aoData.push({"name": "apply_time", "value": toTimestamp($("#apply_time").val())});
+                aoData.push({"name": "check_time", "value": toTimestamp($("#check_time").val())});
+         },
+		"sDom": "frtlip",
+		"sPaginationType": "full_numbers",
+		"aoColumns": iaoColumns
+		} );
+ 	}
+ 	
+ 	function viewCustInfo(custname){
+	 var xurl="pages/CustInfoManage/viewCustInfo.html";
+	 top.openDialog("显示客户信息",xurl,true,1150,650,optCallback);
+ 	} 
+ 
+ 	function updateUser(id,apply_user_name,apply_phone,apply_id_card,apply_time,product_name,claim_money,check_user_name,check_user_code,check_time,status,organize_id,check_desc,hospital,cost_type){
+ 		var obj={
+				 "id":id,
+				 "apply_user_name":apply_user_name,
+		         "apply_phone": apply_phone,
+		         "apply_id_card":apply_id_card,
+		         "apply_time":apply_time,
+		         "product_name":product_name,
+		         "claim_money":claim_money,
+		         "check_user_name":check_user_name,
+		         "check_user_code":check_user_code,
+		         "check_time":check_time,
+		         "status":status,
+		         "organize_id":organize_id,
+				 "check_desc":check_desc,
+				 "hospital":hospital,
+				 "cost_type":cost_type
+				};
+ 		top.setTempValue(obj);
+		try{
+            if ( !top.getIsUseDetailUserMode()) {
+            	var xurl="pages/claimReview/viewClaimReview.html";
+                top.openDialog("查看理赔信息",xurl,true,650,500,doQuery);
+                return ;
+            	}
+        	}catch(e){
+       	}
+    }
+	
+	function deleteUser(userCode){
+		currentOptCode=userCode;
+		top.showConfirm("您确定要删除选中的信息吗？", doDeleteUser);
+	}
+	
+	function doDeleteUser(){
+		var aoData=[];
+        aoData.push( { "name": "id", "value":currentOptCode } );
+        //top.sendAjaxRequest("/applyController/deleteProductClaim",aoData,optCallback);
+        $.ajax({
+			url:''+getUrl()+'/applyController/deleteProductClaim',
+			data:aoData,
+			dataType:"json",
+			type:'POST',
+			headers:{},
+			success:function(res){
+				//成功后执行
+					optCallback(res);
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown){
+			}
+		});	
+	}
+	
+	function optCallback(obj){
+	       try{
+	        if ( obj.status == true ){
+	          top.showInfoWinOK("操作成功");
+	          doQuery();
+	        }else{
+	          top.showInfoWinError("操作失败 "+obj.msg);
+	        }
+	       }catch(e){
+	          //top.showInfoWinError("处理异常:"+e.message);
+	       }
+ 	}
+	
+	function doQuery(){
+		oTable.fnDraw();
+	}
+	function queryOfCondition(){
+     var surl1 = "/HollyBlockChain/applyController/getProductClaimList";
+		getCustList(surl1);
+
+	}
+	function optCallback(){
+		oTable.fnDraw();
+	}
+	function getTimeStr(t,isDateStr){
+	    if ( !isDateStr ) isDateStr = false;
+		if ( !t ) return "";
+		if ( t > -2 && t < 10 ) return "";
+		try{
+			var d=new Date(2013,1,1);
+		    d.setTime( t );
+			var str = d.getFullYear()+"-"+getTwoNumberStr(d.getMonth()+1)+"-"+getTwoNumberStr(d.getDate());
+			if ( !isDateStr ) str +=" "+getTwoNumberStr(d.getHours())+":"+getTwoNumberStr(d.getMinutes())
+			       +":"+getTwoNumberStr(d.getSeconds());
+		    return str;
+		}catch(e){
+			return "";
+		}
+	}
+	function getTwoNumberStr(n){
+		if ( n == '00' ) return '00';
+		try{
+			n=Number(n);
+		}catch(e){}
+		return ( n < 10 ) ? ("0"+n):n; 
+	}
+	function batchCheck() {
+			var ids=top.getAllCheckedValue( document.getElementsByName('checkId') );
+			if ( ids == '' ) {
+				 top.showInfoWinWarn("请选择要操作的记录");
+				 return ;   
+			}
+			doCancelApply();
+		}
+	
+		function doCancelApply() {
+	 		var aoData = [];
+	 		var ids=top.getAllCheckedValue( document.getElementsByName('checkId') );
+			aoData.push({"name": "id", "value": ids});
+			top.setTempValue(aoData);
+			var xurl="pages/claimReview/checkInfo.html";
+			top.openDialog("审核",xurl,true,500,300,doQuery);
+		}
+		function toTimestamp(str){
+			if ( str == '' ) return 0;
+			try{
+			  var d=new Date(2013,1,1);
+			  d.setFullYear( Number(str.substring(0,4)) );
+			  d.setMonth( Number(str.substring(5,7)) - 1 ); // 0 - 11
+			  d.setDate( Number(str.substring(8,10)) );
+			  d.setSeconds(0);
+			  if ( str.length > 15 ) {
+			   d.setHours( Number(str.substring(11,13)) );
+			   d.setMinutes( Number(str.substring(14,16)) );
+			   if ( str.length > 17 ) d.setSeconds( Number(str.substring(17,19)) );
+			  } else {
+			   d.setHours(0);
+			   d.setMinutes(0);
+			   d.setSeconds(0);
+			  }
+			  return d.getTime();
+			}catch(e){
+			  return 0;
+			}
+		}
+		function getUrl(){
+			var g_UrlBase="";
+			var ind=document.URL.indexOf("/HollyBlockChain");
+		    if ( ind != -1 ) {
+			  g_UrlBase = document.URL.substring(0,ind+17);
+		    }
+		    return g_UrlBase;
+		}
+</script>
+<style>
+	#queryArea td{
+		font-size:13px !important;
+	}
+	.setUpCss{
+	    border-radius: 5px;
+	    border: 1px solid #ccc;
+	    height: 25px;
+	    line-height:25px;
+	    padding-left:10px;
+	    box-sizing:border-box;
+	    font-size:12px;
+	}
+	#queryArea{
+		margin-top:10px;
+	}
+	#dataTable_length{
+		margin-left:15px;
+	}
+	#dataTable_paginate{
+		margin-right:19px;
+	}
+	.btns_ellipse{
+		width:98%;
+		margin:0 auto;
+	}
+	input[name=checkId]{
+		float:left;
+	}
+</style>
+</head>
+<body style="overflow:hidden;">
+<div  id="queryArea" width="100%">
+			<table width="100%" align="center" class="condition_query search-table" cellpadding="0" cellspacing="0" border="0" >
+				<tr class="tr_data">
+					<td align="right">真实姓名:</td>
+					<td align="left">
+					<input type="text" id="apply_user_name" class="setUpCss" value="" placeholder="请输入您的姓名"  onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="right">身份证号:</td>
+					<td align="left">
+					<input type="text" id="apply_id_card" class="setUpCss" placeholder="请输入您的身份证号"  value=""   onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="right">手机号码:</td>
+					<td align="left">
+					<input type="text" id="apply_phone" class="setUpCss" placeholder="请输入您的手机号"  value="" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+				</tr>
+				<tr>
+					<!-- <td align="right">审核人:</td>
+					<td align="left">
+					<input type="text" id="check_user_name" class="setUpCss" placeholder="请输入您的社保卡"  value="" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					 -->
+					<td align="right">提交日期:</td>
+					<td align="left">
+					<input type="date" id="apply_time" class="setUpCss" placeholder="请输入您的出生日期"  value="" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="right">审核时间:</td>
+					<td align="left">
+					<input type="date" id="check_time" class="setUpCss" value="" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="left"><div class="buttonDivTwo"><button onclick="queryOfCondition()">查询</button></div></td>
+				</tr>
+			</table>
+		</div>
+<div class="btns_ellipse">
+				<table align="left" cellpadding="1px" cellspacing="0" border="0">
+					<tr>
+						<td>
+							<div>
+								&nbsp;<input type="checkbox"  id="selAll" onclick="top.checkAll(this.checked,document.getElementsByName('checkId'));selfCheckAll(this.checked,'checkId')"/>
+								<label for="selAll">全选</label>
+							</div>
+						</td>
+						<!-- <td id="createRoleUserBtn"><div class="buttonDivTwo"><a href="javascript:addCustInfo()">新建</a></div></td> -->
+					<!--	<td id="checkBtn"><div class="buttonDivTwo"><a href="javascript:batchCheck()">审核</a></div></td>-->
+					</tr>
+				</table>
+			</div>
+<div>
+<table width="98%" border="0" padding="0" spacing="0" id="dataTable" class="display" style="font-size:13px;">
+ 
+</table>
+</div>
+
+</body>
+</html>

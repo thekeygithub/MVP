@@ -1,0 +1,66 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" href="../../css/redmond/jquery-ui-1.8.16.custom.css">
+  <script type="text/javascript" language="javascript" src="../../js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/jquery-ui-1.8.16.custom.min.js"></script>
+
+  <script type="text/javascript">
+
+   $(document).ready(function() {
+   	 $(document.body).css({
+           "overflow-x":"hidden",
+           "overflow-y":"hidden"
+     });
+     $( "#submitBtn" ).button();
+     $( "#closeBtn" ).button();
+   } );
+
+   function doCancel(){
+	   top.closeDialog();
+   }
+   function doSubmit(){
+   	 var userCode = document.getElementById("userCode").value;
+   	 var pass = document.getElementById("pass").value;
+   	 if ( userCode == '' || pass == '' ) {
+   	 	 top.showInfoWin("请输入登录账号和密码");
+   	 	 return ;
+   	 }
+	   var aoData=[];
+     aoData.push( { "name": "user.userCode", "value": userCode } );
+     aoData.push( { "name": "user.password", "value": top.hex_md5(pass) } );
+	   top.sendAjaxRequest("/actions/User.action?signon",aoData,optCallback);
+   }
+   function optCallback(obj){
+	   try{
+	    if ( obj.status == true ){
+	    	top.setCurrentUser(obj.body,obj.msg);
+	      top.closeDialog();
+	    }else{
+	      top.showInfoWinError("登录失败:"+obj.msg);
+	    }
+	   }catch(e){
+		  top.showInfoWinError("处理异常:"+e.message);
+	   }
+   }
+  </script> 
+</head>
+<body>
+<br>
+<table width="95%" border="0" padding="0" spacing="0">
+ <tr>
+    <td width="30%" align="right">帐号:</td>
+    <td width="70%" align="left"><input type="text" id="userCode" value="" size="20" onkeydown="if(event.keyCode==13) doSubmit();"/></td>
+ </tr>
+ <tr>
+    <td align="right">密码:</td>
+    <td align="left"><input type="password" id="pass" value="" size="20" onkeydown="if(event.keyCode==13) doSubmit();" /></td>
+ </tr>
+</table>
+<br>
+<p align="center" valign="middle">
+      <input type="button" id="submitBtn" value="登录" onclick="doSubmit()" />&nbsp;&nbsp;
+      <input type="button" id="closeBtn" value="取消" onclick="doCancel()" />
+</p>
+</body>
+</html>

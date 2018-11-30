@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:id="@+id/ll_1"
+        android:gravity="center_vertical"
+        android:background="@color/white_shadow"
+    android:padding="5dp">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/which_hospital"
+            android:textSize="@dimen/txt_normal"
+            android:textColor="@color/white"/>
+        <TextView
+            android:id="@+id/tv_item_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="8888888888888888"
+            android:textSize="@dimen/txt_normal"
+            android:textColor="@color/white"
+            />
+
+        <TextView
+            android:id="@+id/tv_item_tosee"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:background="@drawable/blue_stroke_round"
+            android:gravity="center"
+            android:text="@string/topay"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/txt_normal"
+            />
+
+    </LinearLayout>

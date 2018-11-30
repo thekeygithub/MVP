@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!-- 加载配置文件  -->
+ <properties resource="db.properties"></properties>
+ <settings>
+ 	<!-- 开启驼峰命名规则  -->
+ 	<setting name="mapUnderscoreToCamelCase" value="false"/>
+ </settings>
+ 
+ <!-- 类型别名 -->
+ <typeAliases>
+ 	<!-- 给这个包下的所有类文件起别名
+ 	     别名是  类名  或者  类名首字母小写 -->
+ 	<package name="com.xczg.blockchain"/>
+ 	
+ </typeAliases>
+  
+  
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <!-- pool:池 
+       	 数据库连接池 -->
+      <dataSource type="POOLED">
+        <property name="driver" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <mapper resource="com/xczg/blockchain/yibaodapp/mybatis/UserCenterMapper.xml"/>
+    <mapper resource="com/xczg/blockchain/yibaodapp/mybatis/ApplyMapper.xml"/>
+  </mappers>
+</configuration>

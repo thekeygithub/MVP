@@ -1,0 +1,103 @@
+/*覆盖原有样式*/
+body,html{
+	height:100%;
+}
+body table.condition_query tr{
+	background-color: transparent;
+	color:#006600;
+}
+/*数据表样式*/
+table.dataTable td span,table.addStyle td span{
+	color:#006600;
+}
+table.dataTable thead th,table.addStyle thead th{
+	padding:5px 0;
+	background: #9ACC99;
+	color:#fff;
+}
+table.dataTable tr,table.dataTable td,table.addStyle tr,table.addStyle td{
+	background-color: transparent;
+	color:#868686;
+}
+table.dataTable td,table.dataTable th,table.addStyle td,table.addStyle th{
+	border: 1px solid #878F9A;
+}
+table.dataTable,table.addStyle{
+	position: relative;
+}
+table.dataTable:after{
+	content: "";
+	display: block;
+	width: 100%;
+	background-color: #CCCCCC;
+	height: 25px;
+	position: absolute;
+	bottom:-25px;
+	left:0;
+}
+/*查询按钮样式*/
+div.buttonDivTwo,div.buttonDivTwo>a{
+	background-color: #006600;
+	border-color: #006600;
+	width: auto;
+	display: inline-block;
+}
+div.buttonDivTwo>a{
+	padding:0 15px;
+}
+/*椭圆形按钮组*/
+.btns_ellipse{
+	padding:3px 0;
+	background-color: #006600;
+	overflow: hidden;
+}
+.btns_ellipse td{
+	padding:0;
+}
+.btns_ellipse>div:not(.buttonDivTwo){
+	margin-top: 7px;
+	display: inline-block;
+}
+.btns_ellipse div:not(.buttonDivTwo) input,.btns_ellipse div:not(.buttonDivTwo) label{
+	color:#fff;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 3px
+}
+.btns_ellipse div.buttonDivTwo,.btns_ellipse div.buttonDivSix{
+	background-color: #fff;
+	border-radius: 13px;
+	display: inline-block;
+	width: auto;
+	font-size: 15px;
+	border: none;
+	margin: 4px 0 0 15px;
+}
+.btns_ellipse div.buttonDivTwo a,.btns_ellipse div.buttonDivSix a{
+	color:#868686;
+	padding:0 20px;
+	display: inline-block;
+}
+.btns_ellipse div.buttonDivTwo>a{
+	background-color: #fff;
+	color:#868686;
+	border: none;
+}
+/*页脚分页--灰色背景部分*/
+table.dataTable~.dataTables_info{
+	padding-top: 4px;
+}
+table.dataTable~div {
+	font-weight: bold;
+	position: relative;
+	margin-top: 2px;
+}
+table.dataTable~div a{
+	background: #ffffff;
+	cursor: pointer !important;
+	opacity: 1;
+}
+/*通用*/
+.text-right{
+	text-align: right;
+}
