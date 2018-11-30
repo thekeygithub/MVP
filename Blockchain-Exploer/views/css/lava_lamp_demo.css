@@ -1,8 +1,0 @@
-@charset "utf-8";
-/*有背景图片*/
-.lava_with_image{position:relative; width:821px; height:29px; padding:15px; background:url(../image/lava_bg.gif) no-repeat;}
-.lava_with_image li{float:left;}
-.lava_with_image li a{float:left; font-weight:bold; color:white; font-size:14px; top:8px; margin:auto 10px; text-decoration:none; position:relative; z-index:3;}
-.lava_with_image li a:hover{text-decoration:none; color:white;}
-.lava_with_image li.back{height:30px; background:url(../image/lava_menu_bg.gif) no-repeat right -30px; position:absolute; z-index:2;}
-.lava_with_image li.back .left{height:100%; margin-right:9px; background:url(../image/lava_menu_bg.gif) no-repeat;}
