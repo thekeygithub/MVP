@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+	<style>
+		body{
+			font-size: 14px;
+		}
+		.mui-bar-nav{
+			-webkit-box-shadow: none;
+			box-shadow: none;
+		}
+		.content-title{
+			height: 30px;
+			line-height: 30px;
+			padding-left: 10px;
+			background-color: #fff;
+			margin-top: 5px;
+		}
+		.mui-table-view-cell{
+			padding:6px 15px;
+		}
+		.detailedInfo-btn{
+			width: 94%;
+			margin: 10px auto;
+			background-color: #2AC845;
+			border: 1px solid #2AC845;
+		}
+	</style>
+	<body>
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">详细信息</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					产品名称：安详康健2018重大疾病保险产品计划
+				</li>
+				<li class="mui-table-view-cell">
+					被保人年龄：出生满28天-50周岁
+				</li>
+				<li class="mui-table-view-cell">
+					报账金额：1万-40万
+				</li>
+				<li class="mui-table-view-cell">
+					保险期间：保终身
+				</li>
+				<li class="mui-table-view-cell">
+					缴费年限：15年/20年
+				</li>
+				<li class="mui-table-view-cell">
+					缴费方式：月交/年交
+				</li>
+				<li class="mui-table-view-cell">
+					犹豫期：15天
+				</li>
+				<li class="mui-table-view-cell">
+					等待期：180天
+				</li>
+				<li class="mui-table-view-cell">
+					投保地区：广东、北京、上海、天津、江苏、浙江、四川、重庆、山东、湖南、湖北、辽宁、陕西、河南、江西
+				</li>
+			</ul>
+			<div class="mui-row content-title">
+				保险条款:
+			</div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					《招商信诺安享康健重大疾病保险条款》
+				</li>
+				<li class="mui-table-view-cell">
+					《招商信诺附加安享康健两全保险条款》
+				</li>
+				<li class="mui-table-view-cell">
+					《招商信诺安享康健豁免保险费疾病保险条例》
+				</li>
+				<li class="mui-table-view-cell">
+					《招商信诺附加豁免保险费重大疾病保险B款条款》
+				</li>
+			</ul>
+		</div>
+		<button type="button" class="mui-btn mui-btn-blue mui-btn-block detailedInfo-btn" onclick="buyproduct()">点击购买</button>
+	</body>
+	<script type="text/javascript">
+			function buyproduct(){
+				mui.alert("购买成功","提示","确认",callback,{type:"div"});
+			}
+			function callback(){
+				history.go(-1);
+			}
+	</script>
+</html>

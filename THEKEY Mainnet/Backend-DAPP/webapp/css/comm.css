@@ -1,0 +1,201 @@
+body {
+	font-size: 13px;
+	text-decoration: none;
+}
+.content_for_datatable {
+	width: 94%;
+	margin: 0 auto;
+	padding: 10px 0;
+}
+body, div, ul, li, p, table, tr, a, img, ul, li  {
+	padding: 0px;
+	margin: 0px;
+	list-style-type: none;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+}
+
+td {
+	padding: 3px;
+	margin: 0px;
+	list-style-type: none;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+}
+
+.tr_data{
+	text-align: center; 
+	COLOR: #0A0A0A; BACKGROUND-COLOR: #F4FAFF; font-size: 13px;
+	padding: 3px;
+}
+
+.roundedDiv {
+	margin: 10px;
+	padding: 10px;
+	background-color : #F3F3F3;
+	border: 2px solid #89A1B9;
+	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius: 12px;
+	overflow: auto;
+  }
+
+.buttonDivTwo{
+  margin: 2px;
+  padding: 2px;
+  width:50px;
+  background-color : #79BAEC;
+  border: 1px solid #89A1B9;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  overflow: auto;
+}
+
+.buttonDivTwo a,.buttonDivTwo a:hover,.buttonDivTwo a:focus,.buttonDivTwo a:active{
+	color: #ffffff;
+	text-decoration: none;
+	display: block;
+	text-align:center;
+}
+.btns_ellipse .buttonDivTwo a:hover{
+	color: #1D5AAD;
+}
+.buttonDivFour{
+  margin: 2px;
+  padding: 2px;
+  width:90px;
+  background-color : #79BAEC;
+  border: 1px solid #89A1B9;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  overflow: auto;
+}
+
+.buttonDivFour a{
+	color: #ffffff;
+	text-decoration: none;
+	display: block;
+	text-align:center;
+}
+
+.buttonDivSix{
+  margin: 2px;
+  padding: 2px;
+  width:130px;
+  background-color : #79BAEC;
+  border: 1px solid #89A1B9;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  overflow: auto;
+}
+
+.buttonDivSix a{
+	color: #ffffff;
+	text-decoration: none;
+	display: block;
+	text-align:center;
+}
+ 
+.buttonTwo a{
+	color: #FFF;
+	text-decoration: none;
+	height: 31px;
+	width: 50px;
+	background-image: url(../img/map_button1.png);
+	background-repeat: no-repeat;
+	display: block;
+	padding-top: 14px;
+	padding-left: 20px;
+	text-align:left;
+}
+.buttonTwo a:hover {
+	background-image: url(../img/map_button1.png);
+	background-repeat: no-repeat;
+	background-position: 0px -46px;
+	text-align:left;
+}
+.buttonFour a{
+	color: #FFF;
+	text-decoration: none;
+	height: 31px;
+	width: 80px;
+	background-image: url(../img/map_button2.png);
+	background-repeat: no-repeat;
+	display: block;
+	padding-top: 14px;
+	padding-left: 25px;
+	text-align:left;
+}
+.buttonFour a:hover {
+	background-image: url(../img/map_button2.png);
+	background-repeat: no-repeat;
+	background-position: 0px -46px;
+	text-align:left;
+}
+
+.table_property_title{
+    text-align:right;
+	padding-right:5px;
+}
+
+.tabview .tabview-tabs {
+	height: 24px;
+	overflow: hidden;
+	zoom: 1;
+	_position: relative;
+}
+.tabview .tabview-tabs .a-tab {
+	float: left;
+	zoom: 1;
+	height: 15px;
+	line-height: 15px;
+	padding: 6px 2px 2px;
+	text-decoration:none;
+}
+.tabview .tabview-tabs .selected {
+	color: #333;
+	border-width: 1px 1px 0;
+	border-style: solid solid none;
+	border-color: #D6DAE4;
+	font-weight: bold;
+	padding: 5px 5px 5px 5px;
+	background-color: white;
+	border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
+	outline: 0 none;
+	text-decoration:none;
+}
+
+.tabview .tabcontent {
+	color: #333;
+	border-width: 0 1px 1px;
+	border-style: none solid solid;
+	border-color: #D6DAE4;
+	font-weight: bold;
+	padding: 5px 5px 5px 5px;
+	background-color: white;
+	border-radius:  0 0 5px 5px;
+	-moz-border-radius: 0 0 5px 5px;
+	-webkit-border-radius: 0 0 5px 5px;
+	outline: 0 none;
+}
+.indent2{
+    text-indent: 2em;
+    display: inline-block;
+}
+.dataTables_wrapper{
+	overflow: hidden;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height:normal;
+}
+.dataTables_wrapper label{
+	margin: 0;
+}

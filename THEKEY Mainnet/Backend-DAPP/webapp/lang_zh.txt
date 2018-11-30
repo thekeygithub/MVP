@@ -1,0 +1,16 @@
+{
+ "oPaginate": {
+    "sFirst": "首页",
+    "sLast": "尾页",
+    "sNext": "下一页",
+    "sPrevious": "上一页"
+ },
+ "sEmptyTable" :"没有符合条件的数据",
+ "sLengthMenu":"每页 <select><option value='10'>10</option><option value='20'>20</option><option value='30'>30</option><option value='40'>40</option><option value='50'>50</option><option value='100'>100</option><option value='200'>200</option></select> 条",
+ "sLoadingRecords": "正在查询，请稍候...",
+ "sProcessing": "操作中...",
+ "sSearch": "在查询结果中快速检索:",
+ "sZeroRecords": "没有符合条件的数据",
+ "sInfo": "共 _TOTAL_ 条，显示 _START_ 到 _END_ 条",
+ "sInfoEmpty": "共 0 条"
+}

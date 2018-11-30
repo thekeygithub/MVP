@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../css/drag-drop-folder-tree.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/context-menu.css"></link>
+    <link rel="stylesheet" type="text/css" href="../../css/comm.css"/>
+    <script type="text/javascript" language="javascript" src="../../js/jquery-1.6.2.min.js" ></script>
+	<script type="text/javascript" language="javascript" src="../../js/myDtree.js" ></script>
+	<script type="text/javascript" language="javascript" src="../../js/context-menu.js"></script>
+	<script type="text/javascript" language="javascript" src="../../js/drag-drop-folder-tree.js" ></script>
+	
+	<script type="text/javascript" >
+       var d=null;
+       var treeObj=null;
+       var currentDeptId=0;
+	   var fromDeptId=0;
+
+       $(document).ready(function(){
+	       $("#treeDetail").height( $(window).height() - 30 );
+		   loadDeptTree();
+       });
+       // 加载部门数据
+       function loadDeptTree(){
+    	   top.sendAjaxRequest("/actions/Dept.action?getDeptList",[],initDeptTree);
+       }
+       // 初始化部门树
+       function initDeptTree(obj){
+    	   d=new dTree('d');
+           d.config.useSelection = true;
+           d.config.folderLinks = true;
+           d.config.useStatusText = false;
+           d.config.useLines = false;
+           if( obj.aaData ){
+        	   for(var i=0;i<obj.aaData.length;i++){
+        		   d.add( obj.aaData[i].deptId, obj.aaData[i].parentId, obj.aaData[i].name );
+        	   }
+           }
+           $("#deptTree").html( d.toString() );
+           treeObj = new JSDragDropTree();
+           treeObj.setTreeId('dhtmlgoodies_tree2');
+           treeObj.setMaximumDepth(20);
+           treeObj.setMessageMaximumDepthReached('已到达最大的层次'); 
+           treeObj.setRenameAllowed(true);
+           treeObj.setDeleteAllowed(true);
+           treeObj.initTree();
+           treeObj.expandAll();
+		   
+		   currentDeptId=0;
+		   fromDeptId = top.getUrlParam(document.URL, "currentDeptId");
+		   if ( !fromDeptId ) {
+			  $("#deptTreeTD").show();
+			  currentDeptId=fromDeptId;
+		   } else {
+		      onSelectedNode(fromDeptId);
+		   }
+       }
+       // 选中部门节点后触发函数
+       function onSelectedNode(nid){
+    	   if ( currentDeptId == nid ) return ;
+    	   var name="";
+    	   currentDeptId = nid;
+    	   if ( nid == 0 ) {
+    		   nid="";
+    		   name="";
+    	   }else name=d.getNodePath(nid);
+    	   document.getElementById("deptDetailFrame").contentWindow.queryBySelectedDept(nid,name);
+       }
+	   
+	   function getCurrentDeptId(){
+	       return currentDeptId;
+	   }
+	   
+	   function doBeforeClose(){}
+    </script>
+</head>
+<body>
+<table style="width:100%;height:100%;padding:0;spacing:0;">
+  <tr>
+   <td id="deptTreeTD" style="width:30%;border:1px;border-style: dotted;border-color: #A0CFEC;display:none" valign="top">
+		<div style="padding:3px;float:top;">
+	        <img src="../../img/folderopen.gif" style="cursor:pointer" title="全部展开" onclick="treeObj.expandAll()" />
+	        <img src="../../img/folder.gif" style="cursor:pointer" title="全部收缩" onclick="treeObj.collapseAll()" />
+	    </div>
+		<div class="dtree" id="deptTree" style="padding:3px;">
+		</div>
+   </td>
+   <td id="treeDetail" style="width:70%;border:1px;border-style: dotted dotted dotted none;border-color: #A0CFEC;" valign="top">
+      <iframe id="deptDetailFrame" src="userManage.html?optType=selectOneUser" width="100%" height="100%" frameborder="0"></iframe>
+   </td>
+  </tr>	
+</table>
+</body>
+</html>

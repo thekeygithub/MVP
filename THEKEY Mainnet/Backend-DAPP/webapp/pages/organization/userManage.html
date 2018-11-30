@@ -1,0 +1,607 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="../../css/table_jui.css">
+		<link rel="stylesheet" type="text/css" href="../../css/redmond/jquery-ui-1.8.16.custom.css">
+		<link rel="stylesheet" type="text/css" href="../../css/comm.css">
+		<link rel="stylesheet" type="text/css" href="../../css/commBg.css">
+		<link rel="stylesheet" type="text/css" href="../../css/table_blue.css">
+		<script type="text/javascript" language="javascript" src="../../js/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" language="javascript" src="../../js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" language="javascript" src="../../js/jquery-ui-1.8.16.custom.min.js"></script>
+ 
+		<script type="text/javascript" charset="utf-8">
+		    var oTable=null;
+		    var aSelected = [];
+		    var tempStr="";
+		    var optType="";
+		    var qDeptId="";
+		    var qDeptName="";
+			var dialogLevel="1";
+			var userArr=[];
+			var sortNum=3;
+			var qJobTitle="";
+
+			$(document).ready(function() {
+			   $( "#tdStatus" ).html( top.getCodeSelectHtml("USER_STATUS","q_status",true) );
+			   $( "#tdPosition" ).html( top.getCodeSelectHtml("SYS_POSITION","job_title",true) );
+			   optType=top.getUrlParam(document.URL,"optType");
+			   qDeptId=top.getUrlParam(document.URL,"qDeptId");
+			   qJobTitle=top.getUrlParam(document.URL,"qJobTitle");
+			   if ( !qJobTitle ) qJobTitle="";
+			   $("#job_title").val( qJobTitle );
+			   if ( !qDeptId ) {
+			     try{
+				   if ( parent.getCurrentDeptId ) qDeptId=parent.getCurrentDeptId();
+				   if ( qDeptId ) $("#q_deptid").val(qDeptId);
+				 }catch(e){
+				   qDeptId="";
+				 }
+			   } else {
+			     $("#q_deptid").val(qDeptId);
+			   }
+			   
+			   try{
+			      var isDeptLimit=top.getIsDeptLimit();
+				  if ( isDeptLimit ) {
+				     var deptId=top.getCurrentUser().deptId;
+					 //$("#q_deptid").val(deptId);
+	                 //$("#q_deptname").val( top.getDeptName(deptId) );
+				  }
+			   }catch(e){
+			   }
+
+			   sortNum=3;
+			   var iaoColumns= [
+                               { "sTitle": "帐号", "mDataProp": "userCode", "sWidth": "10%",
+                                      "fnRender": function ( oObj ) {
+									       userArr[userArr.length] = new UserObj(oObj.aData.userCode,oObj.aData.userName,oObj.aData.deptId);
+                                           return '<input type=\'checkbox\' name=\'checkId\' value=\''+oObj.aData.userCode+'\' />&nbsp;'+oObj.aData.userCode;
+                                      },
+                                      "bUseRendered": false
+                               },
+                               { "sTitle": "姓名", "mDataProp": "userName", "sWidth": "10%","sClass": "center",
+                                      "fnRender": function ( oObj ) {
+                                           return '<a href=\'javascript:void(0)\' onclick="updateUser(\''+oObj.aData.userCode+'\',\''+oObj.aData.userName+'\',\''+oObj.aData.deptId+'\',\''+oObj.aData.job_title+'\',\''+oObj.aData.mobilePhone+'\')" >'+oObj.aData.userName+"</a>" ;
+                                      },
+                                      "bUseRendered": false 
+                               },
+                               { "sTitle": "部门", "mDataProp": "deptId", "sWidth": "12%",
+                            	   "fnRender": function ( oObj ) {
+                                      return oObj.aData.dept_name;
+                                   },
+                                   "bUseRendered": false
+                               },
+							   { "sTitle": "职位", "mDataProp": "job_title", "sWidth": "8%", "sClass": "center",
+                                   "fnRender": function ( oObj ) {
+                                        return top.getCodeName( "SYS_POSITION", oObj.aData.job_title );
+                                   },
+                                   "bUseRendered": false  
+                               },
+							   { "sTitle": "性别", "mDataProp": "sex", "sWidth": "8%", "sClass": "center",
+									   "fnRender": function ( oObj ) {
+											return top.getCodeName( "SEX", oObj.aData.sex );
+									   },
+									   "bUseRendered": false  
+                                },
+                               { "sTitle": "状态", "mDataProp": "status", "sWidth": "8%", "sClass": "center",
+                                   "fnRender": function ( oObj ) {
+                                        return top.getCodeName( "USER_STATUS", oObj.aData.status );
+                                   },
+                                   "bUseRendered": false  
+                               },
+                               { "sTitle": "邮箱", "mDataProp": "email","sWidth": "15%" },
+                               { "sTitle": "移动电话", "mDataProp": "mobilePhone","sWidth": "10%" },
+                               { "sTitle": "上次登录","mDataProp": "lastLogin","sWidth": "22%", "sClass": "center",
+                            	  "fnRender": function ( oObj ) {
+                                       return top.getTimeStr( oObj.aData.lastLogin );
+                                  },
+                                  "bUseRendered": false 
+                               }
+               ];
+
+			   if ( optType == 'fromDept' || optType == 'fromRole' || optType=="fromSelectUser" || optType=="selectOneUser" ) {
+			       if ( optType == 'fromDept' || optType == 'fromRole' || optType=="selectOneUser" ) {
+			         $("#queryArea").hide();
+					 $("#simpleQueryArea").show();
+			       }
+				   
+				   if ( optType=="selectOneUser" ) {
+				      $("#selAll").hide();
+					  $("#optBtnDiv").hide();
+					  $("#clearBtn").show();
+				   }
+				   sortNum=2;
+			       iaoColumns= [
+	                               { "sTitle": "帐号", "mDataProp": "userCode", "sWidth": "25%",
+	                            	  "fnRender": function ( oObj ) {
+									       userArr[userArr.length] = new UserObj(oObj.aData.userCode,oObj.aData.userName,oObj.aData.deptId);
+										   if ( optType!="selectOneUser" ) {
+	                                         return ('<input type=\'checkbox\' onclick=onSelectUser(\''+oObj.aData.userCode+'\',\''+oObj.aData.userName+'\',\''+oObj.aData.deptId+'\',this) name=\'checkId\' value=\''+oObj.aData.userCode+'\' />&nbsp;'+oObj.aData.userCode);
+	                                       }
+										   return oObj.aData.userCode;
+									  },
+	                                  "bUseRendered": false
+	                               },
+	                               { "sTitle": "姓名", "mDataProp": "userName", "sWidth": "25%","sClass": "center",
+	                            	  "fnRender": function ( oObj ) {
+										  if(optType=="fromSelectUser"){
+											  return oObj.aData.userName;
+										  }else{
+											  return '<a href=\'javascript:void(0)\' onclick="updateUser(\''+oObj.aData.userCode+'\',\''+oObj.aData.userName+'\',\''+oObj.aData.deptId+'\',\''+oObj.aData.job_title+'\',\''+oObj.aData.mobilePhone+'\',\''+oObj.aData.email+'\',\''+oObj.aData.officePhone+'\')" >'+oObj.aData.userName+"</a>" ;
+										  }
+	                                  },
+	                                  "bUseRendered": false 
+	                               },
+								   { "sTitle": "职位", "mDataProp": "job_title", "sWidth": "15%", "sClass": "center",
+									   "fnRender": function ( oObj ) {
+											return top.getCodeName( "SYS_POSITION", oObj.aData.job_title );
+									   },
+									   "bUseRendered": false  
+                                   },
+	                               { "sTitle": "状态", "mDataProp": "status", "sWidth": "10%", "sClass": "center",
+	                            	  "fnRender": function ( oObj ) {
+	                                       return top.getCodeName( "USER_STATUS", oObj.aData.status );
+	                                  },
+	                                  "bUseRendered": false  
+	                               }
+	               ];
+			   }
+			   
+			   var surl=top.getUrlBase()+"/actions/User.action?getUserList";
+			   if ( optType == 'fromRole' ) {
+				   surl=top.getUrlBase()+"/actions/Role.action?getRoleUserList";
+			   }
+
+			   oTable = $('#dataTable').dataTable( {
+					"bProcessing": false,
+					"bServerSide": true,
+					"bJQueryUI": true,
+					"bFilter": false,
+					"bDestroy": true,
+					"bLengthChange": true,
+					"iDisplayLength":50,
+					"aaSorting": [[ sortNum, "asc" ]],
+					"sAjaxSource": surl,
+					"oLanguage": {
+					  "sUrl": top.getUrlBase()+"/lang_zh.txt"
+				  },
+				  "fnServerData": function ( sUrl, aoData, fnCallback ) {
+						$.ajax( {
+							"url":  sUrl,
+							"data": aoData,
+							"contentType" : "application/x-www-form-urlencoded; charset=utf-8",
+							"success": function (json) {
+								fnCallback( json );
+								$("#selAll").prop("checked",false);
+							},
+							"dataType": "json",
+							"cache": false,
+							"type": "POST",
+							"error": function (xhr, error, thrown) {
+								top.showInfoWinError("发生异常:"+error);
+							}
+						} );
+					},
+					"fnServerParams": function ( aoData ) {
+					    var status=$("#q_status").val();
+						if ( !status || status == '' ) status="-1";
+						aoData.push( { "name": "user.job_title", "value":$("#job_title").val() } );
+			            if ( optType == 'fromRole' ) {
+			            	aoData.push( { "name": "role.roleId", "value":$("#q_roleid").val() } );
+							aoData.push( { "name": "user.userCode", "value":$("#q_usercode2").val() } );
+							aoData.push( { "name": "user.userName", "value":$("#q_username2").val() } );
+			            } else {
+						    var qdeptId=$("#q_deptid").val();
+							if ( qdeptId == '0' ) qdeptId="";
+							if ( optType == 'fromDept' || optType == 'fromRole' || optType=="selectOneUser" ) {
+							  aoData.push( { "name": "user.userCode", "value":$("#q_usercode2").val() } );
+							  aoData.push( { "name": "user.userName", "value":$("#q_username2").val() } );
+							} else {
+			            	  aoData.push( { "name": "user.userCode", "value":$("#q_usercode").val() } );
+							  aoData.push( { "name": "user.userName", "value":$("#q_username").val() } );
+							  aoData.push( { "name": "user.mobilePhone", "value":$("#mobilePhone").val() } );
+							}
+							aoData.push( { "name": "user.deptId", "value": qdeptId } );
+							aoData.push( { "name": "user.status", "value":status } );
+			            }
+			    },
+			    "sDom": "frtlip",
+				"sPaginationType": "full_numbers",
+				"aoColumns": iaoColumns
+				} );
+				
+				if ( top.g_isPermit("sys_activateUser") ) {
+					$( "#activateBtn" ).show();
+				 } else $( "#activateBtn" ).hide();
+				 if ( top.g_isPermit("sys_freezeUser") ) {
+					$( "#freezeBtn" ).show();
+				 } else $( "#freezeBtn" ).hide();
+				
+			 if ( optType=="fromSelectUser" || optType=="selectOneUser") {
+			  $( "#createRoleUserBtn" ).hide();
+	          $( "#delRoleUserBtn" ).hide();
+			  $( "#resetUserPassBtn" ).hide();
+	          $( "#createBtn" ).hide();
+              $( "#delBtn" ).hide();
+              $( "#activateBtn" ).hide();
+              $( "#freezeBtn" ).hide();
+			 }else if ( optType == 'fromRole' ) {
+				    if ( top.g_isPermit("sys_addRoleUser") ) {
+				    	$( "#createRoleUserBtn" ).show();
+				    } else $( "#createRoleUserBtn" ).hide();
+				    if ( top.g_isPermit("sys_deleteRoleUser") ) {
+				    	$( "#delRoleUserBtn" ).show();
+				    } else {
+					    $( "#delRoleUserBtn" ).hide();
+				    }
+				    $( "#createBtn" ).hide();
+                    $( "#delBtn" ).hide();
+					$( "#resetUserPassBtn" ).hide();
+			 } else {
+			     $( "#createRoleUserBtn" ).hide();
+	             $( "#delRoleUserBtn" ).hide();
+				 $( "#resetUserPassBtn" ).hide();
+	             if ( top.g_isPermit("sys_addUser") ) {
+	          	   $( "#createBtn" ).show();
+	             } else $( "#createBtn" ).hide();
+                 if ( top.g_isPermit("sys_delUser") && optType != 'fromDept' ) {
+            	   $( "#delBtn" ).show();
+				   $( "#resetUserPassBtn" ).show();
+                 } else {
+				   $( "#delBtn" ).hide();
+				   $( "#resetUserPassBtn" ).hide();
+				 }
+			 }
+			 
+			} );
+			
+	  function UserObj(c,n,did){
+	     this.userCode=c;
+		 this.userName=n;
+		 this.deptId=did;
+	  }
+			
+	  function queryBySelectedDept(nid,name){
+		 qDeptId = nid;
+		 qDeptName = name;
+		 document.getElementById("q_deptid").value = qDeptId;
+		 doQuery();
+	  }
+			
+	  function queryBySelectedRole(nid,roleName){
+        document.getElementById("q_roleid").value = nid;
+        doQuery();
+      }
+			
+			function doQuery(){
+			    userArr=[];
+				$("#selAll").prop("checked",false);
+				oTable.fnDraw();
+			}
+			
+			function addUser(){
+			    var isDetail=true;
+				var xurl="pages/organization/oaUserInfo.html?opt=insertUser";
+				try{
+				  if ( !top.getIsUseDetailUserMode()) {
+				    isDetail=false;
+				    xurl="pages/organization/userInfo.html?opt=insertUser";
+				  }
+				}catch(e){
+				}
+				
+				if ( optType == 'fromDept' ){
+					xurl+="&deptId="+qDeptId+"&deptName="+qDeptName;
+				}
+				if ( isDetail ) {
+				  top.openDialog("创建用户",xurl,true,850,570,saveUserCallBack);
+				} else {
+				  top.openDialog("创建用户",xurl,true,850,570,saveUserCallBack);
+				}
+			}
+
+			function updateUser(userCode,userName,deptId,job_title,mobilePhone,email,officePhone){
+			    if ( optType=="selectOneUser" ) {
+				   var obj={
+						"userCode":userCode,
+						"userName":userName,
+						"deptId":deptId,
+						"job_title":job_title,
+						"mobilePhone":mobilePhone,
+						"email":email,
+						"officePhone":officePhone
+				   };
+				   top.setTempValue(obj);
+				   if ( dialogLevel == "1" ) {
+					 top.closeSelectDialog();
+				   } else top.closeSelectDialog2();
+				   return ;
+				}
+				var xurl="pages/organization/oaUserInfo.html?opt=updateUser&userCode="+userCode;
+				try{
+				  if ( !top.getIsUseDetailUserMode()) {
+				    xurl="pages/organization/userInfo.html?opt=updateUser&userCode="+userCode;
+					top.openDialog("修改用户信息",xurl,true,850,570,saveUserCallBack);
+					return ;
+				  }
+				}catch(e){
+				}
+				top.openDialog("修改用户信息",xurl,true,850,570,saveUserCallBack);
+			}
+			
+			function deleteUser(){
+				var ids=top.getAllCheckedValue( document.getElementsByName('checkId') );
+				if (ids.length > 0){
+					top.showConfirm("您确定要删除选中的帐号吗？", doDeleteUser);
+				}else{
+					top.showInfoWinWarn("请选择要删除的帐号");
+				}
+			}
+			
+			function resetUserPass(){
+				var ids=top.getAllCheckedValue( document.getElementsByName('checkId') );
+				if (ids.length > 0){
+					top.showConfirm("您确定要将选中的帐号重置密码吗？", doResetUserPass);
+				}else{
+					top.showInfoWinWarn("请选择要重置密码的帐号");
+				}
+			}
+			
+			function doResetUserPass(){
+				var ids=top.getAllCheckedValue( document.getElementsByName('checkId') );
+				var aoData=[];
+                aoData.push( { "name": "user.userCode", "value":ids } );
+                top.sendAjaxRequest("/actions/User.action?resetPass",aoData,optCallback);
+			}
+			
+			function doDeleteUser(){
+				var ids=top.getAllCheckedValue( document.getElementsByName('checkId') );
+				var aoData=[];
+                aoData.push( { "name": "user.userCode", "value":ids } );
+                top.sendAjaxRequest("/actions/User.action?deleteUser",aoData,optCallback);
+			}
+			
+			function saveUserCallBack(){
+				try{
+				  var obj = top.getTempValue();
+				  if(obj.isSaveOK) doQuery();
+				}catch(e){
+				}
+			}
+			
+			function optCallback(obj){
+			       try{
+			        if ( obj.status == true ){
+			          top.showInfoWinOK("操作成功");
+			          doQuery();
+			        }else{
+			          top.showInfoWinError("操作失败 "+obj.msg);
+			        }
+			       }catch(e){
+			          top.showInfoWinError("处理异常:"+e.message);
+			       }
+		    }
+			
+		   function getUsersNum(){
+			   try{
+				   var settings=oTable.fnSettings();
+			       return settings.fnRecordsTotal();
+			   }catch(e){
+				   return -1;
+			   }
+		   }
+		   
+		   function selectDept(){
+	           var xurl="pages/organization/selectTreeNode.html?type=dept";
+			   
+			   try{
+			      var isDeptLimit=top.getIsDeptLimit();
+				  if ( isDeptLimit ) {
+				    xurl+='&rightLimit=1';
+				  }
+			   }catch(e){
+			   }
+			   
+			   if ( optType=="fromSelectUser" ) {
+			    xurl+="&dialogLevel=2";
+			    top.openSelectDialog2("选择部门",xurl,300,450,selectDeptCallback);
+			   }else {
+	            top.openSelectDialog("选择部门",xurl,300,450,selectDeptCallback);
+			   }
+		   }
+		   
+		   function selectDeptCallback(){
+			   try{
+	             var obj = top.getTempValue();
+	             if ( obj.nodeId == -1 ) return ;
+	             if ( obj.nodeId == -2 ) {
+	                 qDeptId = "";
+	                 qDeptName = "";
+	             } else {
+	            	 qDeptId = obj.nodeId;
+                     qDeptName = obj.nodeName;
+	             }
+	             document.getElementById("q_deptid").value = qDeptId;
+	             document.getElementById("q_deptname").value = qDeptName;
+	           }catch(e){
+	           }
+		   }
+		   
+		   function deleteRoleUser(){
+				var ids=top.getAllCheckedValue( document.getElementsByName('checkId') );
+				if (ids.length > 0) {
+					top.showConfirm("您确定要删除选中的角色关联用户吗？", doDeleteRoleUser);
+				}else{
+					top.showInfoWinWarn("请选择要删除的角色关联用户");
+				}
+			}
+		   
+		  function doDeleteRoleUser(){
+				var ids=top.getAllCheckedValue( document.getElementsByName('checkId') )+",";
+				if ( ids == ',' ) {
+				  top.showInfoWinWarn("请选择要解除关联关系的账号");
+				  return ;	
+				}
+				var aoData=[];
+				aoData.push( { "name": "role.roleId", "value": document.getElementById("q_roleid").value } );
+				aoData.push( { "name": "userCodes", "value":ids } );
+				top.sendAjaxRequest("/actions/Role.action?deleteRoleUsers",aoData,optCallback);
+			}
+			
+			function addRoleUser(){
+				if ( document.getElementById("q_roleid").value == '' ) {
+					 top.showInfoWinWarn("请先选择要关联的角色");
+				   return ;	
+				}
+				var xurl="pages/organization/selectUser.html?opt=addRoleUser&roleId="+document.getElementById("q_roleid").value;
+				top.openSelectDialog("选择系统用户",xurl,1060,600,doAddRoleUser);
+			}
+			function doAddRoleUser(){
+				var so = top.getTempValue();
+				if ( so.userCodes == '' ) return ;
+				var aoData=[];
+				aoData.push( { "name": "role.roleId", "value": document.getElementById("q_roleid").value } );
+				aoData.push( { "name": "userCodes", "value": so.userCodes } );
+				top.sendAjaxRequest("/actions/Role.action?insertRoleUsers",aoData,optCallback);
+			}
+			function onSelectUser(userCode,userName,deptId,obj){
+			  if ( optType=="fromSelectUser" ) {
+			  	try{
+			  	   parent.onSelectUser(userCode,userName,obj.checked,deptId);
+			    }catch(e){
+			    }
+			  }
+			}
+			
+			function selectClear(){
+			    try{
+			  	   var obj={
+						"userCode":"",
+						"userName":"",
+						"deptId":0,
+						"job_title":"",
+						"mobilePhone":""
+				   };
+				   top.setTempValue(obj);
+				   if ( dialogLevel == "1" ) {
+					 top.closeSelectDialog();
+				   } else top.closeSelectDialog2();
+			    }catch(e){
+			    }
+			}
+			
+			function unCheckUser(userCode){
+				var sub_boxes = document.getElementsByName('checkId');
+			    for (var i = 0; i < sub_boxes.length; i++) {
+			     if ( sub_boxes[i].value == userCode ) { 
+				  sub_boxes[i].checked = false;
+				  break;
+			     } 
+		        }
+			}
+			function updateUserStatus(s){
+				var users = top.getAllCheckedValue( document.getElementsByName('checkId') );
+				if ( users == '' ) {
+					top.showInfoWinWarn("请选择要操作的账号");
+				  return ;	
+			  }
+			  var aoData=[];
+				aoData.push( { "name": "user.status", "value": s } );
+				aoData.push( { "name": "user.userCode", "value":users } );
+				top.sendAjaxRequest("/actions/User.action?updateUserStatus",aoData,optCallback);
+			}
+			
+			function selfCheckAll(isCheck,sid){
+			    if ( optType == 'fromDept' || optType == 'fromRole' || optType=="fromSelectUser" || optType=="selectOneUser" ) {
+					try{
+					  var cs=document.getElementsByName('checkId');
+					  for ( var i=0;i<cs.length;i++ ) {
+						parent.onSelectUser(cs[i].value,getUserName(cs[i].value),cs[i].checked);
+					  }
+					}catch(e){}
+				}
+			}
+			
+			function getUserName(c){
+			   try{
+			     for ( var i=0;i<userArr.length;i++ ) {
+				   if ( userArr[i].userCode == c ) return userArr[i].userName;
+				 }
+			   }catch(e){
+			   }
+			   return c;
+			}
+			function doBeforeClose(){}
+		</script>
+		<style>
+			#pdList_iframe{
+				height: 400px;
+			}
+		</style>
+	</head>
+	<body >
+	    <input type="hidden" id="q_deptid" value="" />
+	    <input type="hidden" id="q_roleid" value="" />
+		<center>
+		<table width="95%;"><tr><td width="100%">
+		     <div  id="queryArea" width="95%">
+		     <table width="100%" align="center" class="condition_query" cellpadding="0" cellspacing="0" border="0" >
+			   <tr class="tr_data">
+				   <td align="right" width="10%">帐号:</td>
+				   <td align="left" width="20%"><input type="text" id="q_usercode" value="" style="width:115px" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+				   <td align="right" width="10%">姓名:</td>
+				   <td align="left" width="20%"><input type="text" id="q_username" value="" style="width:115px" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+				   <td align="right" width="10%">部门:</td>
+				   <td align="left" width="30%" colspan="2"><input type="text" id="q_deptname" value="" style="width:115px" readonly onclick="selectDept()"/></td>
+			    </tr>
+				 <tr>
+					 <td align="right" width="10%">职称:</td>
+					 <td align="left" width="20%" id="tdPosition"></td>
+					 <td align="right" width="10%">状态:</td>
+					 <td align="left" width="20%" id="tdStatus"></td>
+					 <td align="right" width="10%">手机号:</td>
+				     <td align="left" width="20%"><input type="text" id="mobilePhone" value="" style="width:115px" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					 <td align="left" width="10%"><div class="buttonDivTwo"><a href="javascript:doQuery()">查询</a></div></td>
+				 </tr>
+			 </table>
+			</div>
+			
+			<div  id="simpleQueryArea" style='display:none;' width="95%">
+		     <table width="100%" align="center" cellpadding="0" cellspacing="0" border="0" >
+			   <tr class="tr_data">
+			      <td align="right" width="10%">帐号:</td><td align="left" width="10%"><input type="text" id="q_usercode2" value="" style="width:120px" onkeydown="if(event.keyCode==13) doQuery();" /></td>
+			      <td align="right" width="10%">姓名:</td><td align="left" width="10%"><input type="text" id="q_username2" value="" style="width:120px" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+				   <td align="right">
+					   <div id="clearBtn" style="display:none" class="buttonDivTwo"><a href="javascript:selectClear()">清空</a></div>
+					   &nbsp;&nbsp;<div class="buttonDivTwo"><a href="javascript:doQuery()">查询</a></div>
+				   </td>
+				   <td width="2px">&nbsp;</td>
+			   </tr>
+			 </table>
+			</div>
+			<div class="btns_ellipse" id="optBtnDiv" width="95%">
+				<table align="left" cellpadding="1px" cellspacing="0" border="0">
+					<tr>
+						<td>
+							<div>
+								&nbsp;<input type="checkbox" id="selAll" onclick="top.checkAll(this.checked,document.getElementsByName('checkId'));selfCheckAll(this.checked,'checkId')"/>
+								<label for="selAll">全选</label>
+							</div>
+						</td>
+						<td id="createBtn"><div class="buttonDivTwo"><a href="javascript:addUser()">创建</a></div></td>
+						<td id="delBtn"><div class="buttonDivTwo"><a href="javascript:deleteUser()">删除</a></div></td>
+						<td id="createRoleUserBtn"><div class="buttonDivTwo"><a href="javascript:addRoleUser()">添加</a></div></td>
+						<td id="delRoleUserBtn"><div class="buttonDivTwo"><a href="javascript:deleteRoleUser()">删除</a></div></td>
+						<td id="activateBtn"><div class="buttonDivTwo"><a href="javascript:updateUserStatus(1)">激活</a></div></td>
+						<td id="freezeBtn"><div class="buttonDivTwo"><a href="javascript:updateUserStatus(2)">冻结</a></div></td>
+						<td id="resetUserPassBtn"><div class="buttonDivSix"><a href="javascript:resetUserPass()">重置密码</a></div></td>
+					</tr>
+				</table>
+			</div>
+	        <table cellpadding="0" cellspacing="0" border="0" class="display" id="dataTable" ></table>
+		</td></tr></table>
+		</center>
+	</body>
+</html>

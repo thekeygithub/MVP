@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../css/table_jui.css">
+	<link rel="stylesheet" type="text/css" href="../../css/comm.css">
+  <link rel="stylesheet" type="text/css" href="../../css/redmond/jquery.ui.all.css">
+  <link rel="stylesheet" type="test/css" href="../../css/custInfoManage.css">
+  <script type="text/javascript" language="javascript" src="../../js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/jquery-ui-1.8.16.custom.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/checkForm.js"></script>
+  <script type="text/javascript" language="JavaScript1.2" src="../../js/Calendar3.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+    //var sUrl=top.getUrlBase()+"applyController/getProductClaimListDetailed";  
+    var sUrl=getUrl()+"applyController/getProductClaimListDetailed";
+    var insured_place="";
+    var medical_hospital="";
+    var billing_status="";
+        $(document).ready(function() {
+            initData();
+        });
+        function initData(){
+            var aaData ;
+            aaData= top.getTempValue();
+            insured_place=aaData.insured_place;
+            medical_hospital=aaData.medical_hospital;
+            billing_status=aaData.billing_status;
+        	getCustList();
+        }
+        function getCustList(){
+       	 var num=0;
+       	 var iaoColumns= [
+                { "sTitle": "序号", "mDataProp": null, "sWidth": "7%","sClass": "center","fnRender": function ( oObj ) {
+           		  num++;
+                    return num;
+            	},"bUseRendered": false },
+                
+                { "sTitle": "就医医院", "mDataProp": "medical_hospital", "sWidth": "26%","sClass": "center", "bUseRendered": false},
+                { "sTitle": "参保地", "mDataProp": "insurance_address", "sWidth": "21%","sClass": "center", "bUseRendered": false},
+                { "sTitle": "分账金额(TKY)", "mDataProp": "medical_expenses", "sWidth": "11%","sClass": "center", "bUseRendered": false},
+       		 	{ "sTitle": "分账时间", "mDataProp": "register_time", "sWidth": "16%","sClass": "center",
+               	 "fnRender": function ( oObj ) {
+               		 var timer = getTimeStr(oObj.aData.register_time,true);
+                        return timer;
+                	}, "bUseRendered": false},
+                { "sTitle": "备案人", "mDataProp": "register_user_name", "sWidth": "26%","sClass": "center", "bUseRendered": false},
+                { "sTitle": "社保卡号", "mDataProp": "social_card", "sWidth": "21%","sClass": "center", "bUseRendered": false}
+       	];
+       	 oTable = $('#dataTable').dataTable({
+       			"bProcessing": false,
+       			"bServerSide": true,
+       			"bJQueryUI": true,
+       			"bFilter": false,
+       			"bDestroy": true,
+       			"bLengthChange": true,
+       			"aaSorting": [[3, "desc"]],
+       			"iDisplayLength":20,
+       			"sAjaxSource": sUrl,
+       			"oLanguage": {
+       			  //"sUrl": top.getUrlBase()+"/lang_zh.txt"   
+       				"sUrl": getUrl()+"/lang_zh.txt"
+       		  },
+       		  "fnServerData": function ( sUrl, aoData, fnCallback ) {
+       				$.ajax( {
+       					"url":  sUrl,
+       					"data": aoData,
+       					"contentType" : "application/x-www-form-urlencoded; charset=utf-8",
+       					"success": function (json) {
+       						fnCallback( json );
+       					},
+       					"dataType": "json",
+       					"cache": false,
+       					"type": "POST",
+       					"error": function (xhr, error, thrown) {
+       						top.showInfoWinError("发生异常:"+error);
+       					}
+       				} );
+       			},
+                "fnServerParams": function ( aoData ) {
+                       aoData.push({"name": "medical_hospital", "value":medical_hospital});
+                       aoData.push({"name": "insured_place", "value":insured_place});
+                       aoData.push({"name": "billing_status", "value":billing_status});
+                    
+                },
+       		"sDom": "frtlip",
+       		"sPaginationType": "full_numbers",
+       		"aoColumns": iaoColumns
+       		} );
+        }
+        function doQuery(){
+    		oTable.fnDraw();
+    	}
+        function getTimeStr(t,isDateStr){
+    	    if ( !isDateStr ) isDateStr = false;
+    		if ( !t ) return "";
+    		if ( t > -2 && t < 10 ) return "";
+    		try{
+    			var d=new Date(2013,1,1);
+    		    d.setTime( t );
+    			var str = d.getFullYear()+"-"+getTwoNumberStr(d.getMonth()+1)+"-"+getTwoNumberStr(d.getDate());
+    			if ( !isDateStr ) str +=" "+getTwoNumberStr(d.getHours())+":"+getTwoNumberStr(d.getMinutes())
+    			       +":"+getTwoNumberStr(d.getSeconds());
+    		    return str;
+    		}catch(e){
+    			return "";
+    		}
+    	}
+        function getTwoNumberStr(n){
+    		if ( n == '00' ) return '00';
+    		try{
+    			n=Number(n);
+    		}catch(e){}
+    		return ( n < 10 ) ? ("0"+n):n; 
+    	}
+        function getUrl(){
+    		var g_UrlBase="";
+    		var ind=document.URL.indexOf("/HollyBlockChain");
+    	    if ( ind != -1 ) {
+    		  g_UrlBase = document.URL.substring(0,ind+17);
+    	    }
+    	    return g_UrlBase;
+    	}
+    </script>
+    <style>
+	#queryArea td{
+		font-size:13px !important;
+	}
+	.setUpCss{
+	    border-radius: 5px;
+	    border: 1px solid #ccc;
+	    height: 25px;
+	    line-height:25px;
+	    padding-left:10px;
+	    box-sizing:border-box;
+	    font-size:12px;
+	}
+	#queryArea{
+		margin-top:10px;
+	}
+	#dataTable_length{
+		margin-left:15px;
+	}
+	#dataTable_paginate{
+		margin-right:19px;
+	}
+	.btns_ellipse{
+		width:98%;
+		margin:0 auto;
+	}
+	input[name=checkId]{
+		float:left;
+	}
+</style>
+</head>
+<body style="overflow:hidden;">
+<input type="hidden" id="insured_placeV" value="">
+<input type="hidden" id="medical_hospitalV" value="">
+<input type="hidden" id="billing_status" value="">
+ <div id="queryArea" width="100%">
+
+<table width="98%" border="0" padding="0" spacing="0" id="dataTable" class="display" style="font-size:13px;">
+	</table>
+</div>
+</body>
+</html>

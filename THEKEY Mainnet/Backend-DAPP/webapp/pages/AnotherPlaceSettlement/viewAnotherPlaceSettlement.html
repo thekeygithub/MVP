@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title></title>
+		<script src="../../js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			html,body,#content,ul{
+				width: 100%;
+				height: 100%;
+			}
+			li{
+				list-style: none;
+				width: 50%;
+				height: 35px;
+				line-height: 35px;
+				margin-bottom: 5px;
+				font-size: 14px;
+			}
+			.l{
+				float: left;
+			}
+			#content ul{
+				padding: 0;
+				margin: 0;
+			}
+			.detail-list span.title{
+				background-color: #f2f2f2;
+				display: inline-block;
+				width: 136px;
+				text-align: center;
+				height: 35px;
+				line-height: 35px;
+				margin-right:5px;
+			}
+			.desc{
+				display: inline-block;
+				border: 1px solid #ccc;
+				width: 400px;
+				height: 130px;
+				margin-left: 10px;
+				border-radius: 5px;
+			}
+		</style>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initData();
+			});
+			function initData(){
+		
+				var aaData ;
+				aaData= top.getTempValue();
+				$("#register_user_name").html(aaData.register_user_name);
+				$("#register_user_sex").html(aaData.register_user_sex);
+				$("#user_birthday").html(getTimeStr(aaData.user_birthday));
+				$("#register_time").html(getTimeStr(aaData.register_time));
+				$("#insurance_type").html(aaData.insurance_type);
+				$("#personnel_type").html(aaData.personnel_type);
+				$("#certificates_type").html(aaData.certificates_type);
+				$("#certificates_num").html(aaData.certificates_num);
+				$("#register_user_phone").html(aaData.register_user_phone);
+				$("#register_address").html(aaData.register_address);
+				$("#insurance_address").html(aaData.insurance_address);
+				$("#medical_city").html(aaData.medical_city);
+				$("#medical_hospital").html(aaData.medical_hospital);
+				$("#social_card").html(aaData.social_card);		
+			}
+			function getTimeStr(t,isDateStr){
+			    if ( !isDateStr ) isDateStr = false;
+				if ( !t ) return "";
+				if ( t > -2 && t < 10 ) return "";
+				try{
+					var d=new Date(2013,1,1);
+				    d.setTime( t );
+					var str = d.getFullYear()+"-"+getTwoNumberStr(d.getMonth()+1)+"-"+getTwoNumberStr(d.getDate());
+					if ( !isDateStr ) str +=" "+getTwoNumberStr(d.getHours())+":"+getTwoNumberStr(d.getMinutes())
+					       +":"+getTwoNumberStr(d.getSeconds());
+				    return str;
+				}catch(e){
+					return "";
+				}
+			}
+			function getTwoNumberStr(n){
+				if ( n == '00' ) return '00';
+				try{
+					n=Number(n);
+				}catch(e){}
+				return ( n < 10 ) ? ("0"+n):n; 
+			}
+		</script>
+	</head>
+	<body>
+		<div id="content">
+			<ul>
+				<li class="l detail-list">
+					<span class="title">姓名</span><span id="register_user_name">刘鹏</span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">性别</span><span id="register_user_sex">13089867692</span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">出生日期</span><span id="user_birthday">231081199309140611</span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">登记时间</span><span id="register_time">2018-08-08</span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">参保类别</span><span id="insurance_type"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">人员类别</span><span id="personnel_type"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">证件类别</span><span id="certificates_type"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">证件号</span><span id="certificates_num"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">联系电话</span><span id="register_user_phone"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">联系地址</span><span id="register_address"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">参保地地址</span><span id="insurance_address"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">就医城市</span><span id="medical_city"></span>
+				</li>	
+				<li class="l detail-list">
+					<span class="title">就医医院</span><span id="medical_hospital"></span>
+				</li>	
+				<li class="l detail-list">
+					<span class="title">社保卡号</span><span id="social_card"></span>
+				</li>	
+			</ul>
+		</div>
+	</body>
+</html>

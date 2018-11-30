@@ -1,0 +1,304 @@
+<html>
+<head>
+<base href="">
+  <meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="css/table_jui.css">
+		<link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-1.8.16.custom.css">
+		<link rel="stylesheet" type="text/css" href="css/comm.css">
+		<link rel="stylesheet" type="text/css" href="css/commBg.css">
+		<link rel="stylesheet" type="text/css" href="css/table_blue.css">
+		<script type="text/javascript" language="javascript" src="js/jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript" language="javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+ <script type="text/javascript">
+ var oTable=null;
+ var currentOptCode="";
+ var userArr=[];
+ var num=0;
+ var login_hospital="";
+ //var surl=top.getUrlBase()+"/InfoController/getCustInfoPageList";
+ var surl=getUrl()+"applyController/getSettlementRecordList";
+
+ $(document).ready(function() {
+	 checkLogin();
+	 getCustList(surl);
+ });
+
+ function checkLogin(){
+     var imgType = "ok";
+     $.ajax({
+         url:"/HollyBlockChain/sys/isLogin",
+         type:"get",
+         dataType:"json",
+         success:function(data){
+             if(data.responseResult=="true"){
+                 login_hospital=data.account;
+                 $("#h3").text(login_hospital);
+             }
+         },
+         error : function() {
+             alert("异常！");
+         }
+     });
+ }
+ function getCustList(surl){
+	 var iaoColumns= [
+         { "sTitle": "序号", "mDataProp": null, "sWidth": "7%","sClass": "center","fnRender": function ( oObj ) {
+    		  num++;
+             return num;
+     	},"bUseRendered": false },
+         
+         { "sTitle": "就医医院", "mDataProp": "medical_hospital", "sWidth": "26%","sClass": "center", "bUseRendered": false},
+         { "sTitle": "参保地", "mDataProp": "insured_place", "sWidth": "21%","sClass": "center", "bUseRendered": false},
+         { "sTitle": "分账金额(TKY)", "mDataProp": "sub_amount", "sWidth": "11%","sClass": "center",
+        	 "fnRender": function ( oObj ) {
+        		 var amount=oObj.aData.sub_amount;
+        		 if(amount.length>4){
+        			 return amount.substr(0,5);
+        		 }
+        		 return amount;
+         	},"bUseRendered": false},
+		/*  { "sTitle": "分账时间", "mDataProp": "endtime", "sWidth": "16%","sClass": "center",
+        	 "fnRender": function ( oObj ) {
+        		 var timer = getTimeStr(oObj.aData.endtime);
+                 return timer;
+         	}, "bUseRendered": false},*/
+        	
+         {"sTitle":"结算状态","mDataProp":"billing_status", "sWidth": "14%","sClass": "center","fnRender": function ( oObj ) {
+        	 if( oObj.aData.billing_status==1){
+				   return '已结算';
+			   }else{
+				   return '未结算';
+			   }
+     	}, "bUseRendered": false},
+     	
+        { "sTitle": "操作", "mDataProp": null,"sClass": "center", "sWidth": "5%",
+           "fnRender": function ( oObj ) {
+             return '<a href=\'javascript:void(0)\' onclick="chakan(\''+oObj.aData.medical_hospital+'\',\''+oObj.aData.insured_place+'\',\''+oObj.aData.billing_status+'\')" >查看</a>';
+
+         },
+          "bUseRendered": false 	 
+        }
+	];
+	 oTable = $('#dataTable').dataTable( {
+			"bProcessing": false,
+			"bServerSide": true,
+			"bJQueryUI": true,
+			"bFilter": false,
+			"bDestroy": true,
+			"bLengthChange": true,
+			"aaSorting": [[3, "desc"]],
+			"iDisplayLength":10,
+			"sAjaxSource": surl,
+			"oLanguage": {
+			  //"sUrl": top.getUrlBase()+"/lang_zh.txt" 
+				"sUrl": getUrl()+"/lang_zh.txt"
+		  },
+		  "fnServerData": function ( sUrl, aoData, fnCallback ) {
+				$.ajax( {
+					"url":  sUrl,
+					"data": aoData,
+					"contentType" : "application/x-www-form-urlencoded; charset=utf-8",
+					"success": function (json) {
+						fnCallback( json );
+					},
+					"dataType": "json",
+					"cache": false,
+					"type": "POST",
+					"error": function (xhr, error, thrown) {
+						top.showInfoWinError("发生异常:"+error);
+					}
+				} );
+			},
+         "fnServerParams": function ( aoData ) {
+
+                aoData.push({"name": "insured_place", "value":$("#insured_place").val()});
+                aoData.push({"name": "endtime1", "value": toTimestamp($("#endtime1").val())});
+                aoData.push({"name": "endtime2", "value": toTimestamp($("#endtime2").val())});
+              	aoData.push({"name": "medical_hospital", "value":login_hospital});
+         },
+		"sDom": "frtlip",
+		"sPaginationType": "full_numbers",
+		"aoColumns": iaoColumns
+		} );
+ 	}
+ 
+	function doQuery(){
+		num=0;
+		oTable.fnDraw();
+	}
+	
+// 	function addCustInfo(){
+// 		 var xurl="pages/CustInfoManage/addCustInfo.html";
+// 		 top.openDialog("添加客户信息",xurl,true,850,570,doQuery);
+// 	}
+	function queryOfCondition(){
+     var surl1 = "/HollyBlockChain/applyController/getSettlementRecordList";
+    // var surl1 = "/applyController/getSettlementRecordList";
+		getCustList(surl1);
+	}
+	function settleAccounts(){
+		var aoData=[];
+        //top.sendAjaxRequest("/applyController/settleAccounts",aoData,optCallback);
+        $.ajax({
+			url:''+getUrl()+'/applyController/settleAccounts',
+			data:aoData,
+			dataType:"json",
+			type:'POST',
+			headers:{},
+			success:function(res){
+				//成功后执行
+					optCallback(res);
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown){
+			}
+		});	
+	}
+	function optCallback(obj){
+	       try{
+	        if ( obj.status == true ){
+	          top.showInfoWinOK("清结算请求已发送，请时刻关注结算单状态。");
+	          doQuery();
+	        }else{
+	          top.showInfoWinError("操作失败 "+obj.msg);
+	        }
+	       }catch(e){
+	          //top.showInfoWinError("处理异常:"+e.message);
+	       }
+	}
+	function getTimeStr(t,isDateStr){
+	    if ( !isDateStr ) isDateStr = false;
+		if ( !t ) return "";
+		if ( t > -2 && t < 10 ) return "";
+		try{
+			var d=new Date(2013,1,1);
+		    d.setTime( t );
+			var str = d.getFullYear()+"-"+getTwoNumberStr(d.getMonth()+1)+"-"+getTwoNumberStr(d.getDate());
+			if ( !isDateStr ) str +=" "+getTwoNumberStr(d.getHours())+":"+getTwoNumberStr(d.getMinutes())
+			       +":"+getTwoNumberStr(d.getSeconds());
+		    return str;
+		}catch(e){
+			return "";
+		}
+	}
+	//结算
+	function Settlement(){
+		
+	}
+	function getTwoNumberStr(n){
+		if ( n == '00' ) return '00';
+		try{
+			n=Number(n);
+		}catch(e){}
+		return ( n < 10 ) ? ("0"+n):n; 
+	}
+	function toTimestamp(str){
+		if ( str == '' ) return 0;
+		try{
+		  var d=new Date(2013,1,1);
+		  d.setFullYear( Number(str.substring(0,4)) );
+		  d.setMonth( Number(str.substring(5,7)) - 1 ); // 0 - 11
+		  d.setDate( Number(str.substring(8,10)) );
+		  d.setSeconds(0);
+		  if ( str.length > 15 ) {
+		   d.setHours( Number(str.substring(11,13)) );
+		   d.setMinutes( Number(str.substring(14,16)) );
+		   if ( str.length > 17 ) d.setSeconds( Number(str.substring(17,19)) );
+		  } else {
+		   d.setHours(0);
+		   d.setMinutes(0);
+		   d.setSeconds(0);
+		  }
+		  return d.getTime();
+		}catch(e){
+		  return 0;
+		}
+	}
+	function chakan(insured_place,medical_hospital,billing_status){
+		var obj={
+          "insured_place":insured_place,
+          "medical_hospital":medical_hospital,
+          "billing_status":billing_status
+            };
+            top.setTempValue(obj);
+            //var xurl="pages/balanceManage/RecordDetail.html";
+            //top.openDialog("查看详细信息",xurl,true,850,570,doQuery);
+            try{
+               	var xurl="pages/balanceManage/recordDetail.html";
+                   top.openDialog("查看详细信息",xurl,true,850,400,doQuery);
+               }
+           	catch(e){
+           	}
+	}
+	function fCallBack(){
+			oTable.fnDraw();
+	}
+	function getUrl(){
+		var g_UrlBase="";
+		var ind=document.URL.indexOf("/HollyBlockChain");
+	    if ( ind != -1 ) {
+		  g_UrlBase = document.URL.substring(0,ind+17);
+	    }
+	    return g_UrlBase;
+	}
+</script>
+<style>
+	#queryArea td{
+		font-size:13px !important;
+	}
+	.setUpCss{
+	    border-radius: 5px;
+	    border: 1px solid #ccc;
+	    height: 25px;
+	    line-height:25px;
+	    padding-left:10px;
+	    box-sizing:border-box;
+	    font-size:12px;
+	}
+	#queryArea{
+		margin-top:10px;
+	}
+	#dataTable_length{
+		margin-left:15px;
+	}
+	#dataTable_paginate{
+		margin-right:19px;
+	}
+	.btns_ellipse{
+		width:98%;
+		margin:0 auto;
+	}
+	input[name=checkId]{
+		float:left;
+	}
+</style>
+</head>
+<body style="overflow:hidden;">
+<div  id="queryArea" width="100%">
+	<h2 align="center"><span id="h3"></span><span>清结算页面</span></h2>
+			<table width="100%" align="center" class="condition_query search-table" cellpadding="0" cellspacing="0" border="0" >
+				<tr class="tr_data">
+					<td align="right">就医医院:</td>
+					<td align="left">
+					<input type="text" id="medical_hospital" class="setUpCss" value=""  onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="right">参保地:</td>
+					<td align="left">
+					<input type="text" id="insured_place" class="setUpCss"   value=""   onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="right">分账时间:</td>
+					<td align="left">
+					<input type="date" id="endtime1" class="setUpCss" value="" onkeydown="if(event.keyCode==13) doQuery();"/>
+					至：
+					<input type="date" id="endtime2" class="setUpCss" value="" onkeydown="if(event.keyCode==13) doQuery();"/>
+					</td>
+					<td align="left"><div class="buttonDivTwo"><button onclick="queryOfCondition()">查询</button></div></td>
+					<td align="left"><div class="buttonDivTwo"><button onclick="settleAccounts()">结算</button></div></td>
+				</tr>
+			</table>
+		</div>
+<div>
+	<table width="98%" border="0" padding="0" spacing="0" id="dataTable" class="display">
+</table>
+</div>
+</div>
+</body>
+</html>

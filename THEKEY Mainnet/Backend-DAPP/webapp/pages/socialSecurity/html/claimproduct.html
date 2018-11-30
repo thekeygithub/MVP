@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+	</head>
+	<style>
+		.mui-bar-nav{
+			-webkit-box-shadow: none;
+			box-shadow: none;
+		}
+		.gray{
+			color: #ccc;
+		}
+		.claimProduct-btn{
+			width: 94%;
+			margin: 20px auto 0;
+		}
+		.total{
+			margin: 20px 0;
+			text-align: center;
+		}
+	</style>
+	<body>
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">选择理赔产品</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<div class="mui-input-row mui-radio">
+						<label>百年人寿</label>
+						<input class="check" name="radio1" value="600" type="radio" checked="true">
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-input-row mui-radio">
+						<label>健康人寿</label>
+						<input class="check" name="radio1" value="600" type="radio">
+					</div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div class="mui-input-row mui-radio">
+						<label class="gray">生命人寿</label>
+						<input name="radio1" type="radio"  disabled="true">
+					</div>
+				</li>
+			</ul>
+			<div class="mui-row total">
+				理赔金额: <span>￥500</span>
+			</div>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block claimProduct-btn" onclick="confirmClaim()">确认理赔</button>
+		</div>
+	</body>
+	<script type="text/javascript">
+		function confirmClaim(){
+			mui.alert("理赔申请已提交,后台会尽快审核,请耐心等待。","提示","确认",callback,{type:"div"});
+		}
+		function callback(){
+			history.go(-1);
+		}
+	</script>
+</html>

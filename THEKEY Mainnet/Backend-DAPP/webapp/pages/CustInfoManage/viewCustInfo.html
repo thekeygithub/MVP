@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="../../css/comm.css">
+  <link rel="stylesheet" type="text/css" href="../../css/redmond/jquery.ui.all.css">
+  <script type="text/javascript" language="javascript" src="../../js/jquery-1.6.2.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/jquery-ui-1.8.16.custom.min.js"></script>
+  <script type="text/javascript" language="javascript" src="../../js/checkForm.js"></script>
+  <script type="text/javascript" language="JavaScript1.2" src="../../js/Calendar3.js"></script>
+</head>
+<body style="overflow:hidden;">
+<form action="/InfoController/addCustInfo">
+<table width="100%" border="0" padding="0" spacing="0">
+ <tr class="tr_data">
+    <td width="20%" align="right">真实姓名:</td>
+    <td width="40%" align="left"><input type="text" id="custname" value="" size="15"/></td>
+	<td width="40%">照&nbsp;&nbsp;片<input type="button"  onclick="uploadPic()" value="上传"/></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right">身份证号:</td>
+    <td align="left"><input type="text" id="idcard" value="" size="15" /></td>
+	<td rowspan="8" valign="top">
+		<img src="../../img/photos.png" height="180px" id="avatar_img"/>
+		<input type="hidden" id="avatar_path" name="avatar_img" value="123456" />
+	</td>
+ </tr>
+ <tr id="tr_status" class="tr_data">
+    <td align="right">社保卡号:</td>
+    <td align="left" id="tdStatus"><input type="text" id="social_card_id" value="" size="15"/></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right">移动电话:</td>
+    <td align="left" ><input type="text" id="mobile" value="" size="15" /></td>
+ </tr>
+ <tr id="tr_status" class="tr_data">
+    <td align="right">性&nbsp;&nbsp;别:</td>
+    <td align="left" id="tdsex"><input type="text" id="sex" value="" size="15"/></td>
+ </tr>
+ <tr id="tr_title" class="tr_data">
+    <td align="right">密&nbsp;&nbsp;码:</td>
+    <td align="left" id="tdTitle"><input type="text" id="pass_word" value="" size="15"/></td>
+ </tr>
+  <tr class="tr_data">
+    <td align="right">状态:</td>
+    <td align="left"><input type="text" id="status" name="status" value="" size="10" /></td>
+  </tr>
+ <tr id="tr_job_title" class="tr_data">
+    <td align="right">备&nbsp;&nbsp;注:</td>
+    <td align="left" id="tdPosition"><input type="text" id="memo" value="" size="15"/></td>
+ </tr>
+ <tr class="tr_data">
+    <td align="right">出生日期:</td>
+    <td align="left"><input type="date" id="birth_date"  value="" size="10" /></td>
+</tr>
+ <tr class="tr_data">
+    <td align="right" >身份证件:</td>
+	<td rowspan="8" colspan="2" valign="top" align="left">
+		<img src="../../img/photos.png" height="180px" id="id_card_positive" name="id_card_positive" value="123123"/>
+		<input type="button" id="btnUploadPic" onclick="uploadPic()" value="证件照正面上传"/>
+		<img src="../../img/photos.png" height="180px" id="id_card_negative" name="id_card_negative" value="1234561"/>
+		<input type="button" id="btnUploadPic" onclick="uploadPic()" value="证件照反面上传"/>
+	</td>
+</tr>
+</table>
+</form>
+</body>
+</html>

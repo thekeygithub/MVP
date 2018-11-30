@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>基本信息</title>
+    <link rel="stylesheet" href="../../css/common.css"/>
+    <link rel="stylesheet" href="../../css/bootstrap.min-v3.3.7.css"/>
+    <link rel="stylesheet" href="css/change.css"/>
+    <link rel="stylesheet" href="css/personal.css"/>
+	<script src="../../js/jquery-1.11.3.js"></script>
+    <script src="../../js/bootstrap.js"></script>
+    <script src="../../js/checkForm.js"></script>
+	
+    <script>
+        var userCode="";
+        var user_img_url="";
+		
+        $(function(){
+		    userCode=top.getCurrentUserCode();
+            var sUrl=top.getUrlBase()+"/actions/User.action?getDetailUserInfo";
+            var aoData=[];
+            aoData.push({"name":"user.userCode","value": userCode});
+            top.sendAjaxRequest(sUrl,aoData,getUserInfoCallback);
+        });
+		
+        function getUserInfoCallback(obj){
+            try{
+                if ( obj.status == true ){
+                    var userInfo=obj.body;
+                    $("#userCode").val(userInfo.userCode);
+					$("#userName").val(userInfo.userName);
+                    $("#officePhone").val(userInfo.officePhone);
+                    $("#mobilePhone").val(userInfo.mobilePhone);
+                    $("#email").val(userInfo.email);
+                    if (userInfo.avatar_path != '') {
+					    user_img_url=userInfo.avatar_path;
+                        $("#img_url").attr("src", top.getUrlBase() + '/download?filePath=' + userInfo.avatar_path);
+                    }
+                }else{
+                    top.showInfoWinError("操作失败");
+                }
+            }catch(e){
+                top.showInfoWinError("处理异常:"+e.message);
+            }
+        }
+        function doSubmit(){
+            var checkMsg = checkForm();
+            if ( checkMsg != '' ) {
+                top.showInfoWinWarn(checkMsg);
+                return ;
+            }
+            var aoData=[];
+            aoData.push( { "name": "user.mobilePhone", "value": $("#mobilePhone").val() } );
+            aoData.push( { "name": "user.officePhone", "value":$("#officePhone").val() } );
+            aoData.push( { "name": "user.email", "value":$("#email").val() } );
+            aoData.push( { "name": "user.avatar_path", "value": user_img_url } );
+            var xurl="/actions/User.action?updateSimpleUser";
+            top.sendAjaxRequest(xurl,aoData,optCallback);
+        }
+
+        function optCallback(obj){
+            try{
+                if ( obj.status == true ){
+                    isSaveOK = true;
+                    top.showInfoWinOK("操作成功");
+					top.setUserImg(user_img_url);
+                }else{
+                    isSaveOK = false;
+                    top.showInfoWinError("操作失败 "+obj.msg);
+                }
+            }catch(e){
+                top.showInfoWinError("处理异常:"+e.message);
+            }
+        }
+        function checkForm(){
+            var msg = "";
+            var temp = "";
+            temp = $("#email").val();
+            if ( temp != '' && !IsEmail( document.getElementById("email"), "1" ) ) {
+                msg += "电子邮箱格式不正确<br>";
+                $("#email").addClass("error");
+            }else{
+                $("#email").removeClass("error");
+            }
+            return msg;
+        }
+        //图片附件上传
+        function uploadPic(){
+            var xurl="pages/uploadFileSimple.html?preFix=USER";
+            top.openDialog( "上传头像",xurl,true,500,200,uploadPicCallback);
+        }
+        function uploadPicCallback(obj){
+            try{
+                var obj=top.getTempValue();
+                if ( obj.isSaveOK ) {
+                    user_img_url=obj.filePath;
+					$("#img_url").attr("src", top.getUrlBase() + '/download?filePath=' + user_img_url);
+                }
+            }catch(e){
+            }
+        }
+    </script>
+</head>
+<body class="basicInfo">
+<div class="container">
+    <div class="text-center">
+        <!--<h4><b>基本信息</b></h4>-->
+        <div class="head_box">
+            <img id="img_url" src="../../img/head.png" alt="头像" title="头像" class="img-responsive"/>
+        </div>
+        <ul class="list-unstyled">
+            <li>
+                <label class="normal">上传头像：</label>
+                <input type="button" onclick="uploadPic()" value="上传本地头像"/>
+                <span>仅支持jpg/png格式的图片<small style="color: #f00;">（图片推荐尺寸比例：1:1）</small></span>
+            </li>
+            <li>
+                <label class="normal">登录账号：</label>
+                <input id="userCode" type="text" disabled="true"/>
+            </li>
+            <li>
+                <label class="normal">姓名：</label>
+                <input id="userName" type="text" disabled="true"/>
+                <span></span>
+            </li>
+			<li>
+                <label class="normal">移动电话：</label>
+                <input id="mobilePhone" type="tel" />
+                <span>请输入正确的手机号</span>
+            </li>
+            <li>
+                <label class="normal">办公电话：</label>
+                <input id="officePhone" type="tel" />
+                <span>请输入正确的电话号码</span>
+            </li>
+            <li>
+                <label class="normal">电子邮箱：</label>
+                <input id="email" type="email" />
+                <span>请输入您的邮箱地址</span>
+            </li>
+        </ul>
+        <br/>
+        <a href="javascript:doSubmit();" role="button" class="btn btn-success">保存</a>
+    </div>
+</div>
+</body>
+</html>

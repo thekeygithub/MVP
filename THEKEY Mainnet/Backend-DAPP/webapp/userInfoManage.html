@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="css/table_jui.css">
+	<link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-1.8.16.custom.css">
+	<link rel="stylesheet" type="text/css" href="css/comm.css">
+	<link rel="stylesheet" type="text/css" href="css/commBg.css">
+	<link rel="stylesheet" type="text/css" href="css/table_blue.css">
+	<script type="text/javascript" language="javascript" src="js/jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" language="javascript" src="js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" language="javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+			var oTable="";
+		    var currentOptCode="";
+		    //var surl=top.getUrlBase()+"/sys/getUserInfoPageList"; 
+		    var surl=getUrl()+"/sys/getUserInfoPageList";
+		    var optType="";
+		    var userArr=[];
+		    
+		    $(document).ready(function() {
+	            getSysUserList(surl);
+	        });
+			
+		    function UserObj(account,username ,status,lastlogin,email,mobile,officephone,entrydate,jobtitle,sex,joblever,memo,birthday,avatarpath){
+	        			  this.account= account;
+	        			  this.username=username;
+	        	          this.status= status;
+	        	          this.lastlogin= lastlogin;
+	        	          this.email= email;
+	        	          this.mobile= mobile;
+	        	          this.officephone= officephone;
+	        	          this.entrydate= entrydate;
+	        	          this.jobtitle= jobtitle;
+	        	          this.sex= sex;
+	        	          this.joblever= joblever;
+	        	          this.memo= memo;
+	        	          this.birthday= birthday;
+	        	          this.avatarpath= avatarpath;
+	        		  }
+	
+		    function getSysUserList(surl){
+	            var iaoColumns=[
+
+	                { "sTitle": "人员名称", "mDataProp": "username", "sWidth": "11%","sClass": "center",
+	                	 "fnRender": function ( oObj ) {
+						       userArr[userArr.length] = new UserObj(oObj.aData.account,oObj.aData.username,oObj.aData.status,oObj.aData.lastlogin,oObj.aData.email,oObj.aData.mobile,oObj.aData.officephone,oObj.aData.entrydate,oObj.aData.jobtitle,oObj.aData.sex,oObj.aData.joblever,oObj.aData.memo,oObj.aData.birthday,oObj.aData.avatarpath);
+	                         return '<input type=\'checkbox\' name=\'checkId\' value=\''+oObj.aData.username+'\' />&nbsp;'+oObj.aData.username;
+	                    },
+	                    "bUseRendered": false
+	                },
+	                { "sTitle": "状态", "mDataProp": "status","sClass": "center",  "sWidth": "8%","fnRender": function ( oObj ) {
+	 				   if( oObj.aData.status==1){
+						   return '激活';
+					   }else{
+						   return '冻结';
+					   }
+				    },
+				   "bUseRendered": false
+	         		},
+	                { "sTitle": "上次登陆时间", "mDataProp": "lastlogin", "sWidth": "9%", "sClass": "center", "bUseRendered": false},
+	                { "sTitle": "邮箱", "mDataProp": "email", "sWidth": "9%", "sClass": "center", "bUseRendered": false},
+	                { "sTitle": "个人电话", "mDataProp": "mobile", "sWidth": "7%", "sClass": "center", "bUseRendered": false},
+	                { "sTitle": "办公电话", "mDataProp": "officephone","sWidth": "12%" , "sClass": "center", "bUseRendered": false  },
+	                { "sTitle": "入职日期", "mDataProp": "entrydate","sWidth": "6%", "sClass": "center", "bUseRendered": false   },
+	                { "sTitle": "职称", "mDataProp": "jobtitle","sWidth": "10%" , "sClass": "center","bUseRendered": false  },
+	                { "sTitle": "性别", "mDataProp": "sex","sWidth": "5%", "sClass": "center",
+	                	 "fnRender": function ( oObj ) {
+	  					   if( oObj.aData.sex==1){
+	  						   return '男';
+	  					   }else{
+	  						   return '女';
+	  					   }
+	  				   },
+	  				   "bUseRendered": false
+	           		 },
+	                { "sTitle": "职级", "mDataProp": "joblever","sWidth": "5%" , "sClass": "center", "bUseRendered": false  },
+	                { "sTitle": "出生日期", "mDataProp": "birthday","sWidth": "5%" , "sClass": "center", "bUseRendered": false  },
+	                { "sTitle": "备注", "mDataProp": "memo","sWidth": "6%" , "sClass": "center","bUseRendered": false  },
+	                { "sTitle": "操作", "mDataProp": null,"sWidth": "8%" ,"sClass": "center", 
+	                    "fnRender": function ( oObj ) {
+	                        return '<a href=\'javascript:void(0)\' onclick="updateEnterpriseInfo(\''+oObj.aData.account+'\',\''+oObj.aData.email+'\',\''+oObj.aData.username+'\',\''+oObj.aData.status+'\',\''+oObj.aData.mobile+'\',\''+oObj.aData.officephone+'\',\''+oObj.aData.entrydate+'\',\''+oObj.aData.jobtitle+'\',\''+oObj.aData.sex+'\',\''+oObj.aData.joblever+'\',\''+oObj.aData.birthday+'\',\''+oObj.aData.memo+'\',\''+oObj.aData.avatarpath+'\')" >修改</a>'
+	                            + '&nbsp;&nbsp;<a href=\'javascript:void(0)\' onclick="deleteUser(\''+oObj.aData.account+'\')" >删除</a>';
+	                    },
+	                    "bUseRendered": false
+	                }
+	            ];
+	            oTable = $('#dataTable').dataTable( {
+	                "bProcessing": false,
+	                "bServerSide": true,
+	                "bJQueryUI": true,
+	                "bFilter": false,
+	                "bDestroy": true,
+	                "bLengthChange": true,
+	                "iDisplayLength":10,
+	                "sAjaxSource": surl,
+	                "oLanguage": {
+	                    //"sUrl": top.getUrlBase()+"/lang_zh.txt" getUrl
+	                	"sUrl": getUrl()+"/lang_zh.txt"
+	                },
+	                "fnServerData": function ( sUrl, aoData, fnCallback ) {
+	                    $.ajax( {
+	                        "url":  sUrl,
+	                        "data": aoData,
+	                        "contentType" : "application/x-www-form-urlencoded; charset=utf-8",
+	                        "success": function (json) {
+	                            fnCallback( json );
+	                        },
+	                        "dataType": "json",
+	                        "cache": false,
+	                        "type": "POST",
+	                        "error": function (xhr, error, thrown) {
+	                            top.showInfoWinError("发生异常:"+error);
+	                        }
+	                    } );
+	                },
+	            	"fnServerParams": function ( aoData ) {
+	            		aoData.push( { "name": "q_username", "value":document.getElementById("q_username").value});
+	 		            aoData.push( { "name": "q_sex", "value":document.getElementById("q_sex").value});
+	 		            aoData.push( { "name": "q_email", "value":document.getElementById("q_email").value } );
+	 		            aoData.push( { "name": "q_mobile", "value":document.getElementById("q_mobile").value} );
+	 		            aoData.push( { "name": "q_jobtitle", "value":document.getElementById("q_jobtitle").value} );
+	 		            aoData.push( { "name": "q_officephone", "value":document.getElementById("q_officephone").value} );
+	 		            aoData.push( { "name": "q_joblever", "value":document.getElementById("q_joblever").value} );
+	 		            aoData.push( { "name": "q_status", "value":document.getElementById("q_status").value} );
+							},
+	                "sDom": "frtlip",
+	                "sPaginationType": "full_numbers",
+	                "aoColumns": iaoColumns
+	            } );
+	        }
+	
+		    function updateEnterpriseInfo(account,email,username,status,mobile,officephone,entrydate,jobtitle,sex,joblever,birthday,memo,avatarpath){       
+		                var obj={
+		                	"account":account,
+		                	"email":email,
+		                    "username":username,
+		                    "status":status,
+		                    "mobile":mobile,
+		                    "officephone":officephone,
+		                    "entrydate":entrydate,
+		                    "jobtitle":jobtitle,
+		                    "sex":sex,
+		                    "joblever":joblever,
+		                    "birthday":birthday,
+		                    "memo":memo,
+		                    "avatarpath":avatarpath
+		                };
+		                top.setTempValue(obj);            
+		                var xurl="pages/UserManage/updateUserInfo.html";
+		         
+		                if ( !top.getIsUseDetailUserMode()) {
+		                    xurl="pages/UserManage/updateUserInfo.html";
+		                    top.openDialog("修改用户信息",xurl,true,850,500,saveUserCallBack);
+		                }
+		                top.openDialog("修改用户信息",xurl,true,850,500,saveUserCallBack);
+		        }
+		    
+				function saveUserCallBack(){
+					try{
+					  var obj = top.getTempValue();
+					  if(obj.isSaveOK) {
+						  doQuery();
+					  }
+					}
+					catch(e){
+						
+					}
+					finally{
+						oTable.fnDraw();
+					}
+				}
+				
+				function deleteUser(userCode){
+			            currentOptCode=userCode;
+			            top.showConfirm("您确定要删除选中的帐号吗？", doDeleteUser);
+			    }
+
+			    function doDeleteUser(){
+			            var aoData=[];
+			            aoData.push( { "name": "account", "value":currentOptCode } );
+			            //top.sendAjaxRequest("/sys/deleteTblSysUser",aoData,optCallback);
+			            $.ajax({
+			    			url:''+getUrl()+'/sys/deleteTblSysUser',
+			    			data:aoData,
+			    			dataType:"json",
+			    			type:'POST',
+			    			headers:{},
+			    			success:function(res){
+			    				//成功后执行
+			    					optCallback(res);
+			    			},
+			    			error: function(XMLHttpRequest, textStatus, errorThrown){
+			    			}
+			    		});	
+			          
+			    }
+			    
+			    function addUserInfoUser(){
+		            var xurl="pages/UserManage/addUserInfo.html";
+
+		            top.openDialog("添加人员信息",xurl,true,850,520,optCallback);
+		        }
+			    function addCallback(){
+			    	top.showInfoWinOK("操作成功");
+                    doQuery();
+			    }
+
+		        function updateUserStatus(s){
+		            var users = top.getAllCheckedValue( document.getElementsByName('checkId') );
+		            if ( users == '' ) {
+		                top.showInfoWinWarn("请选择要操作的账号");
+		                return ;
+		            }
+		            var aoData=[];
+		            aoData.push( { "name": "user.status", "value": s } );
+		            aoData.push( { "name": "user.userCode", "value":users } );
+		            //top.sendAjaxRequest("/actions/User.action?updateUserStatus",aoData,optCallback);
+		            $.ajax({
+		    			url:''+getUrl()+'/actions/User.action?updateUserStatus',
+		    			data:aoData,
+		    			dataType:"json",
+		    			type:'POST',
+		    			headers:{},
+		    			success:function(res){
+		    				//成功后执行
+		    					optCallback(res);
+		    			},
+		    			error: function(XMLHttpRequest, textStatus, errorThrown){
+		    			}
+		    		});	
+		        }
+		        
+		        function optCallback(obj){
+		            try{
+		                if (obj.status == true){
+		                    top.showInfoWinOK("操作成功");
+		                    doQuery();
+		                }       else{
+		                    top.showInfoWinError("操作失败 "+obj.msg);
+		                }
+		            }catch(e){
+		                //top.showInfoWinError("处理异常:"+e.message);
+		            }
+		        }
+
+		        function doQuery(){
+		        	// userArr=[];
+					//$("#selAll").prop("checked",false);
+		            oTable.fnDraw();
+		        }
+		        function queryOfCondition(){
+		        	var surl1 = "/HollyBlockChain/sys/querysysuserInfoOfCodition";
+		        	 getSysUserList(surl1);
+		        }
+		        function getUrl(){
+		    		var g_UrlBase="";
+		    		var ind=document.URL.indexOf("/HollyBlockChain");
+		    	    if ( ind != -1 ) {
+		    		  g_UrlBase = document.URL.substring(0,ind+17);
+		    	    }
+		    	    return g_UrlBase;
+		    	}
+		       
+	</script>
+	<style>
+		#queryArea td{
+		font-size:13px !important;
+	}
+	.setUpCss{
+	    border-radius: 5px;
+	    border: 1px solid #ccc;
+	    height: 25px;
+	    line-height:25px;
+	    padding-left:10px;
+	    box-sizing:border-box;
+	    font-size:12px;
+	}
+	#queryArea{
+		margin:1px auto -4px;
+		width:98%;
+	}
+	#dataTable_length{
+		margin-left:15px;
+	}
+	#dataTable_paginate{
+		margin-right:19px;
+	}
+	
+	#dataTable{
+		margin:0 auto;
+	}
+	.ui-button-text{
+		padding:0 !importain;
+	}
+	input[name=checkId]{
+		float:left;
+	}
+	</style>
+</head>
+<body style="overflow:hidden;">
+<div  id="queryArea" width="100%">
+	<table width="100%;">
+		<tr><td width="100%" style="padding:3px 0">
+		<div  id="queryArea" width="100%">
+			<table width="100%" align="center" class="condition_query" cellpadding="0" cellspacing="0" border="0" >
+				<tr class="tr_data">
+					<td align="right" >人员名称:</td>
+					<td align="left">
+					<input type="text" id="q_username" class="setUpCss" value="" placeholder="请输入人员名称"  onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="right" >性别:</td>
+					<td align="left">
+						<select name="q_sex" id="q_sex" class="setUpCss" style="width:165.6px;" >
+							<option value="1">男</option>
+							<option value="0">女</option>
+						</select>
+					</td>
+					<td align="right">邮箱:</td>
+					<td align="left">
+					<input type="text" id="q_email" class="setUpCss" value=""  placeholder="请输入邮箱"  onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="right">个人电话:</td>
+					<td align="left">
+					<input type="text" id="q_mobile" class="setUpCss" value="" placeholder="请输入个人电话" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+				</tr>
+				<tr>
+					<td align="right">办公电话:</td>
+					<td align="left">
+					<input type="text" id="q_officephone" class="setUpCss" value="" placeholder="请输入办公电话" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="right">工作称谓:</td>
+					<td align="left">
+					<input type="text" id="q_jobtitle" class="setUpCss" value="" placeholder="请输入工作称谓" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="right">职位等级:</td>
+					<td align="left">
+					<input type="text" id="q_joblever" class="setUpCss" value=""  placeholder="请输入职位等级" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="right">状态:</td>
+					<td align="left">
+					<input type="text" id="q_status" class="setUpCss" value="" onkeydown="if(event.keyCode==13) doQuery();"/></td>
+					<td align="left"><div class="buttonDivTwo"><button onclick="queryOfCondition()">查询</button></div></td>
+				</tr>
+			</table>
+		</div>
+		<div class="btns_ellipse">
+			<table align="left" cellpadding="1px" cellspacing="0" border="0">
+				<tr>
+					<td>
+						<div>
+							&nbsp;<input type="checkbox" id="selAll" onclick="top.checkAll(this.checked,document.getElementsByName('checkId'));selfCheckAll(this.checked,'checkId')"/>
+							<label for="selAll">全选</label>
+						</div>
+					</td>
+					<td id="createBtn"><div class="buttonDivTwo"><a href="javascript:addUserInfoUser()">新建</a></div></td>
+				</tr>
+			</table>
+		</div>
+		
+	</td></tr></table>
+</div>
+<div>
+	<table width="98%" border="0" padding="0" spacing="0" id="dataTable" class="display">
+
+	</table>
+</div>
+</body>
+</html>

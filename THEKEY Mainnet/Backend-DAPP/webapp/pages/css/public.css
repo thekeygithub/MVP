@@ -1,0 +1,361 @@
+/*公共样式*/
+body {
+  font-family: "Microsoft Yahei", "sans-serif", "tahoma", "arial";
+  color: #333;
+  font-size: 14px;
+  /*background-color: #E7E8ED;*/
+}
+section{
+  /*padding: 15px 20px;*/
+}
+.right {
+  float: right;
+}
+.left {
+  float: left;
+}
+.clear {
+  clear: both;
+}
+.overflow {
+  overflow: hidden;
+}
+a {
+  text-decoration: none;
+}
+a:hover,
+a:active,
+a:focus {
+  text-decoration: none;
+  outline: none;
+}
+.inline_block {
+  display: inline-block;
+}
+.block {
+  display: block;
+}
+.inline {
+  display: inline;
+}
+.radius {
+  border-radius: 50%;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.font_wight {
+  font-weight: normal;
+}
+.bold {
+  font-weight: bold;
+}
+.no_bold {
+  font-weight: normal;
+}
+.color_inherit,
+.text_inherit,
+.a_inherit,
+.color_inherit:hover,
+.text_inherit:hover,
+.a_inherit:hover {
+  color: inherit;
+}
+.text_underline:hover {
+  text-decoration: underline;
+}
+.a_defaule {
+  color: #337ab7;
+}
+.a_defaule:hover {
+  color: #337ab7;
+  text-decoration: underline;
+}
+.middle:after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 0;
+  vertical-align: middle;
+}
+.txt_red {
+  color: #f00;
+}
+.normal_label {
+  margin-bottom: 0;
+  font-weight: normal;
+}
+.no_margin {
+  margin: 0;
+}
+.no_padding {
+  padding: 0;
+}
+.no_padding_vertical {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.no_padding_level {
+  padding-left: 0;
+  padding-right: 0;
+}
+.pointer {
+  cursor: pointer;
+}
+.user_more,
+.user_more1 {
+  /*更多*/
+  display: inline-block;
+  padding-right: 18px;
+  background: transparent url(../img/user_more.png) no-repeat right center;
+  background-size: auto 12px;
+  font-size: 12px;
+  font-weight: normal;
+  color: inherit;
+}
+.user_more1 {
+  background: transparent url(../img/user_more1.png) no-repeat right center;
+  background-size: auto 12px;
+  color: #337ab7;
+}
+.user_more:hover,
+.user_more1:hover {
+  text-decoration: none;
+}
+/*覆盖boot样式*/
+.panel-heading {
+  /*面板标题*/
+  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 30%, #f3f4f8 100%);
+  border: none;
+  font-size: 15px;
+  color: #000;
+  font-weight: bold;
+  padding: 10px 20px;
+  line-height: 20px;
+  height: 35px;
+}
+.panel {
+  border-radius: 0;
+  box-shadow: 2px 2px 5px 0 #aaa;
+  margin-bottom: 0;
+}
+/*自定义btn*/
+.btn_custom {
+  color: #fff;
+  padding: 5px 20px;
+  background-color: #FE1C1D;
+  background-image: linear-gradient(to bottom, #fd6d6d 0%, #fe1c1d 100%);
+  box-shadow: 2px 2px 2px 0 #666;
+  border: 1px solid #E10F10;
+}
+.btn_custom:hover,
+.btn_custom:focus {
+  color: #eee;
+  background-color: #FD6D6D;
+  background-image: linear-gradient(to bottom, #fe1c1d 0%, #fd6d6d 100%);
+  box-shadow: 3px 3px 5px 0 #333;
+}
+/*页头导航*/
+.header_nav {
+  background-color: #fff;
+  padding: 0 20px;
+}
+.header_nav ul,
+.header_nav ol {
+  margin: 0;
+  overflow: hidden;
+}
+.header_nav li {
+  font-size: 14px;
+  padding: 7px 15px;
+  vertical-align: top;
+}
+.header_nav li a,
+.header_nav li span {
+  color: inherit;
+  display: inline-block;
+  padding: 3px 10px;
+  text-align: center;
+  line-height: 20px;
+  border-radius: 5px;
+}
+.header_nav li a.current {
+  background-color: #3E5FB0;
+  color: #fff;
+}
+.header_nav li.active {
+  padding: 7px 20px 7px 10px ;
+  font-size: 16px;
+  box-shadow: 3px 0 8px #999;
+}
+.header_nav li.active span {
+  color: #337ab7;
+}
+/*面包屑--路径*/
+.path {
+  font-size: 12px;
+  font-weight: normal;
+  color: #999;
+}
+.path .user_more,
+.path a {
+  color: inherit;
+}
+.path .user_more:hover,
+.path a:hover {
+  color: #333;
+}
+/*更改boot标签页*/
+.nav-tabs {
+  /*知识分类*/
+  text-align: center;
+  padding: 0 30px;
+  position: relative;
+}
+.nav-tabs > li {
+  width: 110px;
+  margin-right: 15px;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+  position: static;
+}
+.nav-tabs > li > a {
+  background-color: #FAFAFA;
+  color: inherit;
+  border-radius: 0;
+  border-top: 2px solid transparent;
+  padding: 8px 0;
+  margin: 0;
+  text-align: center;
+}
+.nav-tabs > li.active {
+  border-color: transparent;
+  border-bottom-color: #fff;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+  color: #3053A4;
+  border-top: 2px solid #3053A4;
+}
+/*星级*/
+.star0,
+.star1,
+.star2,
+.star3,
+.star4,
+.star5 {
+  display: inline-block;
+  vertical-align: top;
+  height: 20px;
+  width: 75px;
+  background: transparent url(../img/star.png) no-repeat left center;
+  background-size: 150px 15px;
+}
+.star0,
+.star {
+  background-position-x: -75px;
+}
+.star1 {
+  background-position-x: -60px;
+}
+.star2 {
+  background-position-x: -45px;
+}
+.star3 {
+  background-position-x: -30px;
+}
+.star4 {
+  background-position-x: -15px;
+}
+/*红星-重点*/
+.red_star:before {
+  content: "*";
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 20px;
+  color: #f00;
+  margin-top: 3px;
+  margin-right: 2px;
+}
+/*侧边阴影*/
+.shadow_left {
+  background: linear-gradient(to right, #f1f1f3 0, #ffffff 10px);
+}
+/*企业管理-管理内容*/
+.management_box {
+  padding: 5px 20px 10px;
+}
+/*企业管理--填写内容*/
+.suggestions_select,
+.edit_label {
+  min-width: 100px;
+  height: 30px;
+  line-height: 30px;
+  border: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 2px 15px;
+  text-align: center;
+}
+/*参考*/
+.suggestions_select {
+  background: #1E90FF;
+  color: #fff;
+  outline: none;
+}
+.suggestions_select option {
+  background: #4BB9F4;
+  height: 28px;
+  line-height: 28px;
+}
+/*我的编辑*/
+.edit_label {
+  background-color: #E6E6E6;
+  margin: 0;
+  font-weight: bold;
+}
+.suggestions_textraea,
+.edit_textarea {
+  display: block;
+  width: 100%;
+  font-size: 14px;
+  font-family: '新宋体';
+  text-align: justify;
+  color: #333;
+  outline: none;
+  padding: 10px 5px;
+  line-height: 23px;
+  resize: none;
+}
+.suggestions_textraea {
+  border: 2px solid #1E90FF;
+}
+.edit_textarea {
+  border: 2px solid #E6E6E6;
+}
+/*单行溢出省略*/
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.section_content{
+  padding:0 30px;
+  /*margin: 20px 0;*/
+}
+p#create{
+  background: #01A3E5;
+  margin: 0;
+  height: 30px;
+  line-height: 30px;
+  text-align: left;
+  padding: 0 12px;
+}
+/*突发情况*/
+#ClCache{
+  display: none !important;
+}

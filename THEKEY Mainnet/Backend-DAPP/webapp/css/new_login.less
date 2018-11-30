@@ -1,0 +1,88 @@
+html,body,.container-fluid{
+  height:100%;
+  width: 100%;
+  overflow: hidden;
+}
+body{
+  font-family: "microsoft yahei";
+  font-size: 14px;
+  min-width: 1000px;
+}
+.container-fluid{
+  background: #A0DBF9 url("../img/login_background.png") no-repeat center center;
+  background-size:100% auto;
+  .content{
+    width: 42%;
+    display: inline-block;
+    vertical-align: middle;
+    .logo{
+      img{
+        width: 60%;
+      }
+    }
+    section{
+      margin: 30px 0 15px;
+      padding: 0;
+      background-color: #fff;
+      border-radius: 5px;
+      -webkit-box-shadow:  5px 5px 5px #C8ECFC;
+      -moz-box-shadow:  5px 5px 5px #C8ECFC;
+      box-shadow:  5px 5px 5px #C8ECFC;
+      .left_box{
+        position: absolute;
+        height: 100%;
+        top: 0;
+        left: 0;
+        h3{font-size: 20px;margin: 3px 0;}
+        h4{font-size: 16px;margin: 3px 0;}
+        padding: 30px 0;
+        background-color: #EEF9FD;
+        background-image: linear-gradient(90deg,#EEF9FD 0%,#EEF9FD 97%,#C8ECFC 100%);
+        img{
+          margin-top: 20px;
+          height: 70%;
+        }
+      }
+      .right_box{
+        float: right;
+        ul{
+          width: 80%;
+          margin: 0 auto;
+          padding: 30px 0;
+        }
+        li{
+          padding: 14px 0;
+        }
+        @labelWidth:4em;
+        label.left{
+          width: @labelWidth;
+          margin: 0;
+          font-weight: normal;
+          line-height: 34px;
+        }
+        div.right{
+          width: -webkit-calc(~"100% - @{labelWidth}");
+          width: -moz-calc(~"100% - @{labelWidth}");
+          width: -o-calc(~"100% - @{labelWidth}");
+          width: -ms-calc(~"100% - @{labelWidth}");
+          width: calc(~"100% - @{labelWidth}");
+          input[type=checkbox]{
+            height: 14px;
+            width: 14px;
+            display: inline-block;
+            vertical-align: text-top;
+          }
+          input:not([type=checkbox]){
+            padding: 0 5px;
+            width: 100%;
+            height: 34px;
+            border: 1px solid #E3E3E3;
+            -webkit-box-shadow:  1px 1px 5px #F1EFF0 inset;
+            -moz-box-shadow:  1px 1px 5px #F1EFF0 inset;
+            box-shadow:  1px 1px 5px #F1EFF0 inset;
+          }
+        }
+      }
+    }
+  }
+}

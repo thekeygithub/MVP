@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/editUserInfo.css">
+	</head>
+
+	<body>
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">编辑个人信息</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view editui-ul">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" href="#">头像</a>
+					<div class="userImg">
+						<img src="../img/head.png" />
+					</div>
+				</li>
+				<li class="mui-table-view-cell editui-ul-li">
+					<a class="mui-navigate-right" href="#" onclick="editName()">
+						姓名
+					</a>
+					<span>刘鹏</span>
+				</li>
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">性别</a>
+					<div class="mui-collapse-content">
+						<div class="mui-input-row mui-radio">
+							<label>男</label>
+							<input name="radio1" type="radio">
+						</div>
+						<div class="mui-input-row mui-radio">
+							<label>女</label>
+							<input name="radio1" type="radio">
+						</div>
+					</div>
+				</li>
+				<li class="mui-table-view-cell editui-ul-li">
+					<a class="mui-navigate-right">
+						手机号
+					</a>
+					<span>13089877867</span>
+				</li>
+				<li class="mui-table-view-cell editui-ul-li">
+					<a class="mui-navigate-right">
+						身份证号
+					</a>
+					<span>201998199398670711</span>
+				</li>
+				<li class="mui-table-view-cell editui-ul-li">
+					<a class="mui-navigate-right">
+						社保卡号
+					</a>
+					<span>12600886654</span>
+				</li>
+			</ul>
+			<button type="button" class="mui-btn mui-btn-blue mui-btn-block save-btn">保存</button>
+		</div>
+	</body>
+	<script type="text/javascript">
+		//修改姓名
+		function editName(){
+			mui.prompt('','请输入您的姓名','姓名',['确定','取消'],name,'div');
+			 function name(data){
+				 var name=data.value.replace('/\s*/g',"");
+				 var namedom=document.getElementsByClassName("editui-ul-li")[0];
+				 namedom.lastChild.innerHTML=name;
+			 } 
+		}
+		
+	</script>
+</html>

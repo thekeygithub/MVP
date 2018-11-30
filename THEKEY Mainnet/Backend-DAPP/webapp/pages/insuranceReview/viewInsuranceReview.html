@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title></title>
+		<script src="../../js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			html,body,#content,ul{
+				width: 100%;
+				height: 100%;
+			}
+			li{
+				list-style: none;
+				width: 50%;
+				height: 35px;
+				line-height: 35px;
+				margin-bottom: 5px;
+				font-size: 14px;
+			}
+			.l{
+				float: left;
+			}
+			#content ul{
+				padding: 0;
+				margin: 0;
+			}
+			.detail-list span.title{
+				background-color: #f2f2f2;
+				display: inline-block;
+				width: 136px;
+				text-align: center;
+				height: 35px;
+				line-height: 35px;
+				margin-right:5px;
+			}
+			.desc{
+				display: inline-block;
+				border: 1px solid #ccc;
+				width: 400px;
+				height: 130px;
+				margin-left: 10px;
+				border-radius: 5px;
+			}
+		</style>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				initData();
+			});
+			function initData(){
+	 
+				var aaData ;
+				aaData= top.getTempValue();
+				var str="";
+				if(aaData.status==0){
+					str="未审核";
+				}else if(aaData.status==1){
+					str="通过";
+				}else{
+					str="不通过";
+				}
+				$("#apply_user_name").html(aaData.apply_user_name);
+				$("#apply_user_id").html(aaData.apply_user_id);
+				$("#apply_phone").html(aaData.apply_phone);
+				$("#apply_id_card").html(aaData.apply_id_card);
+				$("#apply_time").html(getTimeStr(aaData.apply_time));
+				$("#status").html(str);
+				$("#check_time").html(getTimeStr(aaData.check_time));
+				$("#apply_user_id").html(aaData.apply_user_id);
+				$("#organize_id").html(aaData.organize_id);
+				$("#product_name").html(aaData.product_name);
+				$("#product_insured_age").html(aaData.product_insured_age);
+				$("#product_money").html(aaData.product_money);
+				$("#product_insurance_period").html(aaData.product_insurance_period);
+				$("#product_payment_time").html(aaData.product_payment_time);
+				$("#product_payment_method").html(aaData.product_payment_method);
+				$("#product_hesitation").html(aaData.product_hesitation);
+				$("#product_waiting_period").html(aaData.product_waiting_period);
+				$("#product_insurance_area").html(aaData.product_insurance_area);
+				$("#check_desc").html(aaData.check_desc);
+				$("#check_user_name").html(aaData.check_user_name);
+			}
+			function getTimeStr(t,isDateStr){
+			    if ( !isDateStr ) isDateStr = false;
+				if ( !t ) return "";
+				if ( t > -2 && t < 10 ) return "";
+				try{
+					var d=new Date(2013,1,1);
+				    d.setTime( t );
+					var str = d.getFullYear()+"-"+getTwoNumberStr(d.getMonth()+1)+"-"+getTwoNumberStr(d.getDate());
+					if ( !isDateStr ) str +=" "+getTwoNumberStr(d.getHours())+":"+getTwoNumberStr(d.getMinutes())
+					       +":"+getTwoNumberStr(d.getSeconds());
+				    return str;
+				}catch(e){
+					return "";
+				}
+			}
+			function getTwoNumberStr(n){
+				if ( n == '00' ) return '00';
+				try{
+					n=Number(n);
+				}catch(e){}
+				return ( n < 10 ) ? ("0"+n):n; 
+			}
+		</script>
+	</head>
+	<body>
+		<div id="content">
+			<ul>
+				<li class="l detail-list">
+					<span class="title">申请人</span><span id="apply_user_name">刘鹏</span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">申请人ID</span><span id="apply_user_id">刘鹏</span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">手机号</span><span id="apply_phone">13089867692</span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">身份证</span><span id="apply_id_card">231081199309140611</span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">申请时间</span><span id="apply_time">2018-08-08</span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">审核人</span><span id="check_user_name"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">审核状态</span><span id="status"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">审核时间</span><span id="check_time"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">审核人ID</span><span id="check_user_code"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">所属机构</span><span id="organize_id"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">产品名称</span><span id="product_name"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">被保人年龄</span><span id="product_insured_age"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">报账金额</span><span id="product_money"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">保险期间</span><span id="product_insurance_period"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">缴费年限</span><span id="product_payment_time"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">缴费方式</span><span id="product_payment_method"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">犹豫期</span><span id="product_hesitation"></span>
+				</li>
+				<li class="l detail-list">
+					<span class="title">等待期</span><span id="product_waiting_period"></span>
+				</li>
+				<li class="l detail-list" style="width:100%;">
+					<span class="title l">投保地区</span><span class="l" id="product_insurance_area" style="width:629px;"></span>
+				</li>
+				<li></li>
+				<li class="l detail-list" style="width: 100%;">
+					<span class="title l">审核描述</span><span class="l desc" id="check_desc"></span>
+				</li>
+			</ul>
+		</div>
+	</body>
+</html>

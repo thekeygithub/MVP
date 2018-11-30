@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>THEKEY后台管理系统</title>
+    <style>
+    	.logo_box{
+    		line-height: 27px;
+    		color: #333;
+    	}
+    </style>
+    <link href="css/themes/redmond/jquery-ui.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap3.3.5.css"/>
+    <link rel="stylesheet" href="css/alertify.core.css" />    
+    <link rel="stylesheet" href="css/alertify.default.css" id="toggleCSS" />
+    <link rel="stylesheet" href="css/public.css"/>
+    <link type="text/css" rel="stylesheet" href="css/new_index_39.css">
+    <!--[if lt IE 9]-->
+    <script type="text/javascript" src="js/html5shiv.min.js"></script>
+    <script type="text/javascript" src="js/respond.min.js"></script>
+    <script type="text/javascript" src="js/DOMAssistantCompressed-2.7.4.js"></script>
+    <script type="text/javascript" src="js/ie-css3.js"></script>
+    <!--[endif]-->
+    <script src="js/jquery-1.11.3.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="js/SimpleMap.js"></script>
+    <script type="text/javascript" src="js/helpyouworkeasy-core.js"></script>
+    <script type="text/javascript" src="lib/alertify.min.js"></script> 
+    <script type="text/javascript" src="js/md5.js"></script>
+	<script type="text/javascript" src="index.js"></script>
+    <script>
+        var currentStudentInfo=null;
+        var interMesResult=0;
+        var invitationList=[];
+        var currentModel=-1;
+        var startTime=0;
+		var mainPage='pages/main.html';
+		var loginType="user";
+		var currentCallback=null;
+        var currentUndertakeInfo=null;
+        alertify.set({
+            labels : {
+                ok     : "确定",
+                cancel : "取消"
+            },
+            delay : 5000,
+            buttonReverse : false,
+            buttonFocus   : "ok"
+        });
+
+        $(function(){
+        	checkLogin();
+		    loginType=top.getUrlParam(document.URL,"u");
+            if ( !loginType ) loginType="";
+		
+            $('#topModal').modal({
+                keyboard: false,
+                show:false,
+                backdrop:"static"
+            });
+            $("#aside_nav .panel-group .panel-collapse a").click(function(){
+                $(".hover").removeClass("hover");
+                $(this).addClass("hover").parents("li.panel").addClass("active").siblings("li.active").removeClass("active");
+            });
+            $(".panel-group>li:first-child a").on("click",function(){
+                $(".hover").removeClass("hover");
+                $(this).parent("li").addClass("active").siblings("li.active").removeClass("active");
+            });
+			is_use_detail_user_mode=false;
+			//initGlobalData(true);
+			var ind=document.URL.indexOf("/index_");
+            if ( ind == -1 ) ind = document.URL.indexOf("/index.html");
+            if ( ind != -1 ) {
+                g_UrlBase = document.URL.substring(0,ind);
+            } else g_UrlBase = document.URL;
+            loginSuccess();
+        });
+		
+        function isLogout(){
+        	$.ajax({
+				url:"/HollyBlockChain/sys/isLogout",
+				type:"post",
+				dataType:"text",
+				success:function(data){ 
+					if(data="isok") top.showConfirm("您确定要退出帐号吗？", checkLogin);
+				},
+				 error : function() {
+					alert("出现异常，退出失败！");
+	             }
+			});
+        }
+        
+		function checkLogin(){
+			var imgType = "ok";
+			$.ajax({
+				url:"/HollyBlockChain/sys/isLogin",
+				type:"get",
+				dataType:"text",
+				success:function(data){ 
+					var obj = JSON.parse(data);
+                  if(obj.responseResult=="true"){
+                	  var msg="欢迎"+obj.account
+                	  top.showInfoWin(msg,imgType);
+                  }else{
+                	  window.location.href="pages/login.html";
+                  }
+				},
+				 error : function() {
+	                 alert("异常！");
+	             }
+			});
+		}
+        function openPage(xurl){
+            $("#mainFrame").attr("src",xurl);
+        }
+		
+		function getMainPage(){
+		    return mainPage;
+		}
+		
+		function toSysTab(title,xurl,mycallback){
+			try{
+                if ( mycallback ) currentCallback=mycallback;
+			  document.getElementById("mainFrame").contentWindow.toSysTab(title,xurl);
+			}catch(e){
+			}
+        }
+		
+		function loginSuccess(){
+			
+			openPage('index_main.html');
+        }
+		
+
+		
+		function setUserImg(imgUrl){
+		    if ( imgUrl != '' ) $("#userImg").attr("src", top.getUrlBase() + '/download?filePath=' + imgUrl);
+		}
+		
+        function loginFail(){
+            location.href = "pages/login.html";
+        }
+
+        function logoutSuccess(){
+		    location.href = "pages/login.html";
+        }
+
+        function logoutFun(obj){
+		    location.href = "pages/login.html";
+        }
+
+        //取消html代码中的标签
+        function replaceHeml(str){
+            return str.replace(/<.*?>|<p.*?$/ig,"");
+        }
+		
+		function getCurrentUserCode(){
+            return g_currentUser.userCode;
+        }
+		
+		function getConfig_use_positon_model(){
+            return false;
+        }
+		
+		function getLoginType(){
+		    return loginType;
+		}
+		
+		function afterCloseTabFun(){
+            if ( currentCallback ) {
+                currentCallback.apply();
+            }
+        }
+
+        function colseCurrentTabPage(){
+            try{
+                document.getElementById("mainFrame").contentWindow.colseCurPage();
+                if ( currentCallback ) {
+                    currentCallback.apply();
+                    currentCallback=null;
+                }
+            }catch(e){
+            }
+        }
+		
+   function commondChangepass(){
+	     var xurl="pages/organization/changepass.html";
+	     openDialog("修改密码",xurl,true,340,240,null);
+	     g_changepass();
+         
+	}
+ 
+    </script>
+</head>
+<body class="flex-wrap flex-vertical">
+<!--头部-->
+<header class="main_header">
+    <div class="container-fluid middle relative">
+        <h4 class="logo_box text-center" style="margin-top:7px">
+          <!--   <a href="javascript:void(0)" class="middle">
+                 <img src="pages/pro39/img/index_logo.png" class="logo" alt="title"/>
+            </a> -->
+            <font color="white"><b>THEKEY后台管理系统</b></font>
+        </h4>
+        <ul class="list-inline no_margin absolute overflow control_list">
+            <li class="middle bold"><span id="currentUserInfo"></span></li>
+			<!--<!--	<li id="userCenterLi" class="middle"><a href="javascript:toSysTab('个人中心','pages/organization/userCenter.html');" class="person_center"><i class="icon"></i>个人中心</a></li>-->-->
+            <li class="middle"><a href="javascript:commondChangepass();" class="change_password"><i class="icon"></i>修改密码</a></li>
+            <li class="middle"><a href="javascript:isLogout();" class="exit"><i class="icon"></i>安全退出</a></li>
+        </ul>
+    </div>
+</header>
+<!--主体-->
+<section class="relative overflow main_section flex-con flex-wrap flex-vertical">
+    <nav class="aside_nav absolute" id="aside_nav">
+        <ol class="panel-group no_margin list-unstyled" id="accordion" role="tablist" aria-multiselectable="true">
+			<li class="panel" id="undertakeLi">
+                <a title="业务管理" class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse6" aria-expanded="false" aria-controls="collapse6">业务管理</a>
+                <ul id="collapse6" class="panel-collapse collapse list-unstyled in">	
+				     <li><a title="异地就医登记信息" href="javascript:toSysTab('异地就医登记信息','anotherPlaceSettlement.html')">异地就医登记信息</a></li>
+				</ul>
+            </li>
+        </ol>
+    </nav>
+    <iframe id="mainFrame" class="mainFrame flex-con" src="" frameborder="0" marginheight="0" marginwidth="0">
+        你的浏览器不支持该网页，请更换浏览器浏览该网页!！
+    </iframe>
+</section>
+<footer class="text-center main_footer">
+    <small></small>
+</footer>
+
+
+
+<div id="g_dialog" title="" style="display:none;padding: 0 0 0 0;margin: 0 0 0 0;z-index:10000;overflow:auto">
+</div>
+<div id="g_selectDialog" title="" style="display:none;padding: 0 0 0 0;margin: 0 0 0 0;overflow:hidden">
+</div>
+<div id="g_selectDialog2" title="" style="display:none;padding: 0 0 0 0;margin: 0 0 0 0;overflow:hidden">
+</div>
+<div id="dialog-confirm" title="操作确认" style="display:none;z-index:10000">
+    <table width="100%" height="100%"><tr><td width="40px" align="center"><img src="img/icon-question.gif" /></td>
+        <td width="150px" height="100%" align="left" valign="middle"><span id="confirm_msg"></span>
+        </td></tr></table>
+</div>
+<div id="dialog-info" title="操作提示信息" style="display:none;z-index:10000">
+    <table width="100%" height="100%">
+        <tr>
+            <td width="40px" align="center" id="info_msg_td"><img id="info_msg_img" src="img/msginfo.gif" /></td>
+            <td width="150px" align="left" valign="middle"><span id="info_msg"></span></td>
+        </tr>
+    </table>
+</div>
+<div id="dialog-loading" title="" style="display:none;z-index:10000">
+    <p><span  style="float:left; margin:5px 7px 20px 0;"></span><span style="float:left; margin:1px 7px 20px 0;">操作中,请稍候...<img src="img/loading.gif" /></span></p>
+</div>
+<div id="dialog-input" title="输入信息" style="display:none;z-index:10000">
+    <table width="100%" height="100%"><tr><td width="100%" height="100%" align="center" valign="middle">
+        <span id="input_msg"></span>
+        <br><input type="text" id="dialog_input_value" value="" size="20" /></td>
+    </tr>
+    </table>
+</div>
+<div id="dialog-input2" title="输入信息" style="display:none;z-index:10000">
+    <table width="100%" height="100%">
+        <tr><td width="100%" height="100%" align="center" valign="middle">
+            <!--<span id="input_msg2_1"></span>-->
+            <br><input type="text" id="dialog_input_value2_1" value="" size="20" placeholder="请输入编码"/></td></tr>
+        <tr><td width="100%" height="100%" align="center" valign="middle">
+            <!--<span id="input_msg2_2"></span>-->
+            <br><input type="text" id="dialog_input_value2_2" value="" size="20" placeholder="请输入类型名称"/></td></tr>
+    </table>
+</div>
+</body>
+</html>
