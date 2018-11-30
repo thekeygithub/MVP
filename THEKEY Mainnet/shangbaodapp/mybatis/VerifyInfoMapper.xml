@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xczg.blockchain.shangbaodapp.mybatis.VerifyInfoMapper">
+	<insert id="insertProductClaim" parameterType="ProductClaim">
+		INSERT INTO tbl_product_claim (chain_key,apply_user_name,apply_phone,apply_id_card,product_name,check_user_name,check_user_code,check_desc,status,organize_id,hospital,cost_type,check_user_id,id,apply_time,check_time,claim_money)
+		VALUES (#{chain_key},#{apply_user_name}, #{apply_phone}, #{apply_id_card}, #{product_name}, #{check_user_name}, #{check_user_code}, #{check_desc}, #{status}, #{organize_id}, #{hospital}, #{cost_type}, #{check_user_id}, #{id}, #{apply_time}, #{check_time}, #{claim_money})
+	</insert>
+	<update id="updateProductClaim" parameterType="ProductClaim">
+		update tbl_product_claim set
+		check_user_name=#{check_user_name},check_user_code=#{check_user_code},check_desc=#{check_desc},status=#{status},check_user_id=#{check_user_id},check_time=#{check_time}
+		where id=#{id}
+	</update>
+	<delete id="deleteProductClaim" parameterType="map">
+		delete from tbl_product_claim where id=#{id}
+	</delete>
+	<select id="getProductApplyListCount" parameterType="map" resultType="int">
+		select count(*) as value
+		from tbl_product_apply where 1=1
+		<if test="o.apply_user_name != '' and o.apply_user_name != null" >
+			and apply_user_name like #{apply_user_name}
+		</if>
+		<if test="o.apply_phone != '' and o.apply_phone != null" >
+			and apply_phone like #{apply_phone}
+		</if>
+		<if test="o.apply_id_card != '' and o.apply_id_card != null" >
+			and apply_id_card like #{apply_id_card}
+		</if>
+		<if test="o.check_user_code != '' and o.check_user_code != null" >
+			and check_user_code = #{o.check_user_code}
+		</if>
+		<if test="o.product_insurance_area != '' and o.product_insurance_area != null" >
+			and product_insurance_area like #{product_insurance_area}
+		</if>
+		<if test="o.status != '' and o.status != null" >
+			and status = #{o.status}
+		</if>
+		<if test="o.organize_id != '' and o.organize_id != null" >
+			and organize_id = #{o.organize_id}
+		</if>
+		<if test="o.apply_user_id != '' and o.apply_user_id != null" >
+			and apply_user_id = #{o.apply_user_id}
+		</if>
+		<if test="time1 != -1" >
+			and apply_time>=#{time1}
+		</if>
+		<if test="time2 != -1" >
+			and #{time2}>=apply_time
+		</if>
+	</select>
+
+	<select id="getProductApplyPageList" parameterType="map" resultType="ProductApply">
+		select
+		chain_key,apply_user_name,apply_phone,apply_id_card,check_user_code,check_desc,product_name,product_insured_age,product_money,product_insurance_period,
+		product_payment_time,product_payment_method,product_hesitation,product_waiting_period,product_insurance_area,check_user_name,status,organize_id,apply_user_id,id,apply_time,check_time,
+		amount,audit_results,payment_status,pay_amount,contractNo
+		from tbl_product_apply where 1=1
+		<if test="apply_user_name != '' and apply_user_name != null" >
+			and apply_user_name like #{apply_user_name}
+		</if>
+		<if test="apply_phone != '' and apply_phone != null" >
+			and apply_phone like #{apply_phone}
+		</if>
+		<if test="apply_id_card != '' and apply_id_card != null" >
+			and apply_id_card like #{apply_id_card}
+		</if>
+		<if test="check_user_code != '' and check_user_code != null" >
+			and check_user_code = #{o.check_user_code}
+		</if>
+		<if test="product_insurance_area != '' and product_insurance_area != null" >
+			and product_insurance_area like #{product_insurance_area}
+		</if>
+		<if test="status != '' and status != null" >
+			and status = #{o.status}
+		</if>
+		<if test="organize_id != '' and organize_id != null" >
+			and organize_id = #{o.organize_id}
+		</if>
+		<if test="apply_user_id != '' and apply_user_id != null" >
+			and apply_user_id = #{o.apply_user_id}
+		</if>
+		<if test="time1 != -1" >
+			and apply_time>=#{time1}
+		</if>
+		<if test="time2 != -1" >
+			and #{time2}>=apply_time
+		</if>
+		<if test="orderName != '' " >
+			order by
+			<if test="orderName == 'apply_user_name' " > apply_user_name </if>
+			<if test="orderName == 'apply_phone' " > apply_phone </if>
+			<if test="orderName == 'apply_id_card' " > apply_id_card </if>
+			<if test="orderName == 'check_user_code' " > check_user_code </if>
+			<if test="orderName == 'check_desc' " > check_desc </if>
+			<if test="orderName == 'product_name' " > product_name </if>
+			<if test="orderName == 'product_insured_age' " > product_insured_age </if>
+			<if test="orderName == 'product_money' " > product_money </if>
+			<if test="orderName == 'product_insurance_period' " > product_insurance_period </if>
+			<if test="orderName == 'product_payment_time' " > product_payment_time </if>
+			<if test="orderName == 'product_payment_method' " > product_payment_method </if>
+			<if test="orderName == 'product_hesitation' " > product_hesitation </if>
+			<if test="orderName == 'product_waiting_period' " > product_waiting_period </if>
+			<if test="orderName == 'product_insurance_area' " > product_insurance_area </if>
+			<if test="orderName == 'check_user_name' " > check_user_name </if>
+			<if test="orderName == 'status' " > status </if>
+			<if test="orderName == 'organize_id' " > organize_id </if>
+			<if test="orderName == 'apply_user_id' " > apply_user_id </if>
+			<if test="orderName == 'id' " > id </if>
+			<if test="orderName == 'apply_time' " > apply_time </if>
+			<if test="orderName == 'check_time' " > check_time </if>
+			<if test="orderAZ == 'desc' " > desc </if>
+			<if test="orderAZ == 'asc' " > asc </if>
+		</if>
+		limit #{pageStart},#{pageSize}
+	</select>
+
+	<select id="getProductApplyById" parameterType="map" resultType="ProductApply">
+		select
+		chain_key,apply_user_name,apply_phone,apply_id_card,check_user_code,check_desc,product_name,product_insured_age,product_money,product_insurance_period,product_payment_time,product_payment_method,product_hesitation,product_waiting_period,product_insurance_area,check_user_name,status,organize_id,apply_user_id,id,apply_time,check_time,amount,audit_results,payment_status,pay_amount,contractNo
+		from tbl_product_apply where id=#{id}
+	</select>
+
+	<insert id="insertProductApply" parameterType="ProductApply">
+		INSERT INTO tbl_product_apply (chain_key,apply_user_name,apply_phone,apply_id_card,check_user_code,check_desc,product_name,product_insured_age,product_money,product_insurance_period,product_payment_time,product_payment_method,product_hesitation,product_waiting_period,product_insurance_area,check_user_name,status,organize_id,apply_user_id,id,apply_time,check_time,amount,audit_results,payment_status,contractNo,insured_name)
+		VALUES (#{chain_key},#{apply_user_name}, #{apply_phone}, #{apply_id_card}, #{check_user_code}, #{check_desc}, #{product_name}, #{product_insured_age}, #{product_money}, #{product_insurance_period}, #{product_payment_time}, #{product_payment_method}, #{product_hesitation}, #{product_waiting_period}, #{product_insurance_area}, #{check_user_name}, #{status}, #{organize_id}, #{apply_user_id}, #{id}, #{apply_time}, #{check_time},#{amount},#{audit_results},#{payment_status},#{contractNo},#{insured_name})
+	</insert>
+
+	<update id="updateProductApply" parameterType="ProductApply">
+		update tbl_product_apply set
+		check_user_code=#{check_user_code},check_desc=#{check_desc},check_user_name=#{check_user_name},status=#{status},
+		check_time=#{check_time},pay_amount=#{pay_amount}
+		where id=#{id}
+	</update>
+
+	<update id="updateProductApplyPayStatus" parameterType="ProductApply">
+		update tbl_product_apply set
+		payment_status=#{payment_status}
+		where id=#{id}
+	</update>
+
+	<delete id="deleteProductApply" parameterType="map">
+		delete from tbl_product_apply where id=#{id}
+	</delete>
+</mapper>

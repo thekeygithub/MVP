@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: org.quanqi:CircularProgress-1.0.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/CircularProgress-1.0.2.aar/df284fc4971e56952ac06db0d13ba4cb/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/CircularProgress-1.0.2.aar/df284fc4971e56952ac06db0d13ba4cb/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.quanqi/CircularProgress/1.0.2/4c4dbfe827960f447b7f544845f9b1f469104601/CircularProgress-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
